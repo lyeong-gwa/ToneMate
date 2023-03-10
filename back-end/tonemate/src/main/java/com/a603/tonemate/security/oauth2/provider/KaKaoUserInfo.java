@@ -4,9 +4,9 @@ import java.util.Map;
 
 public class KaKaoUserInfo implements OAuth2UserInfo {
 
-    private Map<String, Object> attributes;
-    private Map<String, String> properties;
-    private Map<String, String> account;
+    private final Map<String, Object> attributes;
+    private final Map<String, String> properties;
+    private final Map<String, String> account;
 
     public KaKaoUserInfo(Map<String, Object> attributes) {
         this.attributes = attributes;
@@ -25,12 +25,7 @@ public class KaKaoUserInfo implements OAuth2UserInfo {
     }
 
     @Override
-    public String getEmail() {
-        return account.get("email");
-    }
-
-    @Override
-    public String getName() {
-        return properties.get("nickname");
+    public String getProfile() {
+        return properties.get("profile_image");
     }
 }
