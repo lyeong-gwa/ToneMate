@@ -1,6 +1,7 @@
 package com.a603.tonemate.security.oauth2;
 
 
+import com.a603.tonemate.api.util.FileUtil;
 import com.a603.tonemate.db.entity.User;
 import com.a603.tonemate.db.repository.UserRepository;
 import com.a603.tonemate.security.auth.UserDetailsCustom;
@@ -14,6 +15,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,10 +23,12 @@ import java.util.Optional;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final FileUtil fileUtil;
 
-    public CustomOAuth2UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public CustomOAuth2UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, FileUtil fileUtil) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.fileUtil = fileUtil;
     }
 
     //구글로 부터 받은 userRequest 데이터에 대한 후처리되는 함수
@@ -59,7 +63,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         //ex)kakao_1238471249
         String username = oAuth2UserInfo.getProvider() + '_' + oAuth2UserInfo.getProviderId();
         String nickname = "";
-        String profile = "";
+        String profile = oAuth2UserInfo.getProfile();
+        //프로필 S3 업로드
+        try {
+            System.out.println("파일 변환 시작");
+
+            profile = fileUtil.urlUpload(profile, "profile");
+        } catch (IOException e) {
+            throw new RuntimeException("프로필 파일 경로가 이상함");
+        }
+
         //이미 가입되어있는지 찾아봄
         Optional<User> userOptional =
                 userRepository.findByUsername(username);
@@ -67,6 +80,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // DB에 해당 유저가 없으면 새로 만들어줌.
         // 닉네임은 해당 유저의 이메일으로, 패스워드는 정해진 패스워드를 암호화해서 넣어줌
         // user의 패스워드를 임의로 정해줬기 때문에 OAuth 유저는 일반적인 로그인을 할 수 없음.
+        String finalProfile = profile;
         User user = userOptional.orElseGet(() ->
                 userRepository.save(
                         User.builder()
@@ -74,7 +88,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                                 .password(bCryptPasswordEncoder.encode("ToneMate"))
                                 .nickname(nickname)
                                 .role("ROLE_USER")
-                                .profile(profile)
+                                .profile(finalProfile)
                                 .build()
                 ));
         return new UserDetailsCustom(user, oAuth2User.getAttributes());

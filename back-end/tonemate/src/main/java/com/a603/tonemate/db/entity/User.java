@@ -17,7 +17,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String username;
-    private String password;
     private String nickname;
     private String role;
     private String profile;
@@ -26,18 +25,18 @@ public class User {
     public User(Long userId, String username, String password, String nickname, String role, String profile) {
         this.userId = userId;
         this.username = username;
-        this.password = password;
         this.nickname = nickname;
         this.role = role;
         this.profile = profile;
     }
 
-    public void updatePassword(String password) {
-        this.password = password;
-    }
 
     public void updateNickName(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void updateProfile(String profile) {
+        this.profile = profile;
     }
 
 }

@@ -21,6 +21,8 @@ public class RedisConfig {
     @Value("${spring.redis.port}")
     private int port;
 
+    //RedisTemplate를 이용한 방식
+    //RedisConnectionFactory 인터페이스를 통해 LettuceConnectionFactory를 생성하여 반환
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory(host, port);
@@ -29,6 +31,9 @@ public class RedisConfig {
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+
+        //setKeySerializer, setValueSerializer 설정
+        //redis-cli을 통해 직접 데이터를 조회시 알아볼 수 없는 형태로 출력되는 것을 방지
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());

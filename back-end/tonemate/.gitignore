@@ -36,6 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-### personal information ###
-#**/src/main/resources/mail.properties
-#**/src/main/resources/oauth.properties
+### personal information ###`
+#**/src/main/resources/application-oauth.yml
+#**/src/main/resources/application-aws.yml

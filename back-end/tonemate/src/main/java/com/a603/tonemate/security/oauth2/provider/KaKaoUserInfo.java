@@ -26,6 +26,7 @@ public class KaKaoUserInfo implements OAuth2UserInfo {
 
     @Override
     public String getProfile() {
+        System.out.println("카카오 프로필: " + properties.get("profile_image"));
         return properties.get("profile_image");
     }
 }

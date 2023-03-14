@@ -27,9 +27,9 @@ public class JwtAuthenticationFilter extends GenericFilter {
         }
         // 2. validateToken 으로 token 유효성 검사
         if (jwtTokenProvider.validateToken(token)) {
-            String isLogout = (String) redisTemplate.opsForValue().get(token);
+            String isLogin = (String) redisTemplate.opsForValue().get(token);
             // token이 유효할 경우 token에서 Authentication 객체를 가지고 와서 SecurityContext에 저장
-            if (ObjectUtils.isEmpty(isLogout)) {
+            if (ObjectUtils.isEmpty(isLogin)) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends GenericFilter {
         chain.doFilter(request, response);
     }
 
-    // Requst Header 에서 토큰 정보 추출
+    // Request Header 에서 토큰 정보 추출
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(JwtProperties.AUTHORIZATION);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {

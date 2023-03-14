@@ -1,0 +1,13 @@
+#aws
+cloud:
+  aws:
+    credentials:
+      secret-key: jmD6gGOhsuilUkt2wAsfKGlUgzsK72YuMTeA9pDp
+      access-key: AKIATZDIUFYVZTYQBEPR
+    s3:
+      bucket: tonemate
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
