@@ -1,7 +1,6 @@
 import os
 import librosa
 import numpy as np
-from keras.utils import to_categorical
 
 # 데이터 크기 조정
 def resize(feature, new_size):

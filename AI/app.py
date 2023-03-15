@@ -3,7 +3,7 @@ import module.lstm as LSTM_MODEL
 import module.preprocess as PROCESSING
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
-
+import os
 app = Flask(__name__)
 @app.route('/', methods=['GET'])
 def aliveTest():
@@ -23,12 +23,13 @@ def similarityPercent():
 
 if __name__ == '__main__':
     SR = 16000
-    ROOT = "C:/Users/SSAFY/Desktop/S08P22A603/AI"
-    TRAIN_PATH = f"{ROOT}/train"
-    VAL_PATH = f"{ROOT}/val"
-    TENSER_PATH = f"{ROOT}/tensor"
+    ROOT = os.environ['FLASK_ROOT']
+    FEATURES = os.environ['FLASK_FEATURES']
+    TARGET_EPOCH = os.environ['FLASK_TARGET_EPOCH']
+
+    TENSER_PATH = f"{ROOT}/tensor/{FEATURES}"
     CHECKPOINT_PATH = f"{ROOT}/checkpoint"
-    CHECK_POINT_FILE = "only_mfcc/checkpoint.h5"
+    CHECK_POINT_FILE = f"{FEATURES}/checkpoint{TARGET_EPOCH}.h5"
     
     encoder = LabelEncoder()
     encoder.fit(np.load(f'{TENSER_PATH}/label.npy'))
