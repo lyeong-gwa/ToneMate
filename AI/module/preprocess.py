@@ -1,7 +1,6 @@
 import os
 import librosa
 import numpy as np
-from sklearn.preprocessing import LabelEncoder
 from keras.utils import to_categorical
 
 # wav 파일 불러오기
@@ -47,3 +46,14 @@ def createDATA(PATH,SR):
                 mfccs.append(mfcc)
     mfccs = preprocess_mfccs(mfccs)
     return mfccs, labels
+
+def preprocessing_uploadfile(file, sr=16000):
+    new_size = 3000
+    y, _ = librosa.load(file, sr=sr)
+    mfcc_features = librosa.feature.mfcc( y = y, sr = sr)
+    if len(mfcc_features[1]) < new_size:
+        pad_width = [(0, 0), (0, new_size - len(mfcc_features[1]))]
+        mfcc_features = np.pad(mfcc_features, pad_width, mode='constant', constant_values=0)
+    else:
+        mfcc_features = mfcc_features[:, :new_size]
+    return mfcc_features
