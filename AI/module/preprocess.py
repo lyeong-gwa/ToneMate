@@ -19,7 +19,7 @@ def resize(feature, new_size):
     return feature
 
 # wav 파일 불러오기
-def load_wav_file(file_path, sr=16000, MFCC=True, STFT=False, ZCR=False, SPC=False, SPR=False, RMS=False):
+def load_wav_file(file_path, sr=16000, MFCC= 20, STFT=False, ZCR=False, SPC=False, SPR=False, RMS=False):
     new_size = 3000
     y, _ = librosa.load(file_path, sr=sr)
 
@@ -28,10 +28,10 @@ def load_wav_file(file_path, sr=16000, MFCC=True, STFT=False, ZCR=False, SPC=Fal
 
     # [ mfcc ] 음성 데이터를 특징 벡터로 변환해주는 알고리즘
     # shape : (20, x)
-    if MFCC:
-        mfcc = librosa.feature.mfcc( y = y, sr = sr)
-        mfcc = resize(mfcc, new_size)
-        features.extend(mfcc)
+    
+    mfcc = librosa.feature.mfcc( y = y, sr = sr, n_mfcc= MFCC)
+    mfcc = resize(mfcc, new_size)
+    features.extend(mfcc)
 
     # [ chroma_stft ] 옥타브는 무시하고, 12개의 음계에 대한 분포 나타냄
     # shape : (12, x) 
