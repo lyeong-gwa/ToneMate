@@ -34,31 +34,31 @@ def load_wav_file(file_path, sr=16000):
 
     # [ chroma_stft ] 옥타브는 무시하고, 12개의 음계에 대한 분포 나타냄
     # shape : (12, x) 
-    chroma_stft = librosa.feature.chroma_stft( y, sr =sr ) 
+    chroma_stft = librosa.feature.chroma_stft( y = y, sr =sr ) 
     chroma_stft = resize(chroma_stft, new_size)
     features.extend(chroma_stft)
 
     # [ zero_crossing_rate ]
     # shape : (1, x)
-    zero_crossing_rate = librosa.feature.zero_crossing_rate( y, pad=False )
+    zero_crossing_rate = librosa.feature.zero_crossing_rate( y = y, pad=False )
     zero_crossing_rate = resize(zero_crossing_rate, new_size)
     features.extend(zero_crossing_rate)
 
     # [ spectral_centroid ]
     # shape : (1, x)
-    spectral_centroid = librosa.feature.spectral_centroid( y, sr = sr )
+    spectral_centroid = librosa.feature.spectral_centroid( y = y, sr = sr )
     spectral_centroid = resize(spectral_centroid, new_size)
     features.extend(spectral_centroid)
 
     # [ spectral_rolloff ] 
     # shape : (1, x)
-    spectral_rolloff = librosa.feature.spectral_rolloff( y, sr = sr )
+    spectral_rolloff = librosa.feature.spectral_rolloff( y = y, sr = sr )
     spectral_rolloff = resize(spectral_rolloff, new_size)
     features.extend(spectral_rolloff)
 
     # [ rms ] 오디오 평균 음량 측정
     # shape : (1, x)
-    rms = librosa.feature.rms(y)
+    rms = librosa.feature.rms(y = y)
     rms = resize(rms, new_size)
     features.extend(rms)
 
