@@ -37,5 +37,5 @@ if __name__ == '__main__':
 
     model = LSTM_MODEL.create_lstm_model(len(encoder.classes_),sr = SR)
     model.load_weights(f"{CHECKPOINT_PATH}/{CHECK_POINT_FILE}")
-    print("start_flask")
-    app.run(debug=True)
+    print("start_flask",model)
+    app.run(host="0.0.0.0", port=int(os.environ.get("FLASK_PORT", 5000)))
