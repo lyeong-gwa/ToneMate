@@ -1,0 +1,43 @@
+server:
+  servlet:
+    contextPath: /
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+  port: 5000
+spring:
+  redis:
+    host: localhost
+    port: 6379
+  jpa:
+    hibernate:
+      ddl-auto: create
+    open-in-view: false
+  profiles:
+    include: oauth, aws
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      password: ssafy
+      username: root
+    url: jdbc:mysql://localhost:3306/tonemate
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+springfox:
+  documentation:
+    swagger:
+      v2:
+        enabled: true
+
+logging:
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error
