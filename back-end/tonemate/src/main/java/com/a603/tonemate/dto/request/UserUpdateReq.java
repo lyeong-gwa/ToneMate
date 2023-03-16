@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel(value = "사용자 프로필 수정 시 필요한 정보")
-public class UserUpdateParam {
+public class UserUpdateReq {
     @ApiModelProperty(value = "변경할 닉네임")
     private String nickname;
 }

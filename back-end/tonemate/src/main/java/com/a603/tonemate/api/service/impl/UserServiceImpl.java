@@ -4,7 +4,7 @@ import com.a603.tonemate.api.service.UserService;
 import com.a603.tonemate.api.util.FileUtil;
 import com.a603.tonemate.db.entity.User;
 import com.a603.tonemate.db.repository.UserRepository;
-import com.a603.tonemate.dto.request.UserUpdateParam;
+import com.a603.tonemate.dto.request.UserUpdateReq;
 import com.a603.tonemate.dto.response.UserResp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     private final FileUtil fileUtil;
 
     @Override
-    public void updateUser(Long userId, MultipartFile multipartFile, UserUpdateParam param) throws IOException {
+    public void updateUser(Long userId, MultipartFile multipartFile, UserUpdateReq param) throws IOException {
         User user = userRepository.findById(userId).orElseThrow();
         if (multipartFile != null) {
             String url = fileUtil.upload(multipartFile, "profile");

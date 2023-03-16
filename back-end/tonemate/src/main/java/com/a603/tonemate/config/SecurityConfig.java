@@ -27,7 +27,6 @@ public class SecurityConfig {
     private final CustomOAuth2AuthorizationRequestRepository<OAuth2AuthorizationRequest> customOAuth2AuthorizationRequestRepository;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
     private final AuthenticationFailureHandler authenticationFailureHandler;
-    private final RedisTemplate<String, Object> redisTemplate;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -53,12 +52,12 @@ public class SecurityConfig {
                 .userInfoEndpoint(userInfo -> {
                     userInfo.userService(customOAuth2UserService);
                 })
-                .loginProcessingUrl("/auth/login/*")
+                .loginProcessingUrl("/oauth/login/*") //auth/login/google/code=2358072305dfs
                 .successHandler(authenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)
                 .and()
                 .addFilter(corsConfig.corsFilter()) // cors 설정. 일단 전부 풀어놓음
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, redisTemplate), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
         return http.build();
     }

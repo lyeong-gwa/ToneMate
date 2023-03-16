@@ -3,7 +3,7 @@ package com.a603.tonemate.api.controller;
 
 import com.a603.tonemate.api.service.UserService;
 import com.a603.tonemate.dto.request.LogoutReq;
-import com.a603.tonemate.dto.request.UserUpdateParam;
+import com.a603.tonemate.dto.request.UserUpdateReq;
 import com.a603.tonemate.dto.response.UserResp;
 import com.a603.tonemate.exception.NoFileException;
 import com.a603.tonemate.security.auth.JwtProperties;
@@ -38,7 +38,7 @@ public class UserController {
     @PutMapping(value = "/user", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateUserInfo(@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token,
                                             @RequestPart(value = "multipartFile", required = false) MultipartFile multipartFile,
-                                            @RequestPart(required = false) UserUpdateParam param) throws IOException {
+                                            @RequestPart(required = false) UserUpdateReq param) throws IOException {
         Long userId = jwtTokenProvider.getId(token);
         userService.updateUser(userId, multipartFile, param);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
