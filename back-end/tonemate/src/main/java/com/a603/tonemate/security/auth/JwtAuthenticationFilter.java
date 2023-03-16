@@ -2,10 +2,8 @@ package com.a603.tonemate.security.auth;
 
 import com.a603.tonemate.exception.NoTokenException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.*;

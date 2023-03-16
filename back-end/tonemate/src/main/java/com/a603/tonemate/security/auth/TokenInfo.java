@@ -20,7 +20,7 @@ public class TokenInfo {
                 .maxAge(JwtProperties.ACCESS_TOKEN_TIME)
                 .httpOnly(true)
                 .sameSite("STRICT")
-                .secure(true)
+                .secure(true) // 문제 발생 예정
                 .build();
     }
 
