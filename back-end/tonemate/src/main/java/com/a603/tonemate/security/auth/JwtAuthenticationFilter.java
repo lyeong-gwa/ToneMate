@@ -1,6 +1,5 @@
 package com.a603.tonemate.security.auth;
 
-import com.a603.tonemate.exception.NoTokenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +19,8 @@ public class JwtAuthenticationFilter extends GenericFilter {
         // 1. Request Header 에서 JWT Token 추출
         String token = resolveToken((HttpServletRequest) request);
         if (token == null) {
-            throw new NoTokenException();
+            chain.doFilter(request, response);
+            return;
         }
         // 2. validateToken 으로 token 유효성 검사
         if (jwtTokenProvider.validateToken(token)) {
@@ -28,7 +28,6 @@ public class JwtAuthenticationFilter extends GenericFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
-        chain.doFilter(request, response);
     }
 
     // Request Header 에서 토큰 정보 추출
