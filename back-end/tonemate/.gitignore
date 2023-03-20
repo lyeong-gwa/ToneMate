@@ -37,6 +37,4 @@ out/
 .vscode/
 
 ### personal information ###`
-#**/src/main/resources/application-oauth.yml
-#**/src/main/resources/application-aws.yml
-#**/src/main/resources/application-token.yml
+#**/src/main/resources/application.yml

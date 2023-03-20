@@ -6,6 +6,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,8 +28,8 @@ public class JwtTokenProvider {
     private final UserRepository userRepository;
     private final Key key;
 
-    public JwtTokenProvider(UserRepository userRepository) {
-        byte[] keyBytes = Decoders.BASE64.decode(JwtProperties.SECRET);
+    public JwtTokenProvider(UserRepository userRepository, @Value("${jwt.secret}") String secretKey) {
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.userRepository = userRepository;
     }
