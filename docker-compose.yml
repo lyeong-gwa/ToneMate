@@ -1,10 +1,19 @@
 version: '3.3'
 services:
-  flask:
-    container_name: FLASK
-    build: ./AI
-    env_file:
-      - ./AI/flask.env
+
+  spring:
+    build: ./back-end
+    container_name: spring
     ports:
-      - '5000:5000'
-    command: python app.py
+      - 5001:5000
+
+  flask:
+    container_name: flask
+    build: ./AI
+    environment:
+      - FLASK_ROOT=${FLASK_ROOT}
+      - FLASK_FEATURES=${FLASK_FEATURES}
+      - FLASK_TARGET_EPOCH=${FLASK_TARGET_EPOCH}
+      - FLASK_PORT=${FLASK_PORT}
+    ports:
+      - 5002:5000
