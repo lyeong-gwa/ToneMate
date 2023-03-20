@@ -32,6 +32,8 @@ public class JwtAuthenticationFilter extends GenericFilter {
 
     // Request Header 에서 토큰 정보 추출
     private String resolveToken(HttpServletRequest request) {
+        //여기서 리프레쉬 토큰을 받았을 때, 어세스를 받았을 때 재발급을 구현할 건지 고민해봐야함
+
         String bearerToken = request.getHeader(JwtProperties.AUTHORIZATION);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
