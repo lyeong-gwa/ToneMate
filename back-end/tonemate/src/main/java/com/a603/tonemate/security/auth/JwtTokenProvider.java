@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -49,7 +48,6 @@ public class JwtTokenProvider {
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + JwtProperties.ACCESS_TOKEN_TIME);
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())
                 .claim("id", user.getUserId())
                 .claim("name", user.getNickname())
                 .claim(JwtProperties.AUTHORITIES_KEY, authorities)
@@ -63,7 +61,7 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-        return new TokenInfo(accessToken, refreshToken);
+        return new TokenInfo(accessToken, refreshToken, user.getNickname());
     }
 
     // JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
@@ -93,15 +91,8 @@ public class JwtTokenProvider {
         return true;
     }
 
-    public String resolveToken(String token) {
-        if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
-            return token.substring(7);
-        }
-        throw new MalformedJwtException("손상된 토큰입니다.");
-    }
-
     private Claims parseClaims(String accessToken) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(resolveToken(accessToken)).getBody();
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
     }
 
     public Long getId(String accessToken) {

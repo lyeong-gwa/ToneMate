@@ -62,6 +62,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
         //ex)kakao_1238471249
         String username = oAuth2UserInfo.getProvider() + '_' + oAuth2UserInfo.getProviderId();
+
+        //초반 닉네임 랜덤 설정
         String nickname = "";
         String profile = oAuth2UserInfo.getProfile();
         //프로필 S3 업로드

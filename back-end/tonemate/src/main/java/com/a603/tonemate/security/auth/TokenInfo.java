@@ -9,9 +9,12 @@ public class TokenInfo {
     private final String accessToken;
     private final String refreshToken;
 
-    public TokenInfo(String accessToken, String refreshToken) {
+    private final String nickname;
+
+    public TokenInfo(String accessToken, String refreshToken, String nickname) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.nickname = nickname;
     }
 
     public ResponseCookie generateAccessToken() {
@@ -33,4 +36,5 @@ public class TokenInfo {
                 .secure(true)
                 .build();
     }
+
 }

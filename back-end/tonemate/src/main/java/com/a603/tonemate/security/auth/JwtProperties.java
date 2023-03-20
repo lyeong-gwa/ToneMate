@@ -9,5 +9,4 @@ public interface JwtProperties {
     String AUTHORITIES_KEY = "auth";
     String REFRESH_TOKEN = "refresh-token";
     String ACCESS_TOKEN = "access-token";
-    String AUTHORIZATION = "Authorization";
 }
