@@ -14,7 +14,7 @@ export default function LandingPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div>랜딩</div>
+        <div className="flex p-0 m-0 w-full h-screen bg-black"></div>
       </main>
     </>
   );
