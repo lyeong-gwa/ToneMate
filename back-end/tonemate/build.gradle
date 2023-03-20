@@ -77,10 +77,10 @@ dependencies {
 
 }
 
-tasks.named('test') {
-    useJUnitPlatform()
-}
-def querydslDir = 'src/main/generated'
+//tasks.named('test') {
+//    useJUnitPlatform()
+//}
+def querydslDir = "$buildDir/generated/querydsl"
 
 querydsl {
     library = "com.querydsl:querydsl-apt"
