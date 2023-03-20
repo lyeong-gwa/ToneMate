@@ -17,3 +17,11 @@ services:
       - FLASK_PORT=${FLASK_PORT} #기본 5000
     ports:
       - ${FLASK_PORT}:${FLASK_PORT}
+
+  nextdev:
+    container_name: front-next
+    build:
+      context: ./front-end/tonemate
+      dockerfile: docker/development/Dockerfile
+    ports:
+      - '3001:3000'
