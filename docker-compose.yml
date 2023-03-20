@@ -14,6 +14,6 @@ services:
       - FLASK_ROOT=${FLASK_ROOT}
       - FLASK_FEATURES=${FLASK_FEATURES}
       - FLASK_TARGET_EPOCH=${FLASK_TARGET_EPOCH}
-      - FLASK_PORT=${FLASK_PORT}
+      - FLASK_PORT=${FLASK_PORT} #기본 5000
     ports:
-      - 5002:5000
+      - ${FLASK_PORT}:${FLASK_PORT}
