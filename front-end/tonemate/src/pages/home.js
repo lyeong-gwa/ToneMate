@@ -1,10 +1,6 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export default function LandingPage() {
+export default function HomePage() {
   return (
     <>
       <Head>
@@ -14,7 +10,7 @@ export default function LandingPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div>랜딩</div>
+        <div>홈화면</div>
       </main>
     </>
   );
