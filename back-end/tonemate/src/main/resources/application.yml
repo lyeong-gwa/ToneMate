@@ -15,13 +15,13 @@ spring:
       ddl-auto: create
     open-in-view: false
   profiles:
-    include: oauth, aws
+    include: oauth, aws, token
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
-      password: ssafy
-      username: root
-    url: jdbc:mysql://localhost:3306/tonemate
+      password: ${password}
+      username: ${username}
+    url: ${datasource}
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher

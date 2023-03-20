@@ -2,8 +2,8 @@
 cloud:
   aws:
     credentials:
-      secret-key: jmD6gGOhsuilUkt2wAsfKGlUgzsK72YuMTeA9pDp
-      access-key: AKIATZDIUFYVZTYQBEPR
+      secret-key: ${AWS_SECRET_KEY}
+      access-key: ${AWS_ACCESS_KEY}
     s3:
       bucket: tonemate
     region:
