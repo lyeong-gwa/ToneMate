@@ -41,12 +41,13 @@ spring:
     include: other
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: ${DB_PASSWORD}
-    username: ${DB_USER}
-    url: ${DB_URL}
+    hikari:
+      password: ssafy
+      username: root
+    url: jdbc:mysql://localhost:3306/tonemate
   mvc:
     pathmatch:
-      matching-strategy: ant_path_matcher
+      matching-strategy: ANT_PATH_MATCHER
   servlet:
     multipart:
       max-file-size: 50MB
