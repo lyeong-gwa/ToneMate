@@ -20,19 +20,22 @@ public class TokenInfo {
     public ResponseCookie generateAccessToken() {
         return ResponseCookie
                 .from(JwtProperties.ACCESS_TOKEN, this.accessToken)
+                .path("/")
                 .maxAge(JwtProperties.ACCESS_TOKEN_TIME)
                 .httpOnly(true)
-                .sameSite("STRICT")
+                .sameSite("NONE")
                 .secure(true) // 문제 발생 예정
                 .build();
     }
 
     public ResponseCookie generateRefreshToken() {
+        System.out.println("RT: "+ this.refreshToken);
         return ResponseCookie
                 .from(JwtProperties.REFRESH_TOKEN, this.refreshToken)
+                .path("/")
                 .maxAge(JwtProperties.REFRESH_TOKEN_TIME)
                 .httpOnly(true)
-                .sameSite("STRICT")
+                .sameSite("NONE")
                 .secure(true)
                 .build();
     }
