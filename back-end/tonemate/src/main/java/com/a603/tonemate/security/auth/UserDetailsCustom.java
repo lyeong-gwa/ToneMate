@@ -25,10 +25,8 @@ public class UserDetailsCustom implements OAuth2User {
 
     @Override
     public String getName() {
-        //오류로 일단 이름으로 넣어놓고 나중에 닉네임으로 수정해야함
         System.out.println("userNickname: " + user.getNickname());
-//        return user.getNickname();
-        return user.getUsername();
+        return user.getNickname();
     }
 
     @Override

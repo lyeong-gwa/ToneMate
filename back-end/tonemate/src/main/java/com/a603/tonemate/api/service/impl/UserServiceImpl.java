@@ -29,14 +29,16 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void updateUser(Long userId, MultipartFile multipartFile, UserUpdateReq param) throws IOException {
-        User user = userRepository.findById(userId).orElseThrow();
+    public void updateUser(String token, MultipartFile multipartFile, UserUpdateReq param) throws IOException {
+        User user = userRepository.findById(jwtTokenProvider.getId(token)).orElseThrow();
         if (multipartFile != null) {
             String url = fileUtil.upload(multipartFile, "profile");
             user.updateProfile(url);
         }
         if (param.getNickname() != null) {
             user.updateNickName(param.getNickname());
+            //토큰도 변경하기 위해 토큰 복호화 후 재생성
+            TokenInfo tokenInfo = jwtTokenProvider.generateToken(jwtTokenProvider.getAuthentication(token));
         }
     }
 

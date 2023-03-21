@@ -10,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.TimeUnit;
@@ -27,13 +26,12 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
         System.out.println("AuthenticationSuccessHandler의 토큰 만들기~");
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication); // tokenInfo 만들어서
 
-        //유저 이름이 없으니 일단 유저 이름으로 진행
-//        redisTemplate.opsForValue()
-//                .set(tokenInfo.getNickname(), tokenInfo.getRefreshToken(), JwtProperties.REFRESH_TOKEN_TIME, TimeUnit.MILLISECONDS);
-        redisTemplate.opsForValue().set(tokenInfo.getNickname(), tokenInfo.getRefreshToken(), JwtProperties.REFRESH_TOKEN_TIME, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue()
+                .set(tokenInfo.getUserId().toString(), tokenInfo.getRefreshToken(), JwtProperties.REFRESH_TOKEN_TIME, TimeUnit.MILLISECONDS);
 //        response.addHeader(, tokenInfo.generateAccessToken().toString());
 //        response.addHeader("Set-Cookie", tokenInfo.generateRefreshToken().toString());
-        System.out.println(tokenInfo.generateRefreshToken());
-        response.setHeader(HttpHeaders.SET_COOKIE, tokenInfo.generateRefreshToken().toString());
+        System.out.println("Cookie: " + tokenInfo.generateRefreshToken());
+        response.addHeader(HttpHeaders.SET_COOKIE, tokenInfo.generateRefreshToken().toString());
+        response.addHeader("resp", tokenInfo.generateRefreshToken().toString());
     }
 }

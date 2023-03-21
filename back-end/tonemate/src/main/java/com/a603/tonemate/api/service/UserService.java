@@ -12,7 +12,7 @@ import java.io.IOException;
 public interface UserService {
 
     //유저 정보 수정
-    void updateUser(Long userId, MultipartFile multipartFile, UserUpdateReq param) throws IOException;
+    void updateUser(String token, MultipartFile multipartFile, UserUpdateReq param) throws IOException;
 
     UserResp selectOneUser(Long userId);
 

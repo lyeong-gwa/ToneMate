@@ -42,14 +42,13 @@ public class JwtTokenProvider {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        User user = userRepository.findByUsername(authentication.getName()).orElseThrow();
+        User user = userRepository.findByNickname(authentication.getName()).orElseThrow();
         long now = new Date().getTime();
 
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + JwtProperties.ACCESS_TOKEN_TIME);
         String accessToken = Jwts.builder()
                 .claim("id", user.getUserId())
-//                .claim("name", user.getNickname())// 일단 닉네임이 없으므로 이름으로 진행
                 .claim("name", user.getUsername())
                 .claim(JwtProperties.AUTHORITIES_KEY, authorities)
                 .setExpiration(accessTokenExpiresIn)
@@ -62,8 +61,7 @@ public class JwtTokenProvider {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
 
-//        return new TokenInfo(accessToken, refreshToken, user.getNickname());
-        return new TokenInfo(accessToken, refreshToken, user.getUsername());
+        return new TokenInfo(accessToken, refreshToken, user.getUserId());
     }
 
     // JWT 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드

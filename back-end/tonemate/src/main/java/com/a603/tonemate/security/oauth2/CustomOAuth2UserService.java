@@ -24,6 +24,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final FileUtil fileUtil;
+//    private final NicknameUtil nicknameUtil;
 
     public CustomOAuth2UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, FileUtil fileUtil) {
         this.userRepository = userRepository;
@@ -64,7 +65,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String username = oAuth2UserInfo.getProvider() + '_' + oAuth2UserInfo.getProviderId();
 
         //초반 닉네임 랜덤 설정
-        String nickname = "";
+        String nickname = "tonemate" + '_' + oAuth2UserInfo.getProviderId();
+        //닉네임 랜덤 부여는 추후 생각해보기
+//        String nickname = nicknameUtil.generateRandomName();
         String profile = oAuth2UserInfo.getProfile();
         //프로필 S3 업로드
         try {

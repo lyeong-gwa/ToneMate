@@ -39,8 +39,7 @@ public class UserController {
     public ResponseEntity<?> updateUserInfo(@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token,
                                             @RequestPart(value = "multipartFile", required = false) MultipartFile multipartFile,
                                             @RequestPart(required = false) UserUpdateReq param) throws IOException {
-        Long userId = jwtTokenProvider.getId(token);
-        userService.updateUser(userId, multipartFile, param);
+        userService.updateUser(token, multipartFile, param);
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
