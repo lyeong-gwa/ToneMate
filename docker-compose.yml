@@ -32,3 +32,9 @@ services:
       - ${AI_DATA_PATH}:/DATA
     command: sleep infinity #python app.py
     
+  front:
+    build:
+      context: ./front-end/tonemate
+      dockerfile: docker/production/Dockerfile
+    ports:
+      - '3003:3000'
