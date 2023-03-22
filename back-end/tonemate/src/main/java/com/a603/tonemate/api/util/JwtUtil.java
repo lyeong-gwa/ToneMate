@@ -22,7 +22,6 @@ public class JwtUtil {
     private final RedisTemplate<String, Object> redisTemplate;
 
     public TokenInfo reissue(ServletRequest request) {
-
         String accessToken = ((HttpServletRequest) request).getHeader(JwtProperties.ACCESS_TOKEN);
         String refreshToken = ((HttpServletRequest) request).getHeader(JwtProperties.REFRESH_TOKEN);
 
@@ -57,6 +56,7 @@ public class JwtUtil {
         //Refresh redis 업데이트
         redisTemplate.opsForValue()
                 .set(userId.toString(), tokenInfo.getRefreshToken(), JwtProperties.REFRESH_TOKEN_TIME, TimeUnit.MILLISECONDS);
+
         return tokenInfo;
     }
 
