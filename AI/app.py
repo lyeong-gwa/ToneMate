@@ -23,7 +23,7 @@ def similarityPercent():
 
 if __name__ == '__main__':
     SR = 16000
-    ROOT = os.environ['FLASK_ROOT']
+    ROOT = "/DATA"
     FEATURES = os.environ['FLASK_FEATURES']
     TARGET_EPOCH = os.environ['FLASK_TARGET_EPOCH']
 
