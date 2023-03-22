@@ -30,7 +30,7 @@ services:
       - ${FLASK_PORT}:5000
     volumes:
       - AI_DATA:/DATA
-    command: sleep infinity #python app.py
+    command: python app.py
     
   front:
     build:

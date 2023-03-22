@@ -12,7 +12,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
       - /usr/local/bin/docker-compose:/usr/local/bin/docker-compose
-      - ${DATA_PATH}:/var/DATA
     networks:
       - core
 
