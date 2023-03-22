@@ -5,7 +5,6 @@ import com.a603.tonemate.security.auth.JwtTokenProvider;
 import com.a603.tonemate.security.auth.TokenInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -28,10 +27,7 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
 
         redisTemplate.opsForValue()
                 .set(tokenInfo.getUserId().toString(), tokenInfo.getRefreshToken(), JwtProperties.REFRESH_TOKEN_TIME, TimeUnit.MILLISECONDS);
-//        response.addHeader(, tokenInfo.generateAccessToken().toString());
-//        response.addHeader("Set-Cookie", tokenInfo.generateRefreshToken().toString());
-        System.out.println("Cookie: " + tokenInfo.generateRefreshToken());
-        response.addHeader(HttpHeaders.SET_COOKIE, tokenInfo.generateRefreshToken().toString());
-        response.addHeader("resp", tokenInfo.generateRefreshToken().toString());
+        response.addHeader("Set-Cookie", tokenInfo.generateAccessToken().toString());
+        response.addHeader("Set-Cookie", tokenInfo.generateRefreshToken().toString());
     }
 }

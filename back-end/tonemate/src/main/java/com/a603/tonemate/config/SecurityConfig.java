@@ -1,5 +1,6 @@
 package com.a603.tonemate.config;
 
+import com.a603.tonemate.api.util.JwtUtil;
 import com.a603.tonemate.security.auth.JwtAuthenticationFilter;
 import com.a603.tonemate.security.auth.JwtExceptionFilter;
 import com.a603.tonemate.security.auth.JwtTokenProvider;
@@ -23,6 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
+    private final JwtUtil jwtUtil;
     private final CorsConfig corsConfig;
     private final CustomOAuth2AuthorizationRequestRepository<OAuth2AuthorizationRequest> customOAuth2AuthorizationRequestRepository;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
@@ -58,7 +60,7 @@ public class SecurityConfig {
                 .and()
                 .addFilter(corsConfig.corsFilter()) // cors 설정. 일단 전부 풀어놓음
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
+                .addFilterBefore(new JwtExceptionFilter(jwtTokenProvider, jwtUtil), JwtAuthenticationFilter.class);
         return http.build();
     }
 }

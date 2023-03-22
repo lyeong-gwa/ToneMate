@@ -19,6 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
@@ -45,8 +47,17 @@ public class UserController {
 
     @ApiOperation(value = "본인 정보 불러오기", notes = "본인의 이름, 프로필, 팔로워/팔로잉 수 정보")
     @GetMapping("/user")
-    public ResponseEntity<UserResp> selectOneUser(@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token) {
-        Long userId = jwtTokenProvider.getId(token);
+    public ResponseEntity<UserResp> selectOneUser(HttpServletRequest req) {
+        System.out.println("쿠키 확인");
+//        System.out.println(accessToken);
+        Cookie[] cookies = req.getCookies();
+        for (Cookie cookie : cookies) {
+            System.out.println(cookie.getName() + " " + cookie.getValue());
+        }
+//        System.out.println("AT : " + request.getHeader(JwtProperties.TOKEN_HEADER));
+        String a = req.getHeader(JwtProperties.TOKEN_HEADER);
+        Long userId = jwtTokenProvider.getId(a);
+        System.out.println("본인 정보 확인 가넝");
         return new ResponseEntity<>(userService.selectOneUser(userId), HttpStatus.OK);
     }
 

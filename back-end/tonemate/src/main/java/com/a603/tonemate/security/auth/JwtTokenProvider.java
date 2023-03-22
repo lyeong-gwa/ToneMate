@@ -95,7 +95,8 @@ public class JwtTokenProvider {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
     }
 
-    public Long getId(String accessToken) {
-        return Long.parseLong(parseClaims(accessToken).get("id").toString());
+    public Long getId(String token) {
+        token = token.replace(JwtProperties.TOKEN_PREFIX, "");
+        return Long.parseLong(parseClaims(token).get("id").toString());
     }
 }
