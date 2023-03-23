@@ -60,7 +60,7 @@ public class SecurityConfig {
                 .and()
                 .addFilter(corsConfig.corsFilter()) // cors 설정. 일단 전부 풀어놓음
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JwtExceptionFilter(jwtTokenProvider, jwtUtil), JwtAuthenticationFilter.class);
+                .addFilterBefore(new JwtExceptionFilter(), JwtAuthenticationFilter.class);
         return http.build();
     }
 }
