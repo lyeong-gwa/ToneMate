@@ -1,6 +1,6 @@
 import Head from "next/head";
-import Link from "next/link";
-import Image from "next/image";
+import NavBarMobile from "@/components/navigation/nav-bar-mobile";
+import NavBarDesk from "@/components/navigation/nav-bar-desk";
 
 export default function HomePage() {
   return (
@@ -11,44 +11,10 @@ export default function HomePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <div className="flex w-full h-screen bg-black">
-          <div
-            className="flex 
-          sm:w-48 sm:h-12
-          lg:hidden
-          bg-gray-50"
-          >
-            안녕
-          </div>
-          <div className="flex flex-col w-1/5 h-screen bg-white">
-            <div className="text-center">
-              <Link href={`home`}>TONEMATE</Link>
-            </div>
-            <div className="flex w-4/5 h-30">IDCARD</div>
-            <ul>
-              <li>
-                <Link href={`/inspectation/vocal-color`}>음색 검사</Link>
-              </li>
-              <li>
-                <Link href={`/inspectation/vocal-range`}>음역대 검사</Link>
-              </li>
-              <li>
-                <Link href={`/inspectation/vocal-range`}>검사 결과</Link>
-              </li>
-              <li>
-                <Link href={`/ranking`}>랭킹</Link>
-              </li>
-              <li>
-                <Link href={`/search`}>노래 검색</Link>
-              </li>
-              <li>
-                <Link href={`/about`}>서비스 소개</Link>
-              </li>
-            </ul>
-          </div>
-          <div className="flex w-4/5 h-screen bg-black"></div>
-        </div>
+      <main className="md:flex sm:block w-screen h-screen">
+        <NavBarMobile />
+        <NavBarDesk />
+        <div className="block md:w-5/6 sm:w-full h-full bg-black"></div>
       </main>
     </>
   );

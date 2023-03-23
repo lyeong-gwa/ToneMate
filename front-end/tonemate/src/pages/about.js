@@ -10,7 +10,11 @@ export default function About() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div>서비스 소개</div>
+        <div className="md:hidden flex bg-black">
+          <div className="text-white">TONEMATE</div>
+          <div className="text-white">메뉴</div>
+        </div>
+        <div className="flex sm:hidden w-1/6 h-full bg-black">사이드바</div>
       </main>
     </>
   );
