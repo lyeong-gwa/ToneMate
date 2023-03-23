@@ -1,7 +1,6 @@
 package com.a603.tonemate.api.controller;
 
-import com.a603.tonemate.api.util.JwtUtil;
-import com.a603.tonemate.dto.request.TokenReq;
+import com.a603.tonemate.api.service.JwtService;
 import com.a603.tonemate.security.auth.TokenInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,13 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/tokens")
 public class JwtController {
 
-    private final JwtUtil jwtUtil;
+    private final JwtService jwtService;
 
     @ApiOperation(value = "토큰 재발급", notes = "토큰 재발급")
     @PostMapping("/reissue")
     public ResponseEntity<?> reissue(HttpServletRequest request, HttpServletResponse response) {
-        TokenReq tokenReq = jwtUtil.getToken(request);
-        TokenInfo tokenInfo = jwtUtil.reissue(tokenReq);
+        TokenInfo tokenInfo = jwtService.reissue(request);
         response.addHeader("Set-Cookie", tokenInfo.generateAccessToken().toString());
         response.addHeader("Set-Cookie", tokenInfo.generateRefreshToken().toString());
         return new ResponseEntity<>("재발급 완료", HttpStatus.OK);

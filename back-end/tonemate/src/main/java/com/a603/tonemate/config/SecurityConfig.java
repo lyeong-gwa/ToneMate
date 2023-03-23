@@ -1,6 +1,5 @@
 package com.a603.tonemate.config;
 
-import com.a603.tonemate.api.util.JwtUtil;
 import com.a603.tonemate.security.auth.JwtAuthenticationFilter;
 import com.a603.tonemate.security.auth.JwtExceptionFilter;
 import com.a603.tonemate.security.auth.JwtTokenProvider;
@@ -24,7 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
-    private final JwtUtil jwtUtil;
     private final CorsConfig corsConfig;
     private final CustomOAuth2AuthorizationRequestRepository<OAuth2AuthorizationRequest> customOAuth2AuthorizationRequestRepository;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;

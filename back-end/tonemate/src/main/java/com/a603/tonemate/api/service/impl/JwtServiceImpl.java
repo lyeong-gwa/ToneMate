@@ -1,5 +1,6 @@
-package com.a603.tonemate.api.util;
+package com.a603.tonemate.api.service.impl;
 
+import com.a603.tonemate.api.service.JwtService;
 import com.a603.tonemate.db.repository.UserRepository;
 import com.a603.tonemate.dto.request.TokenReq;
 import com.a603.tonemate.security.auth.JwtProperties;
@@ -8,21 +9,25 @@ import com.a603.tonemate.security.auth.TokenInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
 
-@Component
+@Service
 @RequiredArgsConstructor
-public class JwtUtil {
+public class JwtServiceImpl implements JwtService {
     private final UserRepository userRepository;
 
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    public TokenInfo reissue(TokenReq tokenReq) {
+    @Transactional
+    @Override
+    public TokenInfo reissue(HttpServletRequest request) {
+        TokenReq tokenReq = getToken(request);
         String accessToken = tokenReq.getAccessToken();
         String refreshToken = tokenReq.getRefreshToken();
 
@@ -66,8 +71,7 @@ public class JwtUtil {
         return tokenInfo;
     }
 
-    //쿠키 뽑기
-    public TokenReq getToken(HttpServletRequest request) {
+    private TokenReq getToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         String accessToken = "";
         String refreshToken = "";
@@ -84,6 +88,4 @@ public class JwtUtil {
                 .accessToken(accessToken)
                 .build();
     }
-
-
 }

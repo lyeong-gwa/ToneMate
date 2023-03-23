@@ -26,16 +26,6 @@ public class JwtAuthenticationFilter extends GenericFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
-//
-//        if (token.isBlank()) {
-//            chain.doFilter(request, response);
-//            return;
-//        }
-//        // 2. validateToken 으로 token 유효성 검사
-//        if (jwtTokenProvider.validateToken(token)) {
-//            Authentication authentication = jwtTokenProvider.getAuthentication(token);
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
-//        }
         chain.doFilter(request, response);
     }
 

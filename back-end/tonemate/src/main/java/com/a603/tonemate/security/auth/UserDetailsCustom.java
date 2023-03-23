@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UserDetailsCustom implements OAuth2User {
-    private User user;
+    private final User user;
     private Map<String, Object> attributes;
 
     public UserDetailsCustom(User user, Map<String, Object> attributes) {

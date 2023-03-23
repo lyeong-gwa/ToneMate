@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class UserServiceImpl implements UserService {
     private final RedisTemplate<String, Object> redisTemplate;
 
 
+    @Transactional
     @Override
     public void updateUser(String token, MultipartFile multipartFile, UserUpdateReq param) throws IOException {
         User user = userRepository.findById(jwtTokenProvider.getId(token)).orElseThrow();
@@ -47,17 +49,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsByNickname(nickname);
     }
 
+
     @Override
     public boolean logout(TokenReq tokenReq) {
         Authentication authentication = jwtTokenProvider.getAuthentication(tokenReq.getAccessToken());
         Long userId = userRepository.findByNickname(authentication.getName()).get().getUserId();
         //redis 에 해당 정보로 저장된 Refresh token이 있는지 여부를 확인후 있다면 삭제
-        if (redisTemplate.opsForValue().get(userId.toString()) != null) {
-            redisTemplate.delete(userId.toString());
-            return true;
-        } else {
-            return false;
-        }
+        return redisTemplate.delete(userId.toString());
     }
 
 
