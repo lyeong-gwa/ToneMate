@@ -18,15 +18,24 @@ public class JwtAuthenticationFilter extends GenericFilter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 1. Request Header 에서 JWT Token 추출
         String token = resolveToken((HttpServletRequest) request);
-        if (token.isBlank()) {
-            chain.doFilter(request, response);
-            return;
+
+        if (token != null && jwtTokenProvider.validateToken(token)) {
+            //재발급 요청과 로그아웃 요청이 아니라면
+            if (!((HttpServletRequest) request).getRequestURI().equals("/tokens/reissue") || !((HttpServletRequest) request).getRequestURI().equals("/users/logout")) {
+                Authentication authentication = jwtTokenProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         }
-        // 2. validateToken 으로 token 유효성 검사
-        if (jwtTokenProvider.validateToken(token)) {
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
+//
+//        if (token.isBlank()) {
+//            chain.doFilter(request, response);
+//            return;
+//        }
+//        // 2. validateToken 으로 token 유효성 검사
+//        if (jwtTokenProvider.validateToken(token)) {
+//            Authentication authentication = jwtTokenProvider.getAuthentication(token);
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//        }
         chain.doFilter(request, response);
     }
 

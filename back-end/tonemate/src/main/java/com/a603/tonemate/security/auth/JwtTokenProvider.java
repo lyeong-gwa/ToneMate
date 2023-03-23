@@ -87,12 +87,24 @@ public class JwtTokenProvider {
 
     // 토큰 정보를 검증하는 메서드
     public boolean validateToken(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
-        Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+        try {
+            System.out.println("validateToken 토큰 검사");
+            System.out.println("-=--------------------------------------");
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+        } catch (ExpiredJwtException e) {
+            return false;
+        }
         return true;
     }
 
     private Claims parseClaims(String accessToken) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
+        try {
+            System.out.println("parseClaims 토큰 정보 뽑기");
+            System.out.println("--------------------------------------------------------------------------");
+            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims();
+        }
     }
 
     public Long getId(String token) {

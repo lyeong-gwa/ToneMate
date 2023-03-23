@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Getter
-@ApiModel(value = "토큰 재발행 시 사용할 정보", description = "토큰의 정보가 담김")
+@ApiModel(value = "토큰 재발행, 로그아웃 시 사용할 정보", description = "토큰의 정보가 담김")
 public class TokenReq {
     private String accessToken;
     private String refreshToken;

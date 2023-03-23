@@ -1,6 +1,5 @@
 package com.a603.tonemate.security.auth;
 
-import com.a603.tonemate.api.util.JwtUtil;
 import com.a603.tonemate.exception.NoTokenException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -17,12 +16,8 @@ import java.io.IOException;
 
 public class JwtExceptionFilter extends OncePerRequestFilter {
 
-    private final JwtTokenProvider jwtTokenProvider;
-    private final JwtUtil jwtUtil;
 
-    public JwtExceptionFilter(JwtTokenProvider jwtTokenProvider, JwtUtil jwtUtil) {
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.jwtUtil = jwtUtil;
+    public JwtExceptionFilter() {
     }
 
     @Override
@@ -32,17 +27,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         } catch (NoTokenException e) {
             setErrorResponse(response, "토큰이 없습니다.");
         } catch (ExpiredJwtException e) {
-            //토큰이 만료되었다는 오류를 받는다면 AT 재발급해서 쿠키 셋팅
-            System.out.println("토큰이 만료되었으니까 재발급 하자");
-            TokenInfo tokenInfo = jwtUtil.reissue(request);
-            if (tokenInfo != null) {
-                response.addHeader("Set-Cookie", tokenInfo.generateRefreshToken().toString());
-                response.addHeader("Set-Cookie", tokenInfo.generateAccessToken().toString());
-                setErrorResponse(response, "access token이 만료되었습니다.");
-            } else {
-                setErrorResponse(response, "refresh token이 만료되었습니다.");
-            }
-
+            setErrorResponse(response, "토큰이 만료되었습니다.");
         } catch (MalformedJwtException e) {
             setErrorResponse(response, "손상된 토큰입니다.");
         } catch (UnsupportedJwtException e) {

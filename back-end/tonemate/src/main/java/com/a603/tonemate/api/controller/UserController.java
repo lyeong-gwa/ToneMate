@@ -2,7 +2,7 @@ package com.a603.tonemate.api.controller;
 
 
 import com.a603.tonemate.api.service.UserService;
-import com.a603.tonemate.dto.request.LogoutReq;
+import com.a603.tonemate.dto.request.TokenReq;
 import com.a603.tonemate.dto.request.UserUpdateReq;
 import com.a603.tonemate.dto.response.UserResp;
 import com.a603.tonemate.exception.NoFileException;
@@ -11,16 +11,12 @@ import com.a603.tonemate.security.auth.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
@@ -33,7 +29,6 @@ public class UserController {
     private static final String FAIL = "fail";
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
-    private final RedisTemplate<String, Object> redisTemplate;
 
     @ApiOperation(value = "사용자 정보 수정", notes = "사용자 정보 수정")
     @ExceptionHandler(NoFileException.class)
@@ -47,16 +42,9 @@ public class UserController {
 
     @ApiOperation(value = "본인 정보 불러오기", notes = "본인의 이름, 프로필, 팔로워/팔로잉 수 정보")
     @GetMapping("/user")
-    public ResponseEntity<UserResp> selectOneUser(HttpServletRequest req) {
-        System.out.println("쿠키 확인");
-//        System.out.println(accessToken);
-        Cookie[] cookies = req.getCookies();
-        for (Cookie cookie : cookies) {
-            System.out.println(cookie.getName() + " " + cookie.getValue());
-        }
-//        System.out.println("AT : " + request.getHeader(JwtProperties.TOKEN_HEADER));
-        String a = req.getHeader(JwtProperties.TOKEN_HEADER);
-        Long userId = jwtTokenProvider.getId(a);
+    public ResponseEntity<UserResp> selectOneUser(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String token) {
+        System.out.println("쿠키 확인: " + token);
+        Long userId = jwtTokenProvider.getId(token);
         System.out.println("본인 정보 확인 가넝");
         return new ResponseEntity<>(userService.selectOneUser(userId), HttpStatus.OK);
     }
@@ -65,27 +53,28 @@ public class UserController {
     @GetMapping("/duplicate/{nickname}")
     public ResponseEntity<?> checkNickname(@PathVariable String nickname) {
         if (nickname.isEmpty())
-            return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+            return new ResponseEntity<>("닉네임을 입력해주세요", HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(userService.checkNickname(nickname), HttpStatus.OK);
     }
 
     @ApiOperation(value = "로그아웃", notes = "로그아웃 진행")
-    @PostMapping("/user")
-    public ResponseEntity<?> logout(LogoutReq logoutReq) {
+    @DeleteMapping("/logout")
+    public ResponseEntity<?> logout(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String accessToken,
+                                    @CookieValue(name = JwtProperties.REFRESH_TOKEN) String refreshToken) {
         //access token 검증
-        if (!jwtTokenProvider.validateToken(logoutReq.getAccessToken())) {
+        if (!jwtTokenProvider.validateToken(accessToken)) {
             return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
         }
+        TokenReq tokenReq = TokenReq.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
 
-        //Accesstoken에서 유저 정보 가져오기
-        Authentication authentication = jwtTokenProvider.getAuthentication(logoutReq.getAccessToken());
-
-        //redis 에 해당 정보로 저장된 Refresh token이 있는지 여부를 확인후 있다면 삭제
-        if (redisTemplate.opsForValue().get("RT:" + authentication.getName()) != null) {
-            redisTemplate.delete("RT:" + authentication.getName());
+        if (userService.logout(tokenReq)) {
+            return new ResponseEntity<>("로그아웃 완료", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("로그아웃 안됨", HttpStatus.NO_CONTENT);
         }
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
