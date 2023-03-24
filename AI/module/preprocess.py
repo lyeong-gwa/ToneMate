@@ -94,11 +94,18 @@ def createDATA(PATH,SR,MFCC= 20, STFT=False, ZCR=False, SPC=False, SPR=False, RM
     for root, dirs, files in os.walk(PATH):
         for file in files:
             if file.endswith(".wav"):
+                print(f'{root.replace("wav","numpy")}/{file[:-4]}.npy')
                 file_path = os.path.join(root, file)
                 label = os.path.basename(root)
 
                 feature = load_wav_file(file_path,SR,MFCC, STFT, ZCR, SPC, SPR, RMS)
                 labels.append(label)
+
+                if not os.path.exists(root.replace("wav","numpy")):
+                    os.makedirs(root.replace("wav","numpy"))
+                np.save(f'{root.replace("wav","numpy")}/{file[:-4]}.npy', feature)
+
+
                 features.append(feature)
     cnt = np.sum([MFCC, STFT, ZCR, SPC, SPR, RMS])
     features = preprocess_features(features,feature_size=cnt)
