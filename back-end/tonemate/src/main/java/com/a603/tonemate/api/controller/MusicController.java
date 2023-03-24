@@ -42,7 +42,7 @@ public class MusicController {
 
     
     @ApiOperation(value = "음역대 분석", notes = "음색 검사를 위한 녹음 wav파일을 분석 및 저장")
-    @GetMapping("/timbre")
+    @GetMapping("/pitch")
     public ResponseEntity<?> analysisPitch() {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
         /*
          * 1. wav파일을 flask에 전달한다. -> 음역대를 계산한다. -> [최저음, 최고음]
