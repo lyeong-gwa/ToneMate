@@ -4,7 +4,6 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +18,6 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class FileUtil {
@@ -39,7 +37,7 @@ public class FileUtil {
     private String upload(File uploadFile, String dirName) {
         String fileName = dirName + "/" + Math.random() * 1000 + "_" + LocalDate.now() + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
-        removeNewFile(uploadFile); // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+        uploadFile.delete(); // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
 
         return uploadImageUrl; // 업로드 된 파일의 S3 URL 주소 반환
     }
@@ -63,11 +61,11 @@ public class FileUtil {
 
         //이미지를 파일로 업로드
         ImageIO.write(img, ext, uploadFile);
-        log.info("소셜로그인 파일 변환 완료");
+        System.out.println("소셜로그인 파일 변환 완료");
 
         //s3에 저장
         String uploadImageUrl = putS3(uploadFile, fileName);
-        removeNewFile(uploadFile); // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
+        uploadFile.delete(); // 로컬에 생성된 File 삭제 (MultipartFile -> File 전환 하며 로컬에 파일 생성됨)
         return uploadImageUrl; // 업로드 된 파일의 S3 URL 주소 반환
 
     }
@@ -76,14 +74,6 @@ public class FileUtil {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(
                 CannedAccessControlList.PublicRead));
         return amazonS3Client.getUrl(bucket, fileName).toString();
-    }
-
-    private void removeNewFile(File targetFile) {
-        if (targetFile.delete()) {
-            log.info("파일이 삭제되었습니다.");
-        } else {
-            log.info("파일이 삭제되지 못했습니다.");
-        }
     }
 
     private Optional<File> convert(MultipartFile file) throws IOException {

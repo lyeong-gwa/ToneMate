@@ -18,26 +18,24 @@ public class JwtAuthenticationFilter extends GenericFilter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         // 1. Request Header 에서 JWT Token 추출
         String token = resolveToken((HttpServletRequest) request);
-        if (token == null) {
-            chain.doFilter(request, response);
-            return;
-        }
-        // 2. validateToken 으로 token 유효성 검사
-        if (jwtTokenProvider.validateToken(token)) {
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
 
+        if (!((HttpServletRequest) request).getRequestURI().equals("/tokens/reissue")) {
+            //재발급 요청이 아니라면
+            if (token != null && jwtTokenProvider.validateToken(token)) {
+                Authentication authentication = jwtTokenProvider.getAuthentication(token);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+        }
+        chain.doFilter(request, response);
     }
 
-    // Request Header 에서 토큰 정보 추출
     private String resolveToken(HttpServletRequest request) {
-        //여기서 리프레쉬 토큰을 받았을 때, 어세스를 받았을 때 재발급을 구현할 건지 고민해봐야함
+        String bearerToken = request.getHeader(JwtProperties.TOKEN_HEADER);
 
-        String bearerToken = request.getHeader(JwtProperties.AUTHORIZATION);
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+        if (StringUtils.hasText(bearerToken)) {
+            return jwtTokenProvider.parseToken(bearerToken);
         }
         return null;
     }
+
 }

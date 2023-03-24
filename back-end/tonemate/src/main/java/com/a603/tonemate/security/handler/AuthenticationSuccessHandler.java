@@ -22,13 +22,12 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-
+        System.out.println("AuthenticationSuccessHandler의 토큰 만들기~");
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication); // tokenInfo 만들어서
 
         redisTemplate.opsForValue()
-                .set("RT:" + authentication.getName(), tokenInfo.getRefreshToken(), JwtProperties.REFRESH_TOKEN_TIME, TimeUnit.MILLISECONDS);
-
-        response.addHeader(JwtProperties.ACCESS_TOKEN, tokenInfo.generateAccessToken().toString());
-        response.addHeader(JwtProperties.REFRESH_TOKEN, tokenInfo.generateRefreshToken().toString());
+                .set(tokenInfo.getUserId().toString(), tokenInfo.getRefreshToken(), JwtProperties.REFRESH_TOKEN_TIME, TimeUnit.MILLISECONDS);
+        response.addHeader("Set-Cookie", tokenInfo.generateAccessToken().toString());
+        response.addHeader("Set-Cookie", tokenInfo.generateRefreshToken().toString());
     }
 }
