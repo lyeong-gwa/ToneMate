@@ -47,14 +47,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsByNickname(nickname);
     }
 
-
-//    @Override
-//    public boolean logout(TokenReq tokenReq) {
-//        Long userId = jwtTokenProvider.getId(tokenReq.getAccessToken());
-//        //redis 에 해당 정보로 저장된 Refresh token이 있는지 여부를 확인후 있다면 삭제
-//        System.out.println(redisTemplate.delete(userId.toString()));
-//        return Boolean.TRUE.equals(redisTemplate.delete(userId.toString()));
-//    }
-
-
 }

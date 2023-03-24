@@ -60,17 +60,4 @@ public class UserController {
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
-//    @ApiOperation(value = "로그아웃", notes = "로그아웃 진행")
-//    @DeleteMapping("/logout")
-//    public ResponseEntity<?> logout(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String accessToken,
-//                                    @CookieValue(name = JwtProperties.REFRESH_TOKEN) String refreshToken) {
-//        TokenReq tokenReq = new TokenReq(accessToken, refreshToken);
-//
-//        if (userService.logout(tokenReq)) {
-//            return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(FAIL, HttpStatus.NO_CONTENT);
-//
-//    }
-
 }

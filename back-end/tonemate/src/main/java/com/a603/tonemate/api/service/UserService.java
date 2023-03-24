@@ -16,8 +16,6 @@ public interface UserService {
 
     boolean checkNickname(String nickname);
 
-//    boolean logout(TokenReq tokenReq);
-
     default UserResp toDto(User user) {
         return UserResp.builder()
                 .profileImg(user.getProfile())
