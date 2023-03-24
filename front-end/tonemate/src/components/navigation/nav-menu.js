@@ -8,77 +8,77 @@ export default function NavMenu() {
 
   return (
     <>
-      <div className="block ">
+      <div className="flex flex-col justify-start items-start w-full">
         {/* 음색 검사 Navigation Botton */}
-        <div>
-          <div
-            className="flex content-around justify-around my-4"
-            onClick={ClickNavItems}
-          >
-            <div className="inline-block w=1/10">
-              <BeakerIcon className="block w-6 h-6 text-cyan-500" />
-            </div>
-            <div className="block w-4/5 text-white">음색 검사</div>
+
+        <div
+          className="flex flex-row content-around justify-around my-3"
+          onClick={ClickNavItems}
+        >
+          <div className="block w=1/5 mx-3">
+            <BeakerIcon className="block w-6 h-6 text-gray-400" />
           </div>
+          <div className="block w-4/5 mx-3 text-white">음색 검사</div>
         </div>
+
         {/* 음역대 검사 Navigation Botton */}
         <div>
           <div
-            className="flex content-around justify-around my-4"
+            className="flex content-around justify-around my-3"
             onClick={ClickNavItems}
           >
-            <div>
-              <BeakerIcon className="block w-6 h-6 text-cyan-500" />
+            <div className="block w=1/5 mx-3">
+              <BeakerIcon className="block w-6 h-6 text-gray-400" />
             </div>
-            <div className="block w-4/5 text-white">음역대 검사</div>
+            <div className="block w-4/5 mx-3 text-white">음역대 검사</div>
           </div>
         </div>
         {/* 검사 결과 Navigation Botton */}
         <div>
           <div
-            className="flex content-around justify-around my-4"
-            onClick={ClickNavItems("/inspectation/vocal-rangev")}
+            className="flex content-around justify-around my-3"
+            onClick={ClickNavItems}
           >
-            <div>
-              <BeakerIcon className="block w-6 h-6 text-cyan-500" />
+            <div className="block w=1/5 mx-3">
+              <BeakerIcon className="block w-6 h-6 text-gray-400" />
             </div>
-            <div className="block w-4/5 text-white">검사 결과</div>
+            <div className="block w-4/5 mx-3 text-white">검사 결과</div>
           </div>
         </div>
         {/* 랭킹 Navigation Botton */}
         <div>
           <div
-            className="flex content-around justify-around my-4"
-            onClick={ClickNavItems("/ranking")}
+            className="flex content-around justify-around my-3"
+            onClick={ClickNavItems}
           >
-            <div>
-              <BeakerIcon className="block w-6 h-6 text-cyan-500" />
+            <div className="block w=1/5 mx-3">
+              <BeakerIcon className="block w-6 h-6 text-gray-400" />
             </div>
-            <div className="block w-4/5 text-white">랭킹</div>
+            <div className="block w-4/5 mx-3 text-white">랭킹</div>
           </div>
         </div>
         {/* 노래 검색 Navigation Botton */}
         <div>
           <div
-            className="flex content-around justify-around my-4"
-            onClick={ClickNavItems("/search")}
+            className="flex content-around justify-around my-3"
+            onClick={ClickNavItems}
           >
-            <div>
-              <BeakerIcon className="block w-6 h-6 text-cyan-500" />
+            <div className="block w=1/5 mx-3">
+              <BeakerIcon className="block w-6 h-6 text-gray-400" />
             </div>
-            <div className="block w-4/5 text-white">노래검색</div>
+            <div className="block w-4/5 mx-3 text-white">노래검색</div>
           </div>
         </div>
         {/* 서비스 소개 Navigation Botton */}
         <div>
           <div
-            className="flex content-around justify-around my-4"
-            onClick={ClickNavItems("/about")}
+            className="flex content-around justify-around my-3"
+            onClick={ClickNavItems}
           >
-            <div>
-              <BeakerIcon className="block w-6 h-6 text-cyan-500" />
+            <div className="block w=1/5 mx-3">
+              <BeakerIcon className="block w-6 h-6 text-gray-400" />
             </div>
-            <div className="block w-4/5 text-white">서비스 소개</div>
+            <div className="block w-4/5 mx-3 text-white">서비스 소개</div>
           </div>
         </div>
       </div>

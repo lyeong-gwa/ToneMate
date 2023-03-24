@@ -11,10 +11,10 @@ export default function HomePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="md:flex sm:block w-screen h-screen">
+      <main className="lg:flex md:block w-screen h-screen">
         <NavBarMobile />
         <NavBarDesk />
-        <div className="block md:w-5/6 sm:w-full h-full bg-black"></div>
+        <div className="block lg:w-5/6 md:w-full h-full bg-black"></div>
       </main>
     </>
   );

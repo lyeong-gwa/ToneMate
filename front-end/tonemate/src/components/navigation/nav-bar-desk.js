@@ -12,12 +12,14 @@ const alatsi = Alatsi({
 export default function NavBarDesk() {
   return (
     <>
-      <div className="hidden md:block w-1/5 h-screen bg-black border-r-2 border-gray-600">
-        <div className="flex justify-center items-center h-14 sm:text-2xl text-white alatsi.claaName">
-          TONEMATE
+      <div className="hidden lg:block w-88 h-screen bg-black border-r-2 border-gray-600">
+        <div className="flex justify-center items-center h-12 text-white ">
+          <p className="text-1xl lg:text-2xl text-white">TONEMATE</p>
         </div>
-        <UserCard />
-        <NavMenu />
+        <div className="flex flex-col justify-start items-center mx-2">
+          <UserCard />
+          <NavMenu />
+        </div>
       </div>
     </>
   );
