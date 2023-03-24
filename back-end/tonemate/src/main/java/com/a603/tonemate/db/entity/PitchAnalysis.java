@@ -12,7 +12,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Pitchanalsis {
+public class PitchAnalysis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pitchId;
@@ -22,7 +22,7 @@ public class Pitchanalsis {
     private String octave_high;
 
     @Builder
-	public Pitchanalsis(Long pitchId, Long userId, String time, String octave_low, String octave_high) {
+	public PitchAnalysis(Long pitchId, Long userId, String time, String octave_low, String octave_high) {
 		super();
 		this.pitchId = pitchId;
 		this.userId = userId;
