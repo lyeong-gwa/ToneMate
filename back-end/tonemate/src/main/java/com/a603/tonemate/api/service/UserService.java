@@ -1,7 +1,6 @@
 package com.a603.tonemate.api.service;
 
 import com.a603.tonemate.db.entity.User;
-import com.a603.tonemate.dto.request.TokenReq;
 import com.a603.tonemate.dto.request.UserUpdateReq;
 import com.a603.tonemate.dto.response.UserResp;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +16,7 @@ public interface UserService {
 
     boolean checkNickname(String nickname);
 
-    boolean logout(TokenReq tokenReq);
+//    boolean logout(TokenReq tokenReq);
 
     default UserResp toDto(User user) {
         return UserResp.builder()

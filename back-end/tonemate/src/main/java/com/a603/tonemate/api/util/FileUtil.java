@@ -4,7 +4,6 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,7 +61,7 @@ public class FileUtil {
 
         //이미지를 파일로 업로드
         ImageIO.write(img, ext, uploadFile);
-        log.info("소셜로그인 파일 변환 완료");
+        System.out.println("소셜로그인 파일 변환 완료");
 
         //s3에 저장
         String uploadImageUrl = putS3(uploadFile, fileName);

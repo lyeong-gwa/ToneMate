@@ -2,7 +2,6 @@ package com.a603.tonemate.api.controller;
 
 
 import com.a603.tonemate.api.service.UserService;
-import com.a603.tonemate.dto.request.TokenReq;
 import com.a603.tonemate.dto.request.UserUpdateReq;
 import com.a603.tonemate.dto.response.UserResp;
 import com.a603.tonemate.exception.NoFileException;
@@ -35,8 +34,10 @@ public class UserController {
     @PutMapping(value = "/users", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateUserInfo(@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token,
                                             @RequestPart(value = "multipartFile", required = false) MultipartFile multipartFile,
-                                            @RequestPart(required = false) UserUpdateReq param) throws IOException {
-        userService.updateUser(token, multipartFile, param);
+                                            @RequestPart(required = false) String nickname) throws IOException {
+
+
+        userService.updateUser(token, multipartFile, new UserUpdateReq(nickname));
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
@@ -50,31 +51,26 @@ public class UserController {
     }
 
     @ApiOperation(value = "닉네임 중복 검사", notes = "프로필 변경 시 닉네임 중복 검사하기")
-    @GetMapping("/duplicate/{nickname}")
-    public ResponseEntity<?> checkNickname(@PathVariable String nickname) {
-        if (nickname.isEmpty())
-            return new ResponseEntity<>("닉네임을 입력해주세요", HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(userService.checkNickname(nickname), HttpStatus.OK);
+    @GetMapping("/duplicate")
+    public ResponseEntity<?> checkNickname(String nickname) {
+        System.out.println("중복검사 : " + nickname);
+        if (userService.checkNickname(nickname)) {
+            return new ResponseEntity<>(FAIL, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "로그아웃", notes = "로그아웃 진행")
-    @DeleteMapping("/logout")
-    public ResponseEntity<?> logout(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String accessToken,
-                                    @CookieValue(name = JwtProperties.REFRESH_TOKEN) String refreshToken) {
-        //access token 검증
-        if (!jwtTokenProvider.validateToken(accessToken)) {
-            return new ResponseEntity<>(FAIL, HttpStatus.BAD_REQUEST);
-        }
-        TokenReq tokenReq = TokenReq.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
-
-        if (userService.logout(tokenReq)) {
-            return new ResponseEntity<>("로그아웃 완료", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("로그아웃 안됨", HttpStatus.NO_CONTENT);
-        }
-    }
+//    @ApiOperation(value = "로그아웃", notes = "로그아웃 진행")
+//    @DeleteMapping("/logout")
+//    public ResponseEntity<?> logout(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String accessToken,
+//                                    @CookieValue(name = JwtProperties.REFRESH_TOKEN) String refreshToken) {
+//        TokenReq tokenReq = new TokenReq(accessToken, refreshToken);
+//
+//        if (userService.logout(tokenReq)) {
+//            return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(FAIL, HttpStatus.NO_CONTENT);
+//
+//    }
 
 }
