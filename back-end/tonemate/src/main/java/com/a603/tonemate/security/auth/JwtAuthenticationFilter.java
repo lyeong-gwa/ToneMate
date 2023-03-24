@@ -19,9 +19,9 @@ public class JwtAuthenticationFilter extends GenericFilter {
         // 1. Request Header 에서 JWT Token 추출
         String token = resolveToken((HttpServletRequest) request);
 
-        if (token != null && jwtTokenProvider.validateToken(token)) {
-            //재발급 요청과 로그아웃 요청이 아니라면
-            if (!((HttpServletRequest) request).getRequestURI().equals("/tokens/reissue") || !((HttpServletRequest) request).getRequestURI().equals("/users/logout")) {
+        if (!((HttpServletRequest) request).getRequestURI().equals("/tokens/reissue")) {
+            //재발급 요청이 아니라면
+            if (token != null && jwtTokenProvider.validateToken(token)) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

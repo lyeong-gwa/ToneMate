@@ -22,7 +22,6 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @Api(tags = {"사용자 관련 API"})
-@RequestMapping("/users")
 public class UserController {
 
     private static final String SUCCESS = "success";
@@ -30,9 +29,10 @@ public class UserController {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
 
+    //users/{userId}
     @ApiOperation(value = "사용자 정보 수정", notes = "사용자 정보 수정")
     @ExceptionHandler(NoFileException.class)
-    @PutMapping(value = "/user", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/users", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> updateUserInfo(@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token,
                                             @RequestPart(value = "multipartFile", required = false) MultipartFile multipartFile,
                                             @RequestPart(required = false) UserUpdateReq param) throws IOException {
@@ -41,7 +41,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "본인 정보 불러오기", notes = "본인의 이름, 프로필, 팔로워/팔로잉 수 정보")
-    @GetMapping("/user")
+    @GetMapping("/users")
     public ResponseEntity<UserResp> selectOneUser(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String token) {
         System.out.println("쿠키 확인: " + token);
         Long userId = jwtTokenProvider.getId(token);

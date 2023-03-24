@@ -32,16 +32,17 @@ public class JwtServiceImpl implements JwtService {
         String refreshToken = tokenReq.getRefreshToken();
 
         //RefreshToken 검증
-        if (!jwtTokenProvider.validateToken(refreshToken)) {
+        try {
+            jwtTokenProvider.validateToken(refreshToken);
+        } catch (Exception e) {
+            System.out.println("refresh 토큰 문제 있음");
             return null;
-//            return new ResponseEntity<>("Refresh token 정보가 유효하지 않음", HttpStatus.BAD_REQUEST);
         }
         System.out.println("refresh 검증 끝");
+
         //받은 토큰에서 유저 정보 가져오기
         Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
         System.out.println("받은 토큰에서 유저정보 가져오기 끝");
-        //유저 정보를 통해 DB에서 유저 ID 가져오기
-        Long userId = userRepository.findByNickname(authentication.getName()).get().getUserId();
         //Redis에서 User 정보를 기반으로 저장된 RefreshToken 가져오기
         System.out.println("레디스 토큰 : " + redisTemplate.opsForValue().get(userId.toString()));
         String saveRefreshToken = (String) redisTemplate.opsForValue().get(userId.toString());
@@ -62,6 +63,7 @@ public class JwtServiceImpl implements JwtService {
 
         System.out.println("오,,,,토큰 발급해줄게");
         //새로운 토큰 생성
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
 
         //Refresh redis 업데이트

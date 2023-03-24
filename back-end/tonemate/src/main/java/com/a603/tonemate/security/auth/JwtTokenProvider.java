@@ -86,21 +86,17 @@ public class JwtTokenProvider {
     }
 
     // 토큰 정보를 검증하는 메서드
-    public boolean validateToken(String token) throws ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
-        try {
-            System.out.println("validateToken 토큰 검사");
-            System.out.println("-=--------------------------------------");
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
-        } catch (ExpiredJwtException e) {
-            return false;
-        }
+    public boolean validateToken(String token) {
+        System.out.println("validateToken 토큰 검사");
+        System.out.println("-=--------------------------------------");
+        Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
         return true;
     }
 
     private Claims parseClaims(String accessToken) {
+        System.out.println("parseClaims 토큰 정보 뽑기");
+        System.out.println("--------------------------------------------------------------------------");
         try {
-            System.out.println("parseClaims 토큰 정보 뽑기");
-            System.out.println("--------------------------------------------------------------------------");
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e) {
             return e.getClaims();
@@ -108,7 +104,27 @@ public class JwtTokenProvider {
     }
 
     public Long getId(String token) {
-        token = token.replace(JwtProperties.TOKEN_PREFIX, "");
-        return Long.parseLong(parseClaims(token).get("id").toString());
+        return Long.parseLong(parseClaims(parseToken(token)).get("id").toString());
     }
+
+    public String parseToken(String token) {
+        if (token.startsWith(JwtProperties.TOKEN_PREFIX)) {
+            token = token.substring(JwtProperties.TOKEN_PREFIX.length());
+        }
+        return token;
+    }
+
+    public TokenReq getToken(HttpServletRequest request) {
+        TokenReq tokenReq = new TokenReq();
+        for (Cookie cookie : request.getCookies()) {
+            String name = cookie.getName();
+            if (name.equals("accessToken")) {
+                tokenReq.setAccessToken(cookie.getValue());
+            } else if (name.equals("refreshToken")) {
+                tokenReq.setRefreshToken(cookie.getValue());
+            }
+        }
+        return tokenReq;
+    }
+
 }

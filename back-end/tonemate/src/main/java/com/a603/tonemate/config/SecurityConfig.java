@@ -42,7 +42,8 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // jwt사용으로 session 비활성화
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll() // 인가 검증
+                .antMatchers("/tokens/reissue").permitAll()
+                .anyRequest().authenticated() // 인가 검증
                 .and()
                 .oauth2Login()
                 .authorizationEndpoint(authorize -> {
