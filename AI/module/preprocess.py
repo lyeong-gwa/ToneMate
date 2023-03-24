@@ -87,7 +87,7 @@ def preprocess_features(features,min_len = 3000,feature_size = 20):
     return new_features_arr
 
 
-def createDATA(PATH,SR):
+def createDATA(PATH,SR,MFCC= 20, STFT=False, ZCR=False, SPC=False, SPR=False, RMS=False):
     labels = []
     features = []
     global encoder
@@ -97,8 +97,9 @@ def createDATA(PATH,SR):
                 file_path = os.path.join(root, file)
                 label = os.path.basename(root)
 
-                feature = load_wav_file(file_path,SR)
+                feature = load_wav_file(file_path,SR,MFCC, STFT, ZCR, SPC, SPR, RMS)
                 labels.append(label)
                 features.append(feature)
-    features = preprocess_features(features)
+    cnt = np.sum([MFCC, STFT, ZCR, SPC, SPR, RMS])
+    features = preprocess_features(features,feature_size=cnt)
     return features, labels
