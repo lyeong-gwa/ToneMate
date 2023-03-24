@@ -6,7 +6,6 @@ import com.a603.tonemate.security.auth.JwtTokenProvider;
 import com.a603.tonemate.security.handler.AuthenticationFailureHandler;
 import com.a603.tonemate.security.handler.AuthenticationSuccessHandler;
 import com.a603.tonemate.security.handler.CustomLogoutHandler;
-import com.a603.tonemate.security.handler.CustomLogoutSuccessHandler;
 import com.a603.tonemate.security.oauth2.CustomOAuth2AuthorizationRequestRepository;
 import com.a603.tonemate.security.oauth2.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,6 @@ public class SecurityConfig {
     private final AuthenticationFailureHandler authenticationFailureHandler;
 
     private final CustomLogoutHandler customLogoutHandler;
-    private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
 
 
     @Bean
@@ -50,9 +48,8 @@ public class SecurityConfig {
                 .logout()
                 .logoutUrl("/logout") // 로그아웃 처리 URL
                 .logoutSuccessUrl("/login") // 로그아웃 성공후 이동할 페이지
-                .deleteCookies("Set-Cookie") // 쿠키 삭제
+                .deleteCookies("accessToken", "refreshToken") // 쿠키 삭제
                 .addLogoutHandler(customLogoutHandler)// 로그아웃 구현할 class 넣기
-                .logoutSuccessHandler(customLogoutSuccessHandler) // 로그아웃 성공 후 핸들러
                 .and()
                 .authorizeRequests()
                 .antMatchers("/tokens/reissue").permitAll()
