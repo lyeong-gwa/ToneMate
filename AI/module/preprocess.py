@@ -94,7 +94,6 @@ def createDATA(PATH,SR,MFCC= 20, STFT=False, ZCR=False, SPC=False, SPR=False, RM
     for root, dirs, files in os.walk(PATH):
         for file in files:
             if file.endswith(".wav"):
-                print(f'{root.replace("wav","numpy")}/{file[:-4]}.npy')
                 file_path = os.path.join(root, file)
                 label = os.path.basename(root)
 
