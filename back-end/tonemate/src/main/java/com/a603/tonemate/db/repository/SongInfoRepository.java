@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface SongInfoRepository extends JpaRepository<SongInfo, Long> {
-    Optional<SongInfo> findBySingerId(Long i);
+    Optional<SongInfo> findBySongId(Long i);
     
 }

@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface TimbreAnalysisRepository extends JpaRepository<TimbreAnalysis, Long> {
-    Optional<TimbreAnalysis> findBySingerId(Long i);
+    Optional<TimbreAnalysis> findByTimbreId(Long i);
     
 }
