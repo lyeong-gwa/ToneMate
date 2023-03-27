@@ -4,10 +4,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import com.a603.tonemate.enumpack.Genre;
 
 @Entity
 @Getter
@@ -17,12 +23,14 @@ public class Singer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long singerId;
     private String name;
-    private String gender;
-    private String birthYear;
-    private String genre;
+    private int gender;
+    private Date birthYear;
+    
+    @Enumerated(EnumType.STRING)
+    private Genre genre;
 
     @Builder
-    public Singer(Long singerId, String name, String gender, String birthYear, String genre) {
+    public Singer(Long singerId, String name, int gender, Date birthYear, Genre genre) {
         this.singerId = singerId;
         this.name = name;
         this.gender = gender;

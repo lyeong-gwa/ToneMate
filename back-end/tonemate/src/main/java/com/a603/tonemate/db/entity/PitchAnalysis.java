@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,12 +19,12 @@ public class PitchAnalysis {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pitchId;
     private Long userId;
-    private String time;
+    private Date time;
     private String octave_low;
     private String octave_high;
 
     @Builder
-	public PitchAnalysis(Long pitchId, Long userId, String time, String octave_low, String octave_high) {
+	public PitchAnalysis(Long pitchId, Long userId, Date time, String octave_low, String octave_high) {
 		super();
 		this.pitchId = pitchId;
 		this.userId = userId;

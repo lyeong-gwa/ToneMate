@@ -2,10 +2,17 @@ package com.a603.tonemate.api.controller;
 
 
 import com.a603.tonemate.api.service.UserService;
+import com.a603.tonemate.db.entity.Singer;
+import com.a603.tonemate.db.repository.SingerRepository;
+import com.a603.tonemate.enumpack.Genre;
+import com.a603.tonemate.security.auth.JwtProperties;
 import com.a603.tonemate.security.auth.JwtTokenProvider;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class MusicController {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
+    private final SingerRepository singerRepo;
 
     @GetMapping("")
     public ResponseEntity<String> checkAlive() {
@@ -59,16 +67,18 @@ public class MusicController {
     	/*
     	 * 음역대 검사, 음색검사 테이블에서 사용자에 해당하는 데이터만 추출하고 
          * */
+
         return new ResponseEntity<>("검사 결과 목록", HttpStatus.OK);
     }
-
     
     @ApiOperation(value = "검사 결과 삭제", notes = "사용자가 선택한 검사 결과를 삭제한다.")
     @GetMapping("/result/{type}/{id}")
-    public ResponseEntity<?> deleteResult() {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+    public ResponseEntity<?> deleteResult(@PathVariable("type") String type,@PathVariable("id") String id) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
     	/*
     	 * type에 따라서 음역대인지 음색인지 구분한다. id는 특정 테이블에 속한 결과 데이터의 id를 지정하고 해당 데이터를 삭제한다. 
          * */
+    	
+    	
         return new ResponseEntity<>("검사 결과 삭제", HttpStatus.OK);
     }
     
