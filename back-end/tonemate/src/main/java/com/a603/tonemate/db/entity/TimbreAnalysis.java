@@ -3,11 +3,13 @@ package com.a603.tonemate.db.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -18,39 +20,39 @@ public class TimbreAnalysis {
     private Long timbreId;
     private Long userId;
 
-    private String mfccMean;
-    private String stftMean;
-    private String zcrMean;
-    private String spcMean;
-    private String sprMean;
-    private String rmsMean;
-    private String mfccVar;
-    private String stftVar;
-    private String zcrVar;
-    private String spcVar;
-    private String sprVar;
-    private String rmsVar;
+    private float mfccMean;
+    private float stftMean;
+    private float zcrMean;
+    private float spcMean;
+    private float sprMean;
+    private float rmsMean;
+    private float mfccVar;
+    private float stftVar;
+    private float zcrVar;
+    private float spcVar;
+    private float sprVar;
+    private float rmsVar;
 
-    private String singer1;
-    private String singer2;
-    private String singer3;
-    private String singer4;
-    private String singer5;
+    private Long singer1;
+    private Long singer2;
+    private Long singer3;
+    private Long singer4;
+    private Long singer5;
 
-    private String similarity1;
-    private String similarity2;
-    private String similarity3;
-    private String similarity4;
-    private String similarity5;
+    private float similarity1;
+    private float similarity2;
+    private float similarity3;
+    private float similarity4;
+    private float similarity5;
 
-    private String time;
-
+    @CreatedDate
+    private LocalDateTime time;
 
     @Builder
-    public TimbreAnalysis(Long timbreId, Long userId, String mfccMean, String stftMean, String zcrMean, String spcMean, String sprMean, String rmsMean,
-                          String mfccVar, String stftVar, String zcrVar, String spcVar, String sprVar, String rmsVar,
-                          String singer1, String singer2, String singer3, String singer4, String singer5,
-                          String similarity1, String similarity2, String similarity3, String similarity4, String similarity5, String time) {
+    public TimbreAnalysis(Long timbreId, Long userId, float mfccMean, float stftMean, float zcrMean, float spcMean, float sprMean, float rmsMean,
+                          float mfccVar, float stftVar, float zcrVar, float spcVar, float sprVar, float rmsVar,
+                          Long singer1, Long singer2, Long singer3, Long singer4, Long singer5,
+                          float similarity1, float similarity2, float similarity3, float similarity4, float similarity5, LocalDateTime time) {
         this.timbreId = timbreId;
         this.userId = userId;
 
