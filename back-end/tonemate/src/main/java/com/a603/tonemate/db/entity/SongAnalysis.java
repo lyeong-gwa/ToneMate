@@ -16,25 +16,25 @@ public class SongAnalysis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long songId;
-    private String mfccMean;
-    private String stftMean;
-    private String zcrMean;
-    private String spcMean;
-    private String sprMean;
-    private String rmsMean;
-    private String mfccVar;
-    private String stftVar;
-    private String zcrVar;
-    private String spcVar;
-    private String sprVar;
-    private String rmsVar;
-    private String octaveLow;
-    private String octaveHigh;
+    private float mfccMean;
+    private float stftMean;
+    private float zcrMean;
+    private float spcMean;
+    private float sprMean;
+    private float rmsMean;
+    private float mfccVar;
+    private float stftVar;
+    private float zcrVar;
+    private float spcVar;
+    private float sprVar;
+    private float rmsVar;
+    private float octaveLow;
+    private float octaveHigh;
 
 
     @Builder
-    public SongAnalysis(Long songId, String mfccMean, String stftMean, String zcrMean, String spcMean, String sprMean, String rmsMean,
-                        String mfccVar, String stftVar, String zcrVar, String spcVar, String sprVar, String rmsVar, String octaveLow, String octaveHigh) {
+    public SongAnalysis(Long songId, float mfccMean, float stftMean, float zcrMean, float spcMean, float sprMean, float rmsMean,
+                        float mfccVar, float stftVar, float zcrVar, float spcVar, float sprVar, float rmsVar, float octaveLow, float octaveHigh) {
         this.songId = songId;
         this.mfccMean = mfccMean;
         this.stftMean = stftMean;
@@ -53,11 +53,11 @@ public class SongAnalysis {
     }
 
 
-    public void updateOctaveLow(String octaveLow) {
+    public void updateOctaveLow(float octaveLow) {
         this.octaveLow = octaveLow;
     }
 
-    public void updateOctaveHigh(String octaveHigh) {
+    public void updateOctaveHigh(float octaveHigh) {
         this.octaveHigh = octaveHigh;
     }
 
