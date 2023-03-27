@@ -16,6 +16,8 @@ services:
       - GOOGLE_ID=${GOOGLE_ID}
       - JWT_SECRET=${JWT_SECRET}
       - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+
     ports:
       - 5001:5000
     command: java -jar /tonemate/build/libs/tonemate-0.0.1-SNAPSHOT.jar
