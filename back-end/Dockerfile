@@ -29,4 +29,5 @@ ENV JWT_SECRET=$JWT_SECRET
 ENV REDIS_HOST=$REDIS_HOST
 
 COPY ./tonemate /tonemate
-#RUN cd /tonemate && chmod +x ./gradlew && ./gradlew bootJar # 우분투 환경에서 직접 build하고 처리할 때 사용
+RUN cd /tonemate && chmod +x ./gradlew && ./gradlew bootJar 
+# 우분투 환경에서 직접 build하고 처리할 때 사용
