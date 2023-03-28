@@ -19,6 +19,12 @@ public interface MusicService {
     // 검사 결과 목록 조회
     List<ResultResp> getResultList(Long userId);
 
+    // 음색 검사 결과 조회
+    TimbreAnalysisResp selectOneTimbreAnalysis(Long timbreId);
+
+    // 음역대 검사 결과 조회
+    PitchAnalysisResp selectOnePitchAnalysis(Long pitchId);
+
     // 검사 결과 삭제
     void deleteResult(String type, Long resultId);
 }
