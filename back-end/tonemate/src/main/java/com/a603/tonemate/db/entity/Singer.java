@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -23,14 +24,15 @@ public class Singer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long singerId;
     private String name;
-    private int gender;
+    @Column(nullable = true)
+    private boolean gender;
     private Date birthYear;
     
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
     @Builder
-    public Singer(Long singerId, String name, int gender, Date birthYear, Genre genre) {
+    public Singer(Long singerId, String name, boolean gender, Date birthYear, Genre genre) {
         this.singerId = singerId;
         this.name = name;
         this.gender = gender;

@@ -2,10 +2,8 @@ package com.a603.tonemate.api.service.impl;
 
 import com.a603.tonemate.api.service.MusicService;
 import com.a603.tonemate.db.entity.PitchAnalysis;
-import com.a603.tonemate.db.entity.Singer;
 import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.db.repository.PitchAnalysisRepository;
-import com.a603.tonemate.db.repository.SingerRepository;
 import com.a603.tonemate.db.repository.TimbreAnalysisRepository;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.dto.response.ResultResp;
@@ -86,11 +84,37 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
+    public TimbreAnalysisResp selectOneTimbreAnalysis(Long timbreId) {
+
+        TimbreAnalysis timbreAnalysis = timbreAnalysisRepository.findByTimbreId(timbreId).orElseThrow();
+
+        TimbreAnalysisResp timbreAnalysisResp = TimbreAnalysisResp.builder()
+                .timbreId(timbreAnalysis.getTimbreId())
+                .time(timbreAnalysis.getTime())
+                .build();
+
+        return timbreAnalysisResp;
+    }
+
+    @Override
+    public PitchAnalysisResp selectOnePitchAnalysis(Long pitchId) {
+
+        PitchAnalysis pitchAnalysis = pitchAnalysisRepository.findByPitchId(pitchId).orElseThrow();
+
+        PitchAnalysisResp pitchAnalysisResp = PitchAnalysisResp.builder()
+                .pitchId(pitchAnalysis.getPitchId())
+                .time(pitchAnalysis.getTime())
+                .build();
+
+        return pitchAnalysisResp;
+    }
+
+    @Override
     public void deleteResult(String type, Long resultId) {
         // 음색 검사 결과 삭제
-        if(type.equals("timbre")){
+        if (type.equals("timbre")) {
             timbreAnalysisRepository.deleteById(resultId);
-        } else if(type.equals("pitch")){
+        } else if (type.equals("pitch")) {
             pitchAnalysisRepository.deleteById(resultId);
         }
     }
