@@ -8,11 +8,14 @@ import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.db.repository.SingerRepository;
 import com.a603.tonemate.security.auth.JwtTokenProvider;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -37,9 +40,9 @@ public class MusicController {
 
 
     @ApiOperation(value = "음색 분석", notes = "음색 검사를 위한 녹음 wav파일을 분석 및 저장")
-    @GetMapping("/timbre")
-    public ResponseEntity<?> analysisTimbre() {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
-        // Post 요청으로 변경 필요, wav 파일 받아와야 함
+    @PostMapping("/timbre")
+    public ResponseEntity<?> analysisTimbre(@RequestParam MultipartFile file) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+        System.out.println("파일 이름! "+ file.getOriginalFilename());
 
         /*
          * 1. wav파일을 flask에 전달한다. -> 가수 : [가수1,가수2,가수3,가수4,가수5] 유사도 : [유사도 1,유사도 2,유사도 3,유사도 4,유사도 5] 특성 : [..MFCC,STFT,ZCR등등.....]
@@ -57,9 +60,9 @@ public class MusicController {
 
 
     @ApiOperation(value = "음역대 분석", notes = "음색 검사를 위한 녹음 wav파일을 분석 및 저장")
-    @GetMapping("/pitch")
-    public ResponseEntity<?> analysisPitch() {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
-        // Post 요청으로 변경 필요, wav 파일 받아와야 함
+    @PostMapping("/pitch")
+    public ResponseEntity<?> analysisPitch(@RequestParam MultipartFile file) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+        System.out.println("파일 이름! "+ file.getOriginalFilename());
 
         /*
          * 1. wav파일을 flask에 전달한다. -> 음역대를 계산한다. -> [최저음, 최고음]
@@ -87,7 +90,23 @@ public class MusicController {
         return new ResponseEntity<>(musicService.getResultList(1L), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "검사 결과 삭제", notes = "사용자가 선택한 검사 결과를 삭제한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "검사 유형 (timbre/pitch)"),
+            @ApiImplicitParam(name = "id", value = "검사 아이디")})
+    @DeleteMapping("/result/{type}/{id}")
+    public ResponseEntity<?> deleteResult(@PathVariable("type") String type, @PathVariable("id") Long id) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+        /*
+         * type에 따라서 음역대인지 음색인지 구분한다. id는 특정 테이블에 속한 결과 데이터의 id를 지정하고 해당 데이터를 삭제한다.
+         * */
+
+        musicService.deleteResult(type, id);
+
+        return new ResponseEntity<>("검사 결과 삭제", HttpStatus.OK);
+    }
+
     @ApiOperation(value = "검사 결과 조회", notes = "사용자가 선택한 검사 결과의 상세 정보를 조회한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "검사 유형 (timbre/pitch)"),
+            @ApiImplicitParam(name = "id", value = "검사 아이디")})
     @GetMapping("/result/{type}/{id}")
     public ResponseEntity<?> selectOneResult(@PathVariable("type") String type, @PathVariable("id") Long id) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
         /*
@@ -101,18 +120,6 @@ public class MusicController {
         }
 
         return new ResponseEntity<>("검사 결과 조회", HttpStatus.OK);
-    }
-
-    @ApiOperation(value = "검사 결과 삭제", notes = "사용자가 선택한 검사 결과를 삭제한다.")
-    @DeleteMapping("/result/{type}/{id}")
-    public ResponseEntity<?> deleteResult(@PathVariable("type") String type, @PathVariable("id") Long id) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
-        /*
-         * type에 따라서 음역대인지 음색인지 구분한다. id는 특정 테이블에 속한 결과 데이터의 id를 지정하고 해당 데이터를 삭제한다.
-         * */
-
-        musicService.deleteResult(type, id);
-
-        return new ResponseEntity<>("검사 결과 삭제", HttpStatus.OK);
     }
 
 }
