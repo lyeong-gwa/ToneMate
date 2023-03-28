@@ -9,13 +9,9 @@ export default function About() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <div className="md:hidden flex bg-black">
-          <div className="text-white">TONEMATE</div>
-          <div className="text-white">메뉴</div>
-        </div>
-        <div className="flex sm:hidden w-1/6 h-full bg-black">사이드바</div>
-      </main>
+      <div className="block w-11/12">
+        <p className="text-white">서비스소개</p>
+      </div>
     </>
   );
 }

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Profile from "../../assets/temp.jpg";
 
 export default function UserCard() {
   let user = {
@@ -9,10 +9,11 @@ export default function UserCard() {
   };
   return (
     <>
-      <div className="flex flex-row w-full justify-around items-center m-1 border-gray-500 border-y-2 ">
+      <div className="flex flex-row w-11/12 justify-around items-center m-1 border-gray-500 border-y-2 ">
         <div className="flex w-2/5 my-5 mx-2 ">
+          .{" "}
           <img
-            className="rounded-full w-24 h-24"
+            className="rounded-full w-16 h-16"
             src={user.profile}
             alt={user.nickName}
           />
@@ -22,13 +23,7 @@ export default function UserCard() {
             <p className="text-sm 2xl:text-sm text-white">안녕하세요</p>
           </div>
           <div className="flex flex-row justify-center items-center w-full my-1">
-            <p className="text-1xl 2xl:text-2xl text-white">
-              {user.nickName} 님
-            </p>
-          </div>
-          <div className="flex flex-row justify-between items-center w-full my-1">
-            <p className="text-sm 2xl:text-sm text-white">로그아웃</p>
-            <p className="text-sm 2xl:text-sm text-white">마이페이지</p>
+            <p className="text-2xl  text-white">{user.nickName} 님</p>
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@ import NavMenuMobile from "./navigation/nav-menu-mobile";
 
 import { useState } from "react";
 
-const Layout = ({ children }) => {
+const temp = ({ children }) => {
   return (
     <>
       <div className="flex flex-col lg:flex-row w-screen h-screen bg-black">
@@ -17,4 +17,4 @@ const Layout = ({ children }) => {
   );
 };
 
-export default Layout;
+export default temp;

@@ -9,9 +9,9 @@ export default function VocalColor() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <div>음색검사</div>
-      </main>
+      <div className="block w-11/12">
+        <p className="text-white">음색 검사</p>
+      </div>
     </>
   );
 }

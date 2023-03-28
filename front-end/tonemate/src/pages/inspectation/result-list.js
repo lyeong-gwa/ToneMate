@@ -9,9 +9,9 @@ export default function ResultList() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <div>검사결과</div>
-      </main>
+      <div className="block w-11/12">
+        <p className="text-white">검사 결과</p>
+      </div>
     </>
   );
 }

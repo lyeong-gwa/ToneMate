@@ -18,7 +18,14 @@ module.exports = {
       "2xl": "1536px",
       // => @media (min-width: 1536px) { ... }
     },
-    extend: {},
+    extend: {
+      width: {
+        140: "33.75rem",
+      },
+      height: {
+        "3/7": "45%",
+      },
+    },
   },
   plugins: [require("daisyui")],
 };

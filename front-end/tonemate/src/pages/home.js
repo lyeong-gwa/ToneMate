@@ -1,6 +1,6 @@
 import Head from "next/head";
-import NavBarMobile from "@/components/navigation/nav-bar-mobile";
-import NavBarDesk from "@/components/navigation/nav-bar-desk";
+import Layout from "@/components/layout";
+import HalfContainer from "@/components/content/half-container";
 
 export default function HomePage() {
   return (
@@ -11,10 +11,22 @@ export default function HomePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="lg:flex md:block w-screen h-screen">
-        <NavBarMobile />
-        <NavBarDesk />
-        <div className="block lg:w-5/6 md:w-full h-full bg-black"></div>
+      <main>
+        <Layout>
+          <HalfContainer>
+            <div className="flex w-140 h-full bg-gray-400"></div>
+            <div className="flex flex-col grow justify-center items-start bg-gray-200">
+              <div className="m-3">
+                <p className="text-white">TONEMATE</p>
+              </div>
+            </div>
+          </HalfContainer>
+          <HalfContainer>
+            <div className="flex flex-row m-3">
+              <p className="text-2xl text-white">TONEMATE 서비스 바로가기 </p>
+            </div>
+          </HalfContainer>
+        </Layout>
       </main>
     </>
   );

@@ -14,9 +14,7 @@ export default function LandingPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <Layout />
-      </main>
+      <p className="text-white">인덱스야</p>
     </>
   );
 }
