@@ -29,7 +29,7 @@ public class SwaggerConfig {
                 //Swagger 내에서 인증하는 방식
                 .securitySchemes(List.of(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.a603.tonemate.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.a603.tonemate.api.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
