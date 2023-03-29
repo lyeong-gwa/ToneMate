@@ -1,4 +1,7 @@
 import Head from "next/head";
+import Layout from "@/components/layout";
+import HalfContainer from "@/components/content/half-container";
+import Record from "@/components/record/record";
 
 export default function VocalColor() {
   return (
@@ -9,9 +12,19 @@ export default function VocalColor() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="block w-11/12">
-        <p className="text-white">음색 검사</p>
-      </div>
+      <main>
+        <Layout>
+          <div className="flex w-full h-1/4 bg-white">
+            음성 검사 안내사항 및 + 알파
+          </div>
+          <div className="flex w-full h-1/4 bg-white">
+            클라이언트가 읽어야할 글 상자
+          </div>
+          <div className="flex w-full h-1/4 bg-white">
+            오디오 비쥬얼라이저, 녹음버튼, Pause 버튼, 끝내기 버튼
+          </div>
+        </Layout>
+      </main>
     </>
   );
 }

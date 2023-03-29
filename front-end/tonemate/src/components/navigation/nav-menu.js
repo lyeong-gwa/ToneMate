@@ -41,11 +41,15 @@ export default function NavMenu() {
         {/* 노래 검색 Navigation Botton */}
         <NavButton icon={MusicalNoteIcon} name="노래 검색" value="/search" />
 
-        {/* 애창곡 리스트 Navigation Botton */}
-        <NavButton icon={UserIcon} name="마이페이지" value="/search" />
+        {/* 마이페이지 리스트 Navigation Botton */}
+        <NavButton icon={UserIcon} name="마이페이지" value="/user/my-page" />
 
-        {/* 노래 검색 Navigation Botton */}
-        <NavButton icon={HeartIcon} name="애창곡 리스트" value="/search" />
+        {/* 애창곡리스트 검색 Navigation Botton */}
+        <NavButton
+          icon={HeartIcon}
+          name="애창곡 리스트"
+          value="/user/music-list"
+        />
 
         {/* 서비스 소개 Navigation Botton */}
         <NavButton icon={BeakerIcon} name="서비스 소개" value="/about" />

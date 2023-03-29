@@ -8,14 +8,14 @@ function NavButton(props) {
 
   const [isNow, setIsNow] = useState(false);
 
-  useEffect(() => {
-    let nowURL = window.location.href;
-    nowURL = nowURL.substring(baseURL.length);
+  // useEffect(() => {
+  //   let nowURL = window.location.href;
+  //   nowURL = nowURL.substring(baseURL.length);
 
-    if (props.value === nowURL) {
-      setIsNow(true);
-    }
-  });
+  //   if (props.value === nowURL) {
+  //     setIsNow(true);
+  //   }
+  // });
 
   function clickNavButton() {
     Router.push(props.value);

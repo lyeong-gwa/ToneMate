@@ -1,4 +1,6 @@
 import Head from "next/head";
+import Layout from "@/components/layout";
+import HalfContainer from "@/components/content/half-container";
 
 export default function VocalRange() {
   return (
@@ -9,9 +11,13 @@ export default function VocalRange() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="block w-11/12">
-        <p className="text-white">음역대 검사</p>
-      </div>
+      <main>
+        <Layout>
+          <div className="flex w-full h-1/4 bg-white"></div>
+          <div className="flex w-full h-1/4 bg-white"></div>
+          <div className="flex w-full h-1/4 bg-white"></div>
+        </Layout>
+      </main>
     </>
   );
 }

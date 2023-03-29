@@ -25,6 +25,26 @@ export default function HomePage() {
             <div className="flex flex-row m-3">
               <p className="text-2xl text-white">TONEMATE 서비스 바로가기 </p>
             </div>
+            <div className="flex flex-row flex-nowrap overflow-x-auto grow w-full justify-start items-center scrollbar-hide snap-x bg-white">
+              <button className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 h-1/4 mx-3 bg-gray-400">
+                음색 검사
+              </button>
+              <button className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 h-1/4 mx-3 bg-gray-400">
+                음역대 검사
+              </button>
+              <button className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 h-1/4 mx-3 bg-gray-400">
+                검사 결과
+              </button>
+              <button className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 h-1/4 mx-3 bg-gray-400">
+                노래 검색
+              </button>
+              <button className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 h-1/4 mx-3 bg-gray-400">
+                애창곡 리스트
+              </button>
+              <button className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 h-1/4 mx-3 bg-gray-400">
+                서비스
+              </button>
+            </div>
           </HalfContainer>
         </Layout>
       </main>

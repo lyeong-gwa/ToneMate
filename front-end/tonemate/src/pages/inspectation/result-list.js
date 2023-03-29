@@ -1,4 +1,6 @@
 import Head from "next/head";
+import Layout from "@/components/layout";
+import HalfContainer from "@/components/content/half-container";
 
 export default function ResultList() {
   return (
@@ -9,9 +11,21 @@ export default function ResultList() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="block w-11/12">
-        <p className="text-white">검사 결과</p>
-      </div>
+      <main>
+        <Layout>
+          <div className="flex flex-col w-full h-1/5 bg-white">
+            <p>TONEMATE 검사결과</p>
+            <p>
+              OOO님의 검사결과는 음색 검사 : ?? 건 음역대 검사 : ?? 건 총 ??
+              건입니다.
+            </p>
+          </div>
+          <div className="flex flex-row justify-around items-center w-full h-3/5 bg-white">
+            <div className="flex flex-col justify-center items-center w-1/3 h-4/5 bg-black"></div>
+            <div className="flex flex-col justify-center items-center w-1/3 h-4/5 bg-black"></div>
+          </div>
+        </Layout>
+      </main>
     </>
   );
 }

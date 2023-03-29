@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Layout from "@/components/layout";
+import HalfContainer from "@/components/content/half-container";
 
 export default function MyPage() {
   return (
@@ -10,7 +11,16 @@ export default function MyPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main></main>
+      <main>
+        <Layout>
+          <div className="flex flex-col justify-center items-center w-full h-1/6 bg-white">
+            유저
+          </div>
+          <div className="flex flex-col justify-center items-center w-full h-4/6 bg-white">
+            유저 정보
+          </div>
+        </Layout>
+      </main>
     </>
   );
 }

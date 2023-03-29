@@ -1,4 +1,6 @@
 import Head from "next/head";
+import Layout from "@/components/layout";
+import HalfContainer from "@/components/content/half-container";
 
 export default function VoiceColorResult() {
   return (
@@ -10,7 +12,10 @@ export default function VoiceColorResult() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div>음색검사결과</div>
+        <Layout>
+          <HalfContainer></HalfContainer>
+          <HalfContainer></HalfContainer>
+        </Layout>
       </main>
     </>
   );

@@ -1,4 +1,6 @@
 import Head from "next/head";
+import Layout from "@/components/layout";
+import HalfContainer from "@/components/content/half-container";
 
 export default function About() {
   return (
@@ -9,9 +11,12 @@ export default function About() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="block w-11/12">
-        <p className="text-white">서비스소개</p>
-      </div>
+      <main>
+        <Layout>
+          <HalfContainer></HalfContainer>
+          <HalfContainer></HalfContainer>
+        </Layout>
+      </main>
     </>
   );
 }

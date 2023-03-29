@@ -1,10 +1,8 @@
 import Head from "next/head";
 import Layout from "@/components/layout";
-import HalfContainer from "@/components/content/half-container";
+import SearchComponent from "@/components/main/search-component";
 
 export default function Search() {
-  const items = [];
-
   return (
     <>
       <Head>
@@ -15,18 +13,13 @@ export default function Search() {
       </Head>
       <main>
         <Layout>
-          <div>
-            <select className="select w-full max-w-xs">
-              <option disabled selected>
-                검색 분류
-              </option>
-              <option>가수</option>
-              <option>노래</option>
-              <option>Bart</option>
-              <option>Lisa</option>
-              <option>Maggie</option>
-            </select>
+          <div className="flex flex-col justify-center items-center w-full h-1/6 bg-white">
+            검색 엔진
           </div>
+          <div className="flex flex-col justify-center items-center w-full h-4/6 bg-white">
+            테이블
+          </div>
+          {/* <SearchComponent />
           <div>
             <table className="table w-full">
               <thead>
@@ -41,7 +34,7 @@ export default function Search() {
               </thead>
               <tbody></tbody>
             </table>
-          </div>
+          </div> */}
         </Layout>
       </main>
     </>
