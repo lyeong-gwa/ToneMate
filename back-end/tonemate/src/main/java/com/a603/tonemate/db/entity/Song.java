@@ -30,10 +30,10 @@ public class Song {
     private float sprVar;
     private float rmsVar;
     
-    @Column(nullable = true)
-    private int octaveLow;
-    @Column(nullable = true)
-    private int octaveHigh;
+    @Column(nullable = false)
+    private int octaveLow = 0;
+    @Column(nullable = false)
+    private int octaveHigh = 495;
 
     private Long singerId;
     private String title;

@@ -6,6 +6,7 @@ import com.a603.tonemate.db.entity.PitchAnalysis;
 import com.a603.tonemate.db.entity.Song;
 import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.db.repository.PitchAnalysisRepository;
+import com.a603.tonemate.db.repository.SongRepository;
 import com.a603.tonemate.db.repository.TimbreAnalysisRepository;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.dto.response.ResultResp;
@@ -42,7 +43,7 @@ public class MusicServiceImpl implements MusicService {
     private final PitchUtil pitchUtil;
     private final TimbreAnalysisRepository timbreAnalysisRepository;
     private final PitchAnalysisRepository pitchAnalysisRepository;
-    
+    private final SongRepository songRepository;
     @Override
     public TimbreAnalysisResp saveTimbreAnalysis(TimbreAnalysis timbreAnalysis) {
 
@@ -143,7 +144,9 @@ public class MusicServiceImpl implements MusicService {
 	public PitchAnalysisResp analysisPitch(Long userId, MultipartFile lowFile, MultipartFile highFile) {
         String lowPitch = pitchUtil.getPitch(lowFile, false);
         String highPitch = pitchUtil.getPitch(highFile, true);
-		
+        List<Song> able = songRepository.findByMfccMeanLessThanAndStftMeanGreaterThan(0.2f,0.2f);
+        System.out.println(lowPitch+" : "+highPitch);
+        System.out.println(able.size()+" : "+able);
 		return null;
 	}
 
