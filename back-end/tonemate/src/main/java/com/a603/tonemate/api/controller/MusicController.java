@@ -9,6 +9,9 @@ import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.db.repository.SingerRepository;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.enumpack.Genre;
+import com.a603.tonemate.exception.NoFileException;
+import com.a603.tonemate.exception.NotFoundPitchException;
+import com.a603.tonemate.exception.UnsupportedPitchFileException;
 import com.a603.tonemate.security.auth.JwtTokenProvider;
 
 
@@ -70,10 +73,16 @@ public class MusicController {
 
     @ApiOperation(value = "음역대 분석", notes = "음역대 검사를 위한 녹음 wav파일을 분석 및 저장")
     @PostMapping("/pitch")
-    public ResponseEntity<?> analysisPitch(@RequestParam("lowOctave") MultipartFile lowFile, @RequestParam("highOctave") MultipartFile highFile, @RequestParam("genre") String genre) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
-    	PitchAnalysisResp result = musicService.analysisPitch(1L,lowFile, highFile);
 
-        return new ResponseEntity<PitchAnalysisResp>(result, HttpStatus.OK);
+    public ResponseEntity<?> analysisPitch(@RequestParam("lowOctave") MultipartFile lowOctave, @RequestParam("highOctave") MultipartFile highOctave, @RequestParam("genre") String genre) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+//        Long userId = jwtTokenProvider.getId(token);
+    	PitchAnalysisResp result;
+        try {
+            result = musicService.analysisPitch(1L,lowOctave, highOctave);
+        } catch (NoFileException | NotFoundPitchException | UnsupportedPitchFileException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
     
     @ApiOperation(value = "음역대 분석 장르 요청", notes = "음역대 검사에서 장르에 따른 결과 제공")

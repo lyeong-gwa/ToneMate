@@ -1,6 +1,7 @@
 package com.a603.tonemate.api.service.impl;
 
 import com.a603.tonemate.api.service.MusicService;
+import com.a603.tonemate.api.util.PitchUtil;
 import com.a603.tonemate.db.entity.PitchAnalysis;
 import com.a603.tonemate.db.entity.Song;
 import com.a603.tonemate.db.entity.TimbreAnalysis;
@@ -38,7 +39,7 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 public class MusicServiceImpl implements MusicService {
-
+    private final PitchUtil pitchUtil;
     private final TimbreAnalysisRepository timbreAnalysisRepository;
     private final PitchAnalysisRepository pitchAnalysisRepository;
     
@@ -140,7 +141,8 @@ public class MusicServiceImpl implements MusicService {
 
 	@Override
 	public PitchAnalysisResp analysisPitch(Long userId, MultipartFile lowFile, MultipartFile highFile) {
-	
+        String lowPitch = pitchUtil.getPitch(lowFile, false);
+        String highPitch = pitchUtil.getPitch(highFile, true);
 		
 		return null;
 	}
