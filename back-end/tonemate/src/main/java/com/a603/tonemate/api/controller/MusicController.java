@@ -71,27 +71,17 @@ public class MusicController {
     @ApiOperation(value = "음역대 분석", notes = "음역대 검사를 위한 녹음 wav파일을 분석 및 저장")
     @PostMapping("/pitch")
     public ResponseEntity<?> analysisPitch(@RequestParam("lowOctave") MultipartFile low_file, @RequestParam("highOctave") MultipartFile high_file, @RequestParam("genre") String genre) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
-        /*
-         * 1. wav파일을 flask에 전달한다. -> 음역대를 계산한다. -> [최저음, 최고음]
-         * 2. 잘부를 수 있는 노래, 힘들게 부를 수 있는 노래, 부를 수 없는 노래 3등분을 해서 그룹3개를 생성한다. (기준 설정해야한다.)
-         * 3. 장르필터를 거친 다음 각 그룹마다 상위 10개씩 추출한다. (그룹화 전에 장르 필터하면 안된다.)
-         * 4. [최저음, 최고음], [잘부를 수 있는노래 10개], [힘들게 부를 수 있는 노래]
-         * */
-    	PitchAnalysisResp result = musicService.analysisPitch(low_file, high_file);
-    	
-        
-        PitchAnalysis testPitchAnalysis = PitchAnalysis.builder().userId(1L).time(LocalDateTime.now()).build();
-        musicService.savePitchAnalysis(testPitchAnalysis);
+    	PitchAnalysisResp result = musicService.analysisPitch(1L,low_file, high_file);
 
-        return new ResponseEntity<>("음역대 분석", HttpStatus.OK);
+        return new ResponseEntity<PitchAnalysisResp>(result, HttpStatus.OK);
     }
     
     @ApiOperation(value = "음역대 분석 장르 요청", notes = "음역대 검사에서 장르에 따른 결과 제공")
-    @PostMapping("/pitch/{genre}/{pitch_id}")
+    @GetMapping("/pitch/{genre}/{pitch_id}")
     public ResponseEntity<?> analysisPitchByGenre(@PathVariable("genre") String genre,@PathVariable("pitch_id") int pitch_id) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
-    	PitchAnalysisResp result = musicService.analysisPitchByGenre(genre, pitch_id);
+    	PitchAnalysisResp result = musicService.analysisPitchByGenre(1L,genre, pitch_id);
 
-        return new ResponseEntity<>("음역대 분석", HttpStatus.OK);
+        return new ResponseEntity<PitchAnalysisResp>(result, HttpStatus.OK);
     }
     
 

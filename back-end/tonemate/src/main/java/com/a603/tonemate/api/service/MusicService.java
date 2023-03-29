@@ -33,8 +33,8 @@ public interface MusicService {
     void deleteResult(String type, Long resultId);
 
     // 사용자 목소리 wav파일을 받아서 유저의 최저음, 최고음 받기 String[0]은 최저음, String[1]은 최고음
-    PitchAnalysisResp analysisPitch(MultipartFile low_file, MultipartFile high_file);
+    PitchAnalysisResp analysisPitch(Long user_id, MultipartFile low_file, MultipartFile high_file);
     
     // 사용자 음역대 검사 기록에 의한 요청처리
-	PitchAnalysisResp analysisPitchByGenre(String genre, int pitch_id);
+	PitchAnalysisResp analysisPitchByGenre(Long user_id, String genre, int pitch_id);
 }

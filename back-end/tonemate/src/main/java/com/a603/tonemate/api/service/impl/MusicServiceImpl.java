@@ -31,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -138,15 +139,16 @@ public class MusicServiceImpl implements MusicService {
 
 
 	@Override
-	public PitchAnalysisResp analysisPitch(MultipartFile low_file, MultipartFile high_file) {
-		
+	public PitchAnalysisResp analysisPitch(Long user_id, MultipartFile low_file, MultipartFile high_file) {
+		Optional<PitchAnalysis> target_pitch_analysis = pitchAnalysisRepository.findById(user_id);
 		
 		return null;
 	}
 
 	@Override
-	public PitchAnalysisResp analysisPitchByGenre(String genre, int pitch_id) {
-		// TODO Auto-generated method stub
+	public PitchAnalysisResp analysisPitchByGenre(Long user_id, String genre, int pitch_id) {
+		
+		
 		return null;
 	}
 	
