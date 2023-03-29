@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PitchAnalysisRepository extends JpaRepository<PitchAnalysis, Long> {
-    Optional<PitchAnalysis> findByPitchId(Long i);
+    Optional<PitchAnalysis> findByPitchId(Long id);
 
     List<PitchAnalysis> findAllByUserId(Long userId);
 }
