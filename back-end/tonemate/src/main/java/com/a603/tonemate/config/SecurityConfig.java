@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/tokens/reissue").permitAll()
-                .anyRequest().authenticated() // 인가 검증
+                .anyRequest().permitAll()//authenticated() // 인가 검증
                 .and()
                 .oauth2Login()
                 .authorizationEndpoint(authorize -> {

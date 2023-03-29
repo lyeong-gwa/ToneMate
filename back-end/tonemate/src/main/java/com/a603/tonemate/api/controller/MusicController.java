@@ -7,17 +7,33 @@ import com.a603.tonemate.db.entity.PitchAnalysis;
 import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.db.repository.SingerRepository;
 import com.a603.tonemate.security.auth.JwtTokenProvider;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 
 @RestController
@@ -33,6 +49,8 @@ public class MusicController {
     private final SingerRepository singerRepo;
     private final MusicService musicService;
 
+    @Value("${FLASK_DOMAIN}")
+    private String FLASK_DOMAIN;
     @GetMapping("")
     public ResponseEntity<String> checkAlive() {
         return new ResponseEntity<String>("Alive", HttpStatus.OK);
@@ -41,7 +59,7 @@ public class MusicController {
 
     @ApiOperation(value = "음색 분석", notes = "음색 검사를 위한 녹음 wav파일을 분석 및 저장")
     @PostMapping("/timbre")
-    public ResponseEntity<?> analysisTimbre(@RequestParam MultipartFile file) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+    public ResponseEntity<?> analysisTimbre(@RequestParam("file_wav") MultipartFile file) throws Exception {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
         System.out.println("파일 이름! "+ file.getOriginalFilename());
 
         /*
@@ -52,6 +70,29 @@ public class MusicController {
          * 5. {가수배열, 유사도배열, 추천노래 10가지를 return한다.}
          * */
 
+      RestTemplate restTemplate = new RestTemplate();
+      MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+      body.add("file_wav", new ByteArrayResource(file.getBytes()) {
+          @Override
+          public String getFilename() {
+              return "file_wav";
+          }
+      });
+
+      HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+      HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+      ResponseEntity<Map<String, Object>> response = restTemplate.exchange(FLASK_DOMAIN+"/timbre", HttpMethod.POST, requestEntity, new ParameterizedTypeReference<Map<String, Object>>(){});
+
+      if(response.getStatusCode() == HttpStatus.OK) {
+    	  Map<String, Object> result = response.getBody();
+    	  System.out.println(result);
+          System.out.println(result.get("similaritypercent"));
+      } else {
+          System.out.println("Error: " + response.getStatusCodeValue());
+      }
         TimbreAnalysis testTimbreAnalysis = TimbreAnalysis.builder().userId(1L).time(LocalDateTime.now()).build();
         musicService.saveTimbreAnalysis(testTimbreAnalysis);
 
