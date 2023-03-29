@@ -4,8 +4,11 @@ package com.a603.tonemate.api.controller;
 import com.a603.tonemate.api.service.MusicService;
 import com.a603.tonemate.api.service.UserService;
 import com.a603.tonemate.db.entity.PitchAnalysis;
+import com.a603.tonemate.db.entity.Song;
 import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.db.repository.SingerRepository;
+import com.a603.tonemate.dto.response.PitchAnalysisResp;
+import com.a603.tonemate.enumpack.Genre;
 import com.a603.tonemate.security.auth.JwtTokenProvider;
 
 
@@ -21,6 +24,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 
@@ -56,9 +60,6 @@ public class MusicController {
          * 4. 사용자의 특성을 이용해서 1위 가수의 노래들의 특성들과 비교해서 오차율이 가장 낮은 순서대로 10개의 노래를 나열한다.
          * 5. {가수배열, 유사도배열, 추천노래 10가지를 return한다.}
          * */
-        Map<String,Object> analysis_timbre =  musicService.requestFlaskTimbre(file);
-        
-        
         
         TimbreAnalysis testTimbreAnalysis = TimbreAnalysis.builder().userId(1L).time(LocalDateTime.now()).build();
         musicService.saveTimbreAnalysis(testTimbreAnalysis);
@@ -67,23 +68,32 @@ public class MusicController {
     }
 
 
-    @ApiOperation(value = "음역대 분석", notes = "음색 검사를 위한 녹음 wav파일을 분석 및 저장")
+    @ApiOperation(value = "음역대 분석", notes = "음역대 검사를 위한 녹음 wav파일을 분석 및 저장")
     @PostMapping("/pitch")
-    public ResponseEntity<?> analysisPitch(@RequestParam MultipartFile file) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
-        System.out.println("파일 이름! "+ file.getOriginalFilename());
-
+    public ResponseEntity<?> analysisPitch(@RequestParam("lowOctave") MultipartFile low_file, @RequestParam("highOctave") MultipartFile high_file, @RequestParam("genre") String genre) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
         /*
          * 1. wav파일을 flask에 전달한다. -> 음역대를 계산한다. -> [최저음, 최고음]
          * 2. 잘부를 수 있는 노래, 힘들게 부를 수 있는 노래, 부를 수 없는 노래 3등분을 해서 그룹3개를 생성한다. (기준 설정해야한다.)
          * 3. 장르필터를 거친 다음 각 그룹마다 상위 10개씩 추출한다. (그룹화 전에 장르 필터하면 안된다.)
          * 4. [최저음, 최고음], [잘부를 수 있는노래 10개], [힘들게 부를 수 있는 노래]
          * */
-
+    	PitchAnalysisResp result = musicService.analysisPitch(low_file, high_file);
+    	
+        
         PitchAnalysis testPitchAnalysis = PitchAnalysis.builder().userId(1L).time(LocalDateTime.now()).build();
         musicService.savePitchAnalysis(testPitchAnalysis);
 
         return new ResponseEntity<>("음역대 분석", HttpStatus.OK);
     }
+    
+    @ApiOperation(value = "음역대 분석 장르 요청", notes = "음역대 검사에서 장르에 따른 결과 제공")
+    @PostMapping("/pitch/{genre}/{pitch_id}")
+    public ResponseEntity<?> analysisPitchByGenre(@PathVariable("genre") String genre,@PathVariable("pitch_id") int pitch_id) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+    	PitchAnalysisResp result = musicService.analysisPitchByGenre(genre, pitch_id);
+
+        return new ResponseEntity<>("음역대 분석", HttpStatus.OK);
+    }
+    
 
     @ApiOperation(value = "검사 결과 목록", notes = "사용자가 진행했던 분석결과를 리스트로 제공")
     @GetMapping("/result")
@@ -106,7 +116,6 @@ public class MusicController {
         /*
          * type에 따라서 음역대인지 음색인지 구분한다. id는 특정 테이블에 속한 결과 데이터의 id를 지정하고 해당 데이터를 삭제한다.
          * */
-
         musicService.deleteResult(type, id);
 
         return new ResponseEntity<>("검사 결과 삭제", HttpStatus.OK);

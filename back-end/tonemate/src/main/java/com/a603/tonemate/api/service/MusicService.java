@@ -1,6 +1,7 @@
 package com.a603.tonemate.api.service;
 
 import com.a603.tonemate.db.entity.PitchAnalysis;
+import com.a603.tonemate.db.entity.Song;
 import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.dto.response.ResultResp;
@@ -30,7 +31,10 @@ public interface MusicService {
 
     // 검사 결과 삭제
     void deleteResult(String type, Long resultId);
+
+    // 사용자 목소리 wav파일을 받아서 유저의 최저음, 최고음 받기 String[0]은 최저음, String[1]은 최고음
+    PitchAnalysisResp analysisPitch(MultipartFile low_file, MultipartFile high_file);
     
-    // flask에게 파일주고 결과값 요청
-    Map<String,Object> requestFlaskTimbre(MultipartFile file) throws Exception;
+    // 사용자 음역대 검사 기록에 의한 요청처리
+	PitchAnalysisResp analysisPitchByGenre(String genre, int pitch_id);
 }

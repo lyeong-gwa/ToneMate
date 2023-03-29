@@ -1,11 +1,8 @@
 package com.a603.tonemate.enumpack;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-
 public enum Genre {
 	BALLADE("발라드"),
 	ROCK("락");
-
 	final private String code;
 	private Genre(String code) { 
         this.code = code;

@@ -2,6 +2,7 @@ package com.a603.tonemate.api.service.impl;
 
 import com.a603.tonemate.api.service.MusicService;
 import com.a603.tonemate.db.entity.PitchAnalysis;
+import com.a603.tonemate.db.entity.Song;
 import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.db.repository.PitchAnalysisRepository;
 import com.a603.tonemate.db.repository.TimbreAnalysisRepository;
@@ -39,8 +40,7 @@ public class MusicServiceImpl implements MusicService {
 
     private final TimbreAnalysisRepository timbreAnalysisRepository;
     private final PitchAnalysisRepository pitchAnalysisRepository;
-    @Value("${FLASK_DOMAIN}")
-    private String FLASK_DOMAIN;
+    
     @Override
     public TimbreAnalysisResp saveTimbreAnalysis(TimbreAnalysis timbreAnalysis) {
 
@@ -136,31 +136,18 @@ public class MusicServiceImpl implements MusicService {
         }
     }
 
+
 	@Override
-	public Map<String, Object> requestFlaskTimbre(MultipartFile file) throws Exception {
-		RestTemplate restTemplate = new RestTemplate();
-	      MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-	      body.add("file_wav", new ByteArrayResource(file.getBytes()) {
-	          @Override
-	          public String getFilename() {
-	              return "file_wav";
-	          }
-	      });
-
-	      HttpHeaders headers = new HttpHeaders();
-	      headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-	      HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
-	      ResponseEntity<Map<String, Object>> response = restTemplate.exchange(FLASK_DOMAIN+"/timbre", HttpMethod.POST, requestEntity, new ParameterizedTypeReference<Map<String, Object>>(){});
-
-	      if(response.getStatusCode() == HttpStatus.OK) {
-	    	  Map<String, Object> result = response.getBody();
-	    	  System.out.println(result);
-	          System.out.println(result.get("similaritypercent"));
-	      } else {
-	          System.out.println("Error: " + response.getStatusCodeValue());
-	      }
+	public PitchAnalysisResp analysisPitch(MultipartFile low_file, MultipartFile high_file) {
+		
+		
 		return null;
 	}
+
+	@Override
+	public PitchAnalysisResp analysisPitchByGenre(String genre, int pitch_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
