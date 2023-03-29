@@ -19,7 +19,7 @@ services:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
 
     ports:
-      - 5001:5000
+      - ${SPRING_PORT}:5000
     command: java -jar /tonemate/build/libs/tonemate-0.0.1-SNAPSHOT.jar
 
   flask:
