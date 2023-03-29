@@ -2,6 +2,7 @@ package com.a603.tonemate.api.service.impl;
 
 import com.a603.tonemate.api.service.MusicService;
 import com.a603.tonemate.db.entity.PitchAnalysis;
+import com.a603.tonemate.db.entity.Song;
 import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.db.repository.PitchAnalysisRepository;
 import com.a603.tonemate.db.repository.TimbreAnalysisRepository;
@@ -9,11 +10,27 @@ import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.dto.response.ResultResp;
 import com.a603.tonemate.dto.response.TimbreAnalysisResp;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,7 +40,7 @@ public class MusicServiceImpl implements MusicService {
 
     private final TimbreAnalysisRepository timbreAnalysisRepository;
     private final PitchAnalysisRepository pitchAnalysisRepository;
-
+    
     @Override
     public TimbreAnalysisResp saveTimbreAnalysis(TimbreAnalysis timbreAnalysis) {
 
@@ -118,4 +135,19 @@ public class MusicServiceImpl implements MusicService {
             pitchAnalysisRepository.deleteById(resultId);
         }
     }
+
+
+	@Override
+	public PitchAnalysisResp analysisPitch(MultipartFile low_file, MultipartFile high_file) {
+		
+		
+		return null;
+	}
+
+	@Override
+	public PitchAnalysisResp analysisPitchByGenre(String genre, int pitch_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
