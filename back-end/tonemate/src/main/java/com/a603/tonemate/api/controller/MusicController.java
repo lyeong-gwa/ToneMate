@@ -50,7 +50,7 @@ public class MusicController {
 
     @ApiOperation(value = "음색 분석", notes = "음색 검사를 위한 녹음 wav파일을 분석 및 저장")
     @PostMapping("/timbre")
-    public ResponseEntity<?> analysisTimbre(@RequestParam("file_wav") MultipartFile file) throws Exception {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+    public ResponseEntity<?> analysisTimbre(@RequestParam("fileWav") MultipartFile file) throws Exception {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
         System.out.println("파일 이름! "+ file.getOriginalFilename());
 
         /*
@@ -70,16 +70,16 @@ public class MusicController {
 
     @ApiOperation(value = "음역대 분석", notes = "음역대 검사를 위한 녹음 wav파일을 분석 및 저장")
     @PostMapping("/pitch")
-    public ResponseEntity<?> analysisPitch(@RequestParam("lowOctave") MultipartFile low_file, @RequestParam("highOctave") MultipartFile high_file, @RequestParam("genre") String genre) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
-    	PitchAnalysisResp result = musicService.analysisPitch(1L,low_file, high_file);
+    public ResponseEntity<?> analysisPitch(@RequestParam("lowOctave") MultipartFile lowFile, @RequestParam("highOctave") MultipartFile highFile, @RequestParam("genre") String genre) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+    	PitchAnalysisResp result = musicService.analysisPitch(1L,lowFile, highFile);
 
         return new ResponseEntity<PitchAnalysisResp>(result, HttpStatus.OK);
     }
     
     @ApiOperation(value = "음역대 분석 장르 요청", notes = "음역대 검사에서 장르에 따른 결과 제공")
-    @GetMapping("/pitch/{genre}/{pitch_id}")
-    public ResponseEntity<?> analysisPitchByGenre(@PathVariable("genre") String genre,@PathVariable("pitch_id") int pitch_id) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
-    	PitchAnalysisResp result = musicService.analysisPitchByGenre(1L,genre, pitch_id);
+    @GetMapping("/pitch/{genre}/{pitchId}")
+    public ResponseEntity<?> analysisPitchByGenre(@PathVariable("genre") String genre,@PathVariable("pitchId") int pitchId) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+    	PitchAnalysisResp result = musicService.analysisPitchByGenre(1L,genre, pitchId);
 
         return new ResponseEntity<PitchAnalysisResp>(result, HttpStatus.OK);
     }

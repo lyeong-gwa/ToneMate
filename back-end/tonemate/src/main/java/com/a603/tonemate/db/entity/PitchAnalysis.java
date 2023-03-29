@@ -20,19 +20,19 @@ public class PitchAnalysis {
     private Long pitchId;
     private Long userId;
 
-    private int octave_low;
-    private int octave_high;
+    private int octaveLow;
+    private int octaveHigh;
 
     @CreatedDate
     private LocalDateTime time;
 
     @Builder
-	public PitchAnalysis(Long pitchId, Long userId, int octave_low, int octave_high, LocalDateTime time) {
+	public PitchAnalysis(Long pitchId, Long userId, int octaveLow, int octaveHigh, LocalDateTime time) {
 		super();
 		this.pitchId = pitchId;
 		this.userId = userId;
-		this.octave_low = octave_low;
-		this.octave_high = octave_high;
+		this.octaveLow = octaveLow;
+		this.octaveHigh = octaveHigh;
 		this.time = time;
 	}
 }

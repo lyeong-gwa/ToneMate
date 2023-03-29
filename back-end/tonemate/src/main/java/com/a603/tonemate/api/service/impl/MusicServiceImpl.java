@@ -139,14 +139,14 @@ public class MusicServiceImpl implements MusicService {
 
 
 	@Override
-	public PitchAnalysisResp analysisPitch(Long user_id, MultipartFile low_file, MultipartFile high_file) {
-		Optional<PitchAnalysis> target_pitch_analysis = pitchAnalysisRepository.findById(user_id);
+	public PitchAnalysisResp analysisPitch(Long userId, MultipartFile lowFile, MultipartFile highFile) {
+	
 		
 		return null;
 	}
 
 	@Override
-	public PitchAnalysisResp analysisPitchByGenre(Long user_id, String genre, int pitch_id) {
+	public PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, int pitchId) {
 		
 		
 		return null;
