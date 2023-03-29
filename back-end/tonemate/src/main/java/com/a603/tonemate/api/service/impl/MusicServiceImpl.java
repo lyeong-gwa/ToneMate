@@ -9,11 +9,27 @@ import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.dto.response.ResultResp;
 import com.a603.tonemate.dto.response.TimbreAnalysisResp;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,7 +39,8 @@ public class MusicServiceImpl implements MusicService {
 
     private final TimbreAnalysisRepository timbreAnalysisRepository;
     private final PitchAnalysisRepository pitchAnalysisRepository;
-
+    @Value("${FLASK_DOMAIN}")
+    private String FLASK_DOMAIN;
     @Override
     public TimbreAnalysisResp saveTimbreAnalysis(TimbreAnalysis timbreAnalysis) {
 
@@ -118,4 +135,32 @@ public class MusicServiceImpl implements MusicService {
             pitchAnalysisRepository.deleteById(resultId);
         }
     }
+
+	@Override
+	public Map<String, Object> requestFlaskTimbre(MultipartFile file) throws Exception {
+		RestTemplate restTemplate = new RestTemplate();
+	      MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+	      body.add("file_wav", new ByteArrayResource(file.getBytes()) {
+	          @Override
+	          public String getFilename() {
+	              return "file_wav";
+	          }
+	      });
+
+	      HttpHeaders headers = new HttpHeaders();
+	      headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+	      HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+	      ResponseEntity<Map<String, Object>> response = restTemplate.exchange(FLASK_DOMAIN+"/timbre", HttpMethod.POST, requestEntity, new ParameterizedTypeReference<Map<String, Object>>(){});
+
+	      if(response.getStatusCode() == HttpStatus.OK) {
+	    	  Map<String, Object> result = response.getBody();
+	    	  System.out.println(result);
+	          System.out.println(result.get("similaritypercent"));
+	      } else {
+	          System.out.println("Error: " + response.getStatusCodeValue());
+	      }
+		return null;
+	}
 }

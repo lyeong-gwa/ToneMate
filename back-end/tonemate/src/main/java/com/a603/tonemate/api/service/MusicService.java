@@ -7,6 +7,9 @@ import com.a603.tonemate.dto.response.ResultResp;
 import com.a603.tonemate.dto.response.TimbreAnalysisResp;
 
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public interface MusicService {
 
@@ -27,4 +30,7 @@ public interface MusicService {
 
     // 검사 결과 삭제
     void deleteResult(String type, Long resultId);
+    
+    // flask에게 파일주고 결과값 요청
+    Map<String,Object> requestFlaskTimbre(MultipartFile file) throws Exception;
 }
