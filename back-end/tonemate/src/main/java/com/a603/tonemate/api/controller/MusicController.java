@@ -60,14 +60,15 @@ public class MusicController {
 
     @ApiOperation(value = "음역대 분석", notes = "음역대 검사를 위한 녹음 wav파일을 분석 및 저장")
     @PostMapping("/pitch")
-    public ResponseEntity<?> analysisPitch(@RequestParam("lowOctave") MultipartFile lowOctave, @RequestParam("highOctave") MultipartFile highOctave) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+    public ResponseEntity<?> analysisPitch(@RequestPart("lowOctave") MultipartFile lowOctave, @RequestPart("highOctave") MultipartFile highOctave) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
 //        Long userId = jwtTokenProvider.getId(token);
     	PitchAnalysisResp result;
         try {
             result = musicService.analysisPitch(1L,lowOctave, highOctave);
-        } catch (NoFileException | NotFoundPitchException | UnsupportedPitchFileException e) {
+        } catch (NoFileException | UnsupportedPitchFileException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     

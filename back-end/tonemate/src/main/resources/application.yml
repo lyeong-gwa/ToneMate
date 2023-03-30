@@ -17,7 +17,7 @@ spring:
             redirect-uri: http://localhost:3000/oauth/login/kakao
             authorization-grant-type: authorization_code
             client-id: ${KAKAO_ID}
-            scope: profile_nickname,account_email
+            scope: profile_nickname,account_email,profile_image
             client-name: kakao
           google:
             redirect-uri: http://localhost:3000/google
@@ -50,7 +50,7 @@ spring:
   servlet:
     multipart:
       max-file-size: 100MB
-      max-request-size: 100MB
+      max-request-size: 200MB
 springfox:
   documentation:
     swagger:

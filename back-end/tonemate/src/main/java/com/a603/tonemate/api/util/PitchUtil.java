@@ -3,14 +3,15 @@ package com.a603.tonemate.api.util;
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;
 import be.tarsos.dsp.pitch.PitchProcessor;
+import com.a603.tonemate.dto.common.PitchResult;
 import com.a603.tonemate.exception.NoFileException;
-import com.a603.tonemate.exception.NotFoundPitchException;
 import com.a603.tonemate.exception.UnsupportedPitchFileException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,32 +37,38 @@ public class PitchUtil {
             "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4",
     };
 
-    private int getPitch(List<Float> highPitch, List<Float> highTime, boolean isHigh) {
+    private int getPitch(List<Float> pitchArray, List<Float> timeArray, boolean isHigh) {
         int selectedPitch = isHigh ? -1 : 60;
-        int curPitch = binarySearch(octave, highPitch.get(0));
-        float curTime = highTime.get(0);
-        for (int i = 1; i < highPitch.size(); i++) {
-            int pitch = binarySearch(octave, highPitch.get(i));
+        int curPitch = binarySearch(octave, pitchArray.get(0));
+        float curTime = timeArray.get(0);
+        int compPitch = curPitch;
+        for (int i = 1; i < pitchArray.size(); i++) {
+            int pitch = binarySearch(octave, pitchArray.get(i));
             if (isHigh ? selectedPitch > pitch : selectedPitch < pitch) {
                 continue;
             }
-            if (curPitch != pitch) {
+            if (Math.abs(curPitch - pitch) > 1 || (curPitch != pitch && curPitch != compPitch && compPitch != pitch)) {
                 curPitch = pitch;
-                curTime = highTime.get(i);
+                compPitch = pitch;
+                curTime = timeArray.get(i);
                 continue;
             }
-            float time = highTime.get(i) - curTime;
-            if (time > 2) {
-                selectedPitch = curPitch;
+            if (curPitch != pitch) {
+                compPitch = pitch;
             }
-        }
-        if (selectedPitch == (isHigh ? -1 : 60)) {
-            throw new NotFoundPitchException(isHigh);
+            float time = timeArray.get(i) - curTime;
+            if (time > 2) {
+                selectedPitch = Math.min(curPitch, compPitch);
+            }
         }
         return selectedPitch;
     }
 
-    public String getPitch(MultipartFile multipartFile, boolean isHigh) {
+    public String getOctaveName(int pitch) {
+        return octaveName[pitch];
+    }
+
+    public PitchResult getPitch(MultipartFile multipartFile, boolean isHigh) {
         List<Float> pitchArray = new ArrayList<>();
         List<Float> timeArray = new ArrayList<>();
         File file = saveFile(multipartFile, isHigh);
@@ -78,22 +85,24 @@ public class PitchUtil {
             dispatcher.addAudioProcessor(pitchProcessor);
             dispatcher.run();
         } catch (UnsupportedAudioFileException | IOException e) {
-            throw new UnsupportedPitchFileException(isHigh ? "높은" : "낮은" + " 음역대 파일이 잘못됨");
+            throw new UnsupportedPitchFileException((isHigh ? "높은" : "낮은") + " 음역대 파일이 잘못됨");
         } finally {
             file.delete();
         }
-        return octaveName[getPitch(pitchArray, timeArray, isHigh)];
+        return new PitchResult(getPitch(pitchArray, timeArray, isHigh), true);
     }
 
     private File saveFile(MultipartFile multipartFile, boolean isHigh) {
         File file;
         try {
             file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-            multipartFile.transferTo(file);
+            file.createNewFile();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(multipartFile.getBytes());
         } catch (IOException e) {
-            throw new UnsupportedPitchFileException(isHigh ? "높은" : "낮은" + " 음역대 파일이 잘못됨");
+            throw new UnsupportedPitchFileException((isHigh ? "높은" : "낮은") + " 음역대 파일이 잘못됨");
         } catch (NullPointerException e) {
-            throw new NoFileException(isHigh ? "높은" : "낮은" + " 음역대 파일이 없음");
+            throw new NoFileException((isHigh ? "높은" : "낮은") + " 음역대 파일이 없음");
         }
         return file;
     }

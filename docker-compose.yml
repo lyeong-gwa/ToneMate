@@ -17,7 +17,9 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
-
+      - FLASK_DOMAIN=${FLASK_DOMAIN}
+    volumes:
+      - AI_DATA:/DATA
     ports:
       - ${SPRING_PORT}:5000
     command: java -jar /tonemate/build/libs/tonemate-0.0.1-SNAPSHOT.jar

@@ -9,6 +9,7 @@ import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.db.repository.PitchAnalysisRepository;
 import com.a603.tonemate.db.repository.SongRepository;
 import com.a603.tonemate.db.repository.TimbreAnalysisRepository;
+import com.a603.tonemate.dto.common.PitchResult;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.dto.response.ResultResp;
 import com.a603.tonemate.dto.response.SingerDetailResp;
@@ -18,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+
 import java.util.*;
-import java.util.stream.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +32,7 @@ public class MusicServiceImpl implements MusicService {
     private final TimbreAnalysisRepository timbreAnalysisRepository;
     private final PitchAnalysisRepository pitchAnalysisRepository;
     private final SongRepository songRepository;
+
     @Override
     public TimbreAnalysisResp saveTimbreAnalysis(Long userId, MultipartFile file) throws Exception {
 
@@ -198,21 +202,21 @@ public class MusicServiceImpl implements MusicService {
     }
 
 
-	@Override
-	public PitchAnalysisResp analysisPitch(Long userId, MultipartFile lowFile, MultipartFile highFile) {
-        String lowPitch = pitchUtil.getPitch(lowFile, false);
-        String highPitch = pitchUtil.getPitch(highFile, true);
-        List<Song> able = songRepository.findByMfccMeanLessThanAndStftMeanGreaterThan(0.2f,0.2f);
-        System.out.println(lowPitch+" : "+highPitch);
-        System.out.println(able.size()+" : "+able);
-		return null;
-	}
+    @Override
+    public PitchAnalysisResp analysisPitch(Long userId, MultipartFile lowFile, MultipartFile highFile) {
+        PitchResult lowPitch = pitchUtil.getPitch(lowFile, false);
+        PitchResult highPitch = pitchUtil.getPitch(highFile, true);
+        List<Song> able = songRepository.findTop3ByMfccMeanLessThanOrStftMeanGreaterThan(0.2f, 0.2f);
+        System.out.println(lowPitch + " : " + highPitch);
+        System.out.println(able.size() + " : " + able);
+        return PitchAnalysisResp.builder().lowOctave(pitchUtil.getOctaveName(lowPitch.getPitch())).highOctave(pitchUtil.getOctaveName(highPitch.getPitch())).build();
+    }
 
-	@Override
-	public PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, int pitchId) {
-		
-		
-		return null;
-	}
-	
+    @Override
+    public PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, int pitchId) {
+
+
+        return null;
+    }
+
 }
