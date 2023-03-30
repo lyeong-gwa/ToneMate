@@ -1,6 +1,7 @@
 package com.a603.tonemate.api.service.impl;
 
 import com.a603.tonemate.api.service.MusicService;
+import com.a603.tonemate.api.util.FlaskUtil;
 import com.a603.tonemate.api.util.PitchUtil;
 import com.a603.tonemate.db.entity.PitchAnalysis;
 import com.a603.tonemate.db.entity.Song;
@@ -10,56 +11,113 @@ import com.a603.tonemate.db.repository.SongRepository;
 import com.a603.tonemate.db.repository.TimbreAnalysisRepository;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.dto.response.ResultResp;
+import com.a603.tonemate.dto.response.SingerDetailResp;
 import com.a603.tonemate.dto.response.TimbreAnalysisResp;
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
+import java.util.stream.*;
 
 @Service
 @RequiredArgsConstructor
 public class MusicServiceImpl implements MusicService {
+    private final FlaskUtil flaskUtil;
     private final PitchUtil pitchUtil;
     private final TimbreAnalysisRepository timbreAnalysisRepository;
     private final PitchAnalysisRepository pitchAnalysisRepository;
     private final SongRepository songRepository;
     @Override
-    public TimbreAnalysisResp saveTimbreAnalysis(TimbreAnalysis timbreAnalysis) {
+    public TimbreAnalysisResp saveTimbreAnalysis(Long userId, MultipartFile file) throws Exception {
 
-        TimbreAnalysis newTimbreAnalysis = TimbreAnalysis.builder()
-                .timbreId(timbreAnalysis.getTimbreId())
-                .userId(timbreAnalysis.getUserId())
-                .time(LocalDateTime.now()).build();
+        // 플라스크 서버에 분석 처리 요청 후 결과값 받아오기
+        Map<String, Object> result = flaskUtil.requestTimbre(file);
 
-        TimbreAnalysis saveTimbreAnalysis = timbreAnalysisRepository.save(newTimbreAnalysis);
+        // 분석 결과 데이터 가공하여 응답
+        if (result != null) {
 
-        TimbreAnalysisResp timbreAnalysisResp = TimbreAnalysisResp.builder()
-                .timbreId(saveTimbreAnalysis.getTimbreId())
-                .time(saveTimbreAnalysis.getTime())
-                .build();
+            // 유사도 높은 순으로 정렬 (내림차순)
+            TreeSet<SingerDetailResp> set = new TreeSet<>();
 
-        return timbreAnalysisResp;
+            List<String> singers = (ArrayList<String>) result.get("singer");
+            List<Double> similarityPercents = (ArrayList<Double>) result.get("similaritypercent");
+            System.out.println("가수: " + singers);
+            System.out.println("유사도: " + similarityPercents.get(0).floatValue());
+
+            for (int i = 0; i < singers.size(); i++) {
+                Long singerId = Long.valueOf((i + 1));
+//                  Long singerId = singerRepository.findByName(singerName).get().getSingerId();
+                String singerName = singers.get(i);
+                float similarityPercent = similarityPercents.get(i).floatValue();
+                set.add(new SingerDetailResp(singerId, singerName, similarityPercent));
+            }
+
+            // 상위 5개의 객체 가져오기
+            List<SingerDetailResp> topFive = new ArrayList<>();
+            for (SingerDetailResp detail : set) {
+                detail.setSongList(songRepository.findFirst5BySingerId(detail.getSingerId()));
+                topFive.add(detail);
+                if (topFive.size() == 5) {
+                    break;
+                }
+            }
+            System.out.println("정렬된 결과: " + set);
+            System.out.println("상위 5개: " + topFive);
+
+            TimbreAnalysis newTimbreAnalysis = TimbreAnalysis.builder()
+                    .userId(userId)
+                    .mfccMean(((Double)result.get("mfcc_mean")).floatValue())
+                    .stftMean(((Double)result.get("stft_mean")).floatValue())
+                    .zcrMean(((Double)result.get("zcr_mean")).floatValue())
+                    .spcMean(((Double)result.get("spc_mean")).floatValue())
+                    .sprMean(((Double)result.get("spr_mean")).floatValue())
+                    .rmsMean(((Double)result.get("rms_mean")).floatValue())
+                    .mfccVar(((Double)result.get("mfcc_mean")).floatValue())
+                    .stftVar(((Double)result.get("stft_mean")).floatValue())
+                    .zcrVar(((Double)result.get("zcr_mean")).floatValue())
+                    .spcVar(((Double)result.get("spc_mean")).floatValue())
+                    .sprVar(((Double)result.get("spr_mean")).floatValue())
+                    .rmsVar(((Double)result.get("rms_mean")).floatValue())
+                    .singer1(topFive.get(0).getSingerId())
+                    .singer2(topFive.get(1).getSingerId())
+                    .singer3(topFive.get(2).getSingerId())
+                    .singer4(topFive.get(3).getSingerId())
+                    .singer5(topFive.get(4).getSingerId())
+                    .similarity1(topFive.get(0).getSimilarityPercent())
+                    .similarity2(topFive.get(1).getSimilarityPercent())
+                    .similarity3(topFive.get(2).getSimilarityPercent())
+                    .similarity4(topFive.get(3).getSimilarityPercent())
+                    .similarity5(topFive.get(4).getSimilarityPercent())
+                    .time(LocalDateTime.now()).build();
+
+            // 분석 결과 데이터베이스에 저장
+            TimbreAnalysis saveTimbreAnalysis = timbreAnalysisRepository.save(newTimbreAnalysis);
+
+            List<Long> singerIdList = topFive.stream().map(SingerDetailResp::getSingerId).collect(Collectors.toList());
+            // 분석 결과 응답 데이터 생성
+            TimbreAnalysisResp timbreAnalysisResp = TimbreAnalysisResp.builder()
+                    .mfccMean(saveTimbreAnalysis.getMfccMean())
+                    .stftMean(saveTimbreAnalysis.getStftMean())
+                    .zcrMean(saveTimbreAnalysis.getZcrMean())
+                    .spcMean(saveTimbreAnalysis.getSpcMean())
+                    .sprMean(saveTimbreAnalysis.getSprMean())
+                    .rmsMean(saveTimbreAnalysis.getRmsMean())
+                    .mfccVar(saveTimbreAnalysis.getMfccVar())
+                    .stftVar(saveTimbreAnalysis.getStftVar())
+                    .zcrVar(saveTimbreAnalysis.getZcrVar())
+                    .spcVar(saveTimbreAnalysis.getSpcVar())
+                    .sprVar(saveTimbreAnalysis.getSprVar())
+                    .rmsVar(saveTimbreAnalysis.getRmsVar())
+                    .timbreId(saveTimbreAnalysis.getTimbreId())
+                    .time(saveTimbreAnalysis.getTime())
+                    .singerDetails(topFive)
+                    .build();
+            return timbreAnalysisResp;
+        }
+
+        return null;
     }
 
     @Override

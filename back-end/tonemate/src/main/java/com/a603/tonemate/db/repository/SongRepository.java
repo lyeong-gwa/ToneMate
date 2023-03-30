@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface SongRepository extends JpaRepository<Song, Long> {
     Optional<Song> findBySongId(Long i);
     List<Song> findByMfccMeanLessThanAndStftMeanGreaterThan(Float d, Float e);
+    List<Song> findFirst5BySingerId(Long singerId);
 }

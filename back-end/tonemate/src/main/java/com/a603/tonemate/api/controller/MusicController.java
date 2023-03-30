@@ -3,32 +3,21 @@ package com.a603.tonemate.api.controller;
 
 import com.a603.tonemate.api.service.MusicService;
 import com.a603.tonemate.api.service.UserService;
-import com.a603.tonemate.db.entity.PitchAnalysis;
-import com.a603.tonemate.db.entity.Song;
-import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.db.repository.SingerRepository;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
-import com.a603.tonemate.enumpack.Genre;
 import com.a603.tonemate.exception.NoFileException;
 import com.a603.tonemate.exception.NotFoundPitchException;
 import com.a603.tonemate.exception.UnsupportedPitchFileException;
 import com.a603.tonemate.security.auth.JwtTokenProvider;
-
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -63,11 +52,9 @@ public class MusicController {
          * 4. 사용자의 특성을 이용해서 1위 가수의 노래들의 특성들과 비교해서 오차율이 가장 낮은 순서대로 10개의 노래를 나열한다.
          * 5. {가수배열, 유사도배열, 추천노래 10가지를 return한다.}
          * */
-        
-        TimbreAnalysis testTimbreAnalysis = TimbreAnalysis.builder().userId(1L).time(LocalDateTime.now()).build();
-        musicService.saveTimbreAnalysis(testTimbreAnalysis);
 
-        return new ResponseEntity<>("음색 분석", HttpStatus.OK);
+//        return new ResponseEntity<>("음색 분석", HttpStatus.OK);
+        return new ResponseEntity<>(musicService.saveTimbreAnalysis(1L, file), HttpStatus.OK);
     }
 
 
