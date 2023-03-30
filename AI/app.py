@@ -16,8 +16,8 @@ def similarityPercent():
     processing_data = PROCESSING.preprocess_features([trans_data],feature_size = trans_data.shape[0])
     pred = model.predict(processing_data)
     
-    processing_data_mean = processing_data.mean(axis=1)
-    processing_data_var = processing_data.var(axis=1)
+    processing_data_mean = processing_data.mean(axis=1)[0]
+    processing_data_var = processing_data.var(axis=1)[0]
     
     processing_data_mean = (processing_data_mean-MEAN_G_MEAN_BY_COL)/MEAN_G_STD_BY_COL
     processing_data_var = (processing_data_var-VAR_G_MEAN_BY_COL)/VAR_G_STD_BY_COL
