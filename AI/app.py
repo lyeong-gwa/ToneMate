@@ -23,8 +23,8 @@ def similarityPercent():
     processing_data_var = (processing_data_var-VAR_G_MEAN_BY_COL)/VAR_G_STD_BY_COL
 
     return_obj = dict()
-    return_obj["singer"] = label_classes.tolist()[0]
-    return_obj["similaritypercent"] = pred.tolist()
+    return_obj["singer"] = label_classes.tolist()
+    return_obj["similaritypercent"] = pred.tolist()[0]
     return_obj["mfcc_mean"] = processing_data_mean[:20].mean()
     return_obj["stft_mean"] = processing_data_mean[20:31].mean()
     return_obj["zcr_mean"] = processing_data_mean[32]
