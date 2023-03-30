@@ -5,7 +5,6 @@ import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;
 import be.tarsos.dsp.pitch.PitchProcessor;
 import com.a603.tonemate.dto.common.PitchResult;
 import com.a603.tonemate.exception.NoFileException;
-import com.a603.tonemate.exception.NotFoundPitchException;
 import com.a603.tonemate.exception.UnsupportedPitchFileException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,13 +47,13 @@ public class PitchUtil {
             if (isHigh ? selectedPitch > pitch : selectedPitch < pitch) {
                 continue;
             }
-            if (Math.abs(curPitch - pitch)>1 || (curPitch != pitch && curPitch != compPitch && compPitch != pitch)) {
+            if (Math.abs(curPitch - pitch) > 1 || (curPitch != pitch && curPitch != compPitch && compPitch != pitch)) {
                 curPitch = pitch;
                 compPitch = pitch;
                 curTime = timeArray.get(i);
                 continue;
             }
-            if(curPitch != pitch){
+            if (curPitch != pitch) {
                 compPitch = pitch;
             }
             float time = timeArray.get(i) - curTime;
@@ -63,6 +62,10 @@ public class PitchUtil {
             }
         }
         return selectedPitch;
+    }
+
+    public String getOctaveName(int pitch) {
+        return octaveName[pitch];
     }
 
     public PitchResult getPitch(MultipartFile multipartFile, boolean isHigh) {
@@ -86,11 +89,7 @@ public class PitchUtil {
         } finally {
             file.delete();
         }
-        try{
-            return new PitchResult(octaveName[getPitch(pitchArray, timeArray, isHigh)], true);
-        } catch(ArrayIndexOutOfBoundsException e){
-            return new PitchResult((isHigh ? "높은" : "낮은") +" 음역대를 측정하지 못함", false);
-        }
+        return new PitchResult(getPitch(pitchArray, timeArray, isHigh), true);
     }
 
     private File saveFile(MultipartFile multipartFile, boolean isHigh) {

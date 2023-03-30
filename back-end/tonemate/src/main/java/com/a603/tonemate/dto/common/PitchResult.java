@@ -6,6 +6,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class PitchResult {
-    String pitch;
-    boolean isSuccess;
+    private int pitch;
+    private boolean isSuccess;
 }
