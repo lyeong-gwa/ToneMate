@@ -19,7 +19,7 @@ public class TokenInfo {
     public ResponseCookie generateAccessToken() {
         return ResponseCookie
                 .from(JwtProperties.ACCESS_TOKEN, this.accessToken)
-                .domain("localhost")
+//                .domain("localhost")
                 .path("/")
                 .maxAge(JwtProperties.ACCESS_TOKEN_TIME)
                 .httpOnly(true)
@@ -31,7 +31,7 @@ public class TokenInfo {
     public ResponseCookie generateRefreshToken() {
         return ResponseCookie
                 .from(JwtProperties.REFRESH_TOKEN, this.refreshToken)
-                .domain("localhost")
+//                .domain("localhost")
                 .path("/")
                 .maxAge(JwtProperties.REFRESH_TOKEN_TIME)
                 .httpOnly(true)
