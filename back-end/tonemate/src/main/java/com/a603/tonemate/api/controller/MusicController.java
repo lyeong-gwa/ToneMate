@@ -80,7 +80,7 @@ public class MusicController {
             result = musicService.analysisPitch(1L,lowOctave, highOctave);
         } catch (NoFileException | NotFoundPitchException | UnsupportedPitchFileException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        }	
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     
