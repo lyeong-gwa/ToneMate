@@ -1,5 +1,6 @@
 package com.a603.tonemate.dto.response;
 
+import com.a603.tonemate.db.entity.Song;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -9,8 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
-import com.a603.tonemate.db.entity.Song;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,19 +24,19 @@ public class PitchAnalysisResp {
     private String lowOctave;
 
     @ApiModelProperty(value = "사용자 음역대의 최고음")
-    private String high_Octave;
+    private String highOctave;
 
     @ApiModelProperty(value = "음역대 분석 검사 일시")
     private LocalDateTime time;
-    
+
     @ApiModelProperty(value = "잘 부를 수 있는 노래")
     private List<Song> passibleSong;
-    
+
     @ApiModelProperty(value = "적당히 부를 수 있는 노래")
     private List<Song> normalSong;
-    
+
     @ApiModelProperty(value = "못 부르는 노래")
     private List<Song> impassibleSong;
-    
-    
+
+
 }
