@@ -22,22 +22,22 @@ public class PitchAnalysisResp {
     private Long pitchId;
 
     @ApiModelProperty(value = "사용자 음역대의 최저음")
-    private String octave_low;
+    private String lowOctave;
 
     @ApiModelProperty(value = "사용자 음역대의 최고음")
-    private String octave_high;
+    private String high_Octave;
 
     @ApiModelProperty(value = "음역대 분석 검사 일시")
     private LocalDateTime time;
     
     @ApiModelProperty(value = "잘 부를 수 있는 노래")
-    private List<Song> song_list_good;
+    private List<Song> passibleSong;
     
     @ApiModelProperty(value = "적당히 부를 수 있는 노래")
-    private List<Song> song_list_nomal;
+    private List<Song> normalSong;
     
     @ApiModelProperty(value = "못 부르는 노래")
-    private List<Song> song_list_bad;
+    private List<Song> impassibleSong;
     
     
 }

@@ -142,14 +142,14 @@ public class MusicServiceImpl implements MusicService {
 
 	@Override
 	public PitchAnalysisResp analysisPitch(Long userId, MultipartFile lowFile, MultipartFile highFile) {
-        String lowPitch = pitchUtil.getPitch(lowFile, false);
-        String highPitch = pitchUtil.getPitch(highFile, true);
-        List<Song> able = songRepository.findByMfccMeanLessThanAndStftMeanGreaterThan(0.2f,0.2f);
-        System.out.println(lowPitch+" : "+highPitch);
-        System.out.println(able.size()+" : "+able);
+//      String lowPitch = pitchUtil.getPitch(lowFile, false);
+//      String highPitch = pitchUtil.getPitch(highFile, true);
+//		System.out.println(lowPitch+" : "+highPitch);
+        List<Song> passibleSong = songRepository.findTop3ByMfccMeanGreaterThanAndStftMeanLessThan(0.2f,0.2f);
+        List<Song> normalSong = songRepository.findTop3ByMfccMeanGreaterThanAndStftMeanLessThan(0.1f,0.3f);
+        List<Song> impassibleSong = songRepository.findTop3ByMfccMeanLessThanOrStftMeanGreaterThan(0.1f,0.3f);
 		return null;
-	}
-
+	}    
 	@Override
 	public PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, int pitchId) {
 		
