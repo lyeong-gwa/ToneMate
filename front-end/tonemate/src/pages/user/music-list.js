@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Layout from "@/components/layout";
-import HalfContainer from "@/components/content/half-container";
+import TitleContainer from "@/components/content/title-container";
+import MainContainer from "@/components/content/main-container";
 
 export default function MusicList() {
   return (
@@ -13,12 +14,10 @@ export default function MusicList() {
       </Head>
       <main>
         <Layout>
-          <div className="flex flex-col justify-center items-center w-full h-1/6 bg-white">
-            검색 엔진
-          </div>
-          <div className="flex flex-col justify-center items-center w-full h-4/6 bg-white">
-            테이블
-          </div>
+          <TitleContainer>
+            <p className="text-xl lg:text-4xl text-white">애창곡 리스트</p>
+          </TitleContainer>
+          <MainContainer></MainContainer>
         </Layout>
       </main>
     </>

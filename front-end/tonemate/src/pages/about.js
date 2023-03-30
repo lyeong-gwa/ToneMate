@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Layout from "@/components/layout";
-import HalfContainer from "@/components/content/half-container";
+import LandingContainer from "@/components/content/lading-container";
 
 export default function About() {
   return (
@@ -13,8 +13,13 @@ export default function About() {
       </Head>
       <main>
         <Layout>
-          <HalfContainer></HalfContainer>
-          <HalfContainer></HalfContainer>
+          <LandingContainer>
+            <div>
+              <p className="text-6xl font-sm text-white">
+                자신에게 어울리는 노래를 찾아보세요
+              </p>
+            </div>
+          </LandingContainer>
         </Layout>
       </main>
     </>

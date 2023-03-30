@@ -8,12 +8,11 @@ import { ChartBarIcon } from "@heroicons/react/24/solid";
 import { MusicalNoteIcon } from "@heroicons/react/24/solid";
 import { SwatchIcon } from "@heroicons/react/24/solid";
 import { HeartIcon } from "@heroicons/react/24/solid";
-import { UserIcon } from "@heroicons/react/24/solid";
 
 export default function NavMenu() {
   return (
     <>
-      <div className="flex flex-col justify-start items-start sm:w-11/12 md:w-2/3">
+      <div className="flex flex-col justify-start items-start sm:w-11/12">
         {/* 홈 Navigation Botton */}
         <NavButton icon={HomeIcon} name="홈 화면" value="/home" />
 
@@ -40,9 +39,6 @@ export default function NavMenu() {
 
         {/* 노래 검색 Navigation Botton */}
         <NavButton icon={MusicalNoteIcon} name="노래 검색" value="/search" />
-
-        {/* 마이페이지 리스트 Navigation Botton */}
-        <NavButton icon={UserIcon} name="마이페이지" value="/user/my-page" />
 
         {/* 애창곡리스트 검색 Navigation Botton */}
         <NavButton

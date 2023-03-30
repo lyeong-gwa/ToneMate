@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Layout from "@/components/layout";
-import HalfContainer from "@/components/content/half-container";
-import Record from "@/components/record/record";
+import TitleContainer from "@/components/content/title-container";
+import MainContainer from "@/components/content/main-container";
 
 export default function VocalColor() {
   return (
@@ -14,15 +14,10 @@ export default function VocalColor() {
       </Head>
       <main>
         <Layout>
-          <div className="flex w-full h-1/4 bg-white">
-            음성 검사 안내사항 및 + 알파
-          </div>
-          <div className="flex w-full h-1/4 bg-white">
-            클라이언트가 읽어야할 글 상자
-          </div>
-          <div className="flex w-full h-1/4 bg-white">
-            오디오 비쥬얼라이저, 녹음버튼, Pause 버튼, 끝내기 버튼
-          </div>
+          <TitleContainer>
+            <p className="text-xl lg:text-4xl text-white">음색검사</p>
+          </TitleContainer>
+          <MainContainer></MainContainer>
         </Layout>
       </main>
     </>

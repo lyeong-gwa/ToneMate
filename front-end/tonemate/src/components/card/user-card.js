@@ -9,9 +9,8 @@ export default function UserCard() {
   };
   return (
     <>
-      <div className="flex flex-row w-11/12 justify-around items-center m-1 border-gray-500 border-y-2 ">
+      <div className="flex flex-row w-11/12 justify-around items-center m-1 border-gray-500 border-y-2 my-3">
         <div className="flex w-2/5 my-5 mx-2 ">
-          .{" "}
           <img
             className="rounded-full w-16 h-16"
             src={user.profile}
@@ -19,7 +18,7 @@ export default function UserCard() {
           />
         </div>
         <div className="flex flex-col justify-between items-center w-3/5 my-5 mx-2">
-          <div className="flex flex-row justify-items-start items-center w-full my-1">
+          <div className="flex flex-row justify-center items-center w-full my-1">
             <p className="text-sm 2xl:text-sm text-white">안녕하세요</p>
           </div>
           <div className="flex flex-row justify-center items-center w-full my-1">

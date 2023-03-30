@@ -25,9 +25,9 @@ function NavButton(props) {
     <>
       <button
         onClick={clickNavButton}
-        className="flex w-full h-10 flex-row items-center justify-center my-1 rounded-full"
+        className="flex w-full h-10 flex-row items-center justify-center my-1 rounded-full ml-2"
       >
-        <div className="block w=1/5 mx-3">
+        <div className="flex w-1/5 mx-3">
           <props.icon className={iconColor} />
         </div>
         <div className="flex w-4/5 mx-3">

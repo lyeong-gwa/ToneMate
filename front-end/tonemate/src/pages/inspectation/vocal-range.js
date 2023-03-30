@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Layout from "@/components/layout";
-import HalfContainer from "@/components/content/half-container";
+import TitleContainer from "@/components/content/title-container";
+import MainContainer from "@/components/content/main-container";
 
 export default function VocalRange() {
   return (
@@ -13,9 +14,10 @@ export default function VocalRange() {
       </Head>
       <main>
         <Layout>
-          <div className="flex w-full h-1/4 bg-white"></div>
-          <div className="flex w-full h-1/4 bg-white"></div>
-          <div className="flex w-full h-1/4 bg-white"></div>
+          <TitleContainer>
+            <p className="text-xl lg:text-4xl text-white">음역대 검사</p>
+          </TitleContainer>
+          <MainContainer></MainContainer>
         </Layout>
       </main>
     </>

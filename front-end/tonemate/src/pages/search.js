@@ -1,5 +1,8 @@
 import Head from "next/head";
 import Layout from "@/components/layout";
+import Table from "@/components/table/table";
+import TitleContainer from "@/components/content/title-container";
+import MainContainer from "@/components/content/main-container";
 import SearchComponent from "@/components/main/search-component";
 
 export default function Search() {
@@ -13,28 +16,13 @@ export default function Search() {
       </Head>
       <main>
         <Layout>
-          <div className="flex flex-col justify-center items-center w-full h-1/6 bg-white">
-            검색 엔진
-          </div>
-          <div className="flex flex-col justify-center items-center w-full h-4/6 bg-white">
-            테이블
-          </div>
-          {/* <SearchComponent />
-          <div>
-            <table className="table w-full">
-              <thead>
-                <tr>
-                  <th>번호</th>
-                  <th>노래</th>
-                  <th>가수</th>
-                  <th>TJ</th>
-                  <th>KY</th>
-                  <th>좋아요</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div> */}
+          <TitleContainer>
+            <p className="text-xl lg:text-4xl text-white">노래 검색</p>
+          </TitleContainer>
+          <MainContainer>
+            <SearchComponent></SearchComponent>
+            <Table></Table>
+          </MainContainer>
         </Layout>
       </main>
     </>
