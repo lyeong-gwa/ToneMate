@@ -8,6 +8,7 @@ import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.db.repository.PitchAnalysisRepository;
 import com.a603.tonemate.db.repository.SongRepository;
 import com.a603.tonemate.db.repository.TimbreAnalysisRepository;
+import com.a603.tonemate.dto.common.PitchResult;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.dto.response.ResultResp;
 import com.a603.tonemate.dto.response.TimbreAnalysisResp;
@@ -142,14 +143,15 @@ public class MusicServiceImpl implements MusicService {
 
 	@Override
 	public PitchAnalysisResp analysisPitch(Long userId, MultipartFile lowFile, MultipartFile highFile) {
-//      String lowPitch = pitchUtil.getPitch(lowFile, false);
-//      String highPitch = pitchUtil.getPitch(highFile, true);
-//		System.out.println(lowPitch+" : "+highPitch);
+        PitchResult lowPitch = pitchUtil.getPitch(lowFile, false);
+        PitchResult highPitch = pitchUtil.getPitch(highFile, true);
         List<Song> passibleSong = songRepository.findTop3ByMfccMeanGreaterThanAndStftMeanLessThan(0.2f,0.2f);
         List<Song> normalSong = songRepository.findTop3ByMfccMeanGreaterThanAndStftMeanLessThan(0.1f,0.3f);
         List<Song> impassibleSong = songRepository.findTop3ByMfccMeanLessThanOrStftMeanGreaterThan(0.1f,0.3f);
 		return null;
 	}    
+    //PitchAnalysisResp.builder().octave_low(lowPitch.getPitch()).octave_high(highPitch.getPitch()).build();
+
 	@Override
 	public PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, int pitchId) {
 		
