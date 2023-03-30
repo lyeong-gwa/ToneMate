@@ -1,10 +1,12 @@
 package com.a603.tonemate.api.service.impl;
 
 import com.a603.tonemate.api.service.MusicService;
+import com.a603.tonemate.api.util.PitchUtil;
 import com.a603.tonemate.db.entity.PitchAnalysis;
 import com.a603.tonemate.db.entity.Song;
 import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.db.repository.PitchAnalysisRepository;
+import com.a603.tonemate.db.repository.SongRepository;
 import com.a603.tonemate.db.repository.TimbreAnalysisRepository;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.dto.response.ResultResp;
@@ -31,16 +33,17 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
 public class MusicServiceImpl implements MusicService {
-
+    private final PitchUtil pitchUtil;
     private final TimbreAnalysisRepository timbreAnalysisRepository;
     private final PitchAnalysisRepository pitchAnalysisRepository;
-    
+    private final SongRepository songRepository;
     @Override
     public TimbreAnalysisResp saveTimbreAnalysis(TimbreAnalysis timbreAnalysis) {
 
@@ -138,15 +141,19 @@ public class MusicServiceImpl implements MusicService {
 
 
 	@Override
-	public PitchAnalysisResp analysisPitch(MultipartFile low_file, MultipartFile high_file) {
-		
-		
+	public PitchAnalysisResp analysisPitch(Long userId, MultipartFile lowFile, MultipartFile highFile) {
+        String lowPitch = pitchUtil.getPitch(lowFile, false);
+        String highPitch = pitchUtil.getPitch(highFile, true);
+        List<Song> able = songRepository.findByMfccMeanLessThanAndStftMeanGreaterThan(0.2f,0.2f);
+        System.out.println(lowPitch+" : "+highPitch);
+        System.out.println(able.size()+" : "+able);
 		return null;
 	}
 
 	@Override
-	public PitchAnalysisResp analysisPitchByGenre(String genre, int pitch_id) {
-		// TODO Auto-generated method stub
+	public PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, int pitchId) {
+		
+		
 		return null;
 	}
 	

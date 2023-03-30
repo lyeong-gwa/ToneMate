@@ -30,20 +30,20 @@ public class Song {
     private float sprVar;
     private float rmsVar;
     
-    @Column(nullable = true)
-    private int octaveLow;
-    @Column(nullable = true)
-    private int octaveHigh;
+    @Column(nullable = false)
+    private int octaveLow = 0;
+    @Column(nullable = false)
+    private int octaveHigh = 495;
 
     private Long singerId;
     private String title;
-    private String num_ky;
-    private String num_tj;
+    private String numKy;
+    private String numTj;
 
     @Builder
 	public Song(Long songId, float mfccMean, float stftMean, float zcrMean, float spcMean, float sprMean,
 			float rmsMean, float mfccVar, float stftVar, float zcrVar, float spcVar, float sprVar, float rmsVar,
-			int octaveLow, int octaveHigh, Long singerId, String title, String num_ky, String num_tj) {
+			int octaveLow, int octaveHigh, Long singerId, String title, String numKy, String numTj) {
 		super();
 		this.songId = songId;
 		this.mfccMean = mfccMean;
@@ -62,8 +62,8 @@ public class Song {
 		this.octaveHigh = octaveHigh;
 		this.singerId = singerId;
 		this.title = title;
-		this.num_ky = num_ky;
-		this.num_tj = num_tj;
+		this.numKy = numKy;
+		this.numTj = numTj;
 	}
 
 
