@@ -5,7 +5,7 @@ server:
       enabled: true
       force: true
       charset: UTF-8
-  port: ${SPRING_PORT}
+  port: 5000
 spring:
   security:
     oauth2:
