@@ -130,10 +130,26 @@ public class MusicServiceImpl implements MusicService {
     public PitchAnalysisResp analysisPitch(Long userId, MultipartFile lowFile, MultipartFile highFile) {
         PitchResult lowPitch = pitchUtil.getPitch(lowFile, false);
         PitchResult highPitch = pitchUtil.getPitch(highFile, true);
-        List<Song> able = songRepository.findTop3ByMfccMeanLessThanOrStftMeanGreaterThan(0.2f, 0.2f);
-        System.out.println(lowPitch + " : " + highPitch);
-        System.out.println(able.size() + " : " + able);
-        return PitchAnalysisResp.builder().lowOctave(pitchUtil.getOctaveName(lowPitch.getPitch())).highOctave(pitchUtil.getOctaveName(highPitch.getPitch())).build();
+        List<Song> passibleSong = songRepository.findTop3ByMfccMeanGreaterThanAndStftMeanLessThan(0.2f,0.2f);
+        List<Song> normalSong = songRepository.findTop3ByMfccMeanGreaterThanAndStftMeanLessThan(0.1f,0.3f);
+        List<Song> impassibleSong = songRepository.findTop3ByMfccMeanLessThanOrStftMeanGreaterThan(0.1f,0.3f);
+
+        
+        PitchAnalysis pitchAnalysis = pitchAnalysisRepository.save(PitchAnalysis.builder()
+        		.octaveLow(lowPitch.getPitch())
+        		.octaveHigh(highPitch.getPitch())
+        		.userId(userId)
+        		.build());
+        
+        return PitchAnalysisResp.builder()
+        		.lowOctave(pitchUtil.getOctaveName(lowPitch.getPitch()))
+        		.highOctave(pitchUtil.getOctaveName(highPitch.getPitch()))
+        		.passibleSong(passibleSong)
+        		.normalSong(normalSong)
+        		.impassibleSong(impassibleSong)
+        		.pitchId(pitchAnalysis.getPitchId())
+        		.time(pitchAnalysis.getTime())
+        		.build();
     }
 
     @Override
