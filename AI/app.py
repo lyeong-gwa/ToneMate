@@ -16,8 +16,8 @@ def similarityPercent():
     processing_data = PROCESSING.preprocess_features([trans_data],feature_size = trans_data.shape[0])
     pred = model.predict(processing_data)
     return_obj = dict()
-    return_obj["singer"] = label_classes.tolist()[0]
-    return_obj["similaritypercent"] = pred.tolist()
+    return_obj["singer"] = label_classes.tolist()
+    return_obj["similaritypercent"] = pred.tolist()[0]
     return jsonify(return_obj)
 
 
