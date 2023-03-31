@@ -4,6 +4,7 @@ package com.a603.tonemate.api.controller;
 import com.a603.tonemate.api.service.MusicService;
 import com.a603.tonemate.api.service.UserService;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
+import com.a603.tonemate.exception.AnalysisPitchByGenreException;
 import com.a603.tonemate.exception.NoFileException;
 import com.a603.tonemate.exception.UnsupportedPitchFileException;
 import com.a603.tonemate.security.auth.JwtTokenProvider;
@@ -74,7 +75,11 @@ public class MusicController {
     public ResponseEntity<?> analysisPitchByGenre(@PathVariable("genre") String genre,@PathVariable("pitchId") Long pitchId) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
     	PitchAnalysisResp result;
     	
-    	result = musicService.analysisPitchByGenre(1L,genre, pitchId);
+    	try {
+    		result = musicService.analysisPitchByGenre(1L,genre, pitchId);
+        } catch (Exception e) {
+            throw AnalysisPitchByGenreException.fromException(e);
+        }
 
         return new ResponseEntity<PitchAnalysisResp>(result, HttpStatus.OK);
     }
