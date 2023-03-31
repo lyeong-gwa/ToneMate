@@ -58,7 +58,7 @@ public class PitchUtil {
             }
             float time = timeArray.get(i) - curTime;
             if (time > 2) {
-                selectedPitch = Math.min(curPitch, compPitch);
+                selectedPitch = isHigh ? Math.min(curPitch, compPitch) : Math.max(curPitch, compPitch);
             }
         }
         return selectedPitch;
@@ -89,7 +89,8 @@ public class PitchUtil {
         } finally {
             file.delete();
         }
-        return new PitchResult(getPitch(pitchArray, timeArray, isHigh), true);
+        int idx = getPitch(pitchArray, timeArray, isHigh);
+        return new PitchResult(idx, idx >= 0 && idx < octave.length);
     }
 
     private File saveFile(MultipartFile multipartFile, boolean isHigh) {
