@@ -36,5 +36,5 @@ public interface MusicService {
     PitchAnalysisResp analysisPitch(Long userId, MultipartFile lowOctave, MultipartFile highOctave);
     
     // 사용자 음역대 검사 기록에 의한 요청처리
-	PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, int pitchId);
+	PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, Long pitchId);
 }

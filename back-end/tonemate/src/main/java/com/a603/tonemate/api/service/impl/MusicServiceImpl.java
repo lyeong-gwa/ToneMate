@@ -12,6 +12,8 @@ import com.a603.tonemate.dto.common.PitchResult;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.dto.response.ResultResp;
 import com.a603.tonemate.dto.response.TimbreAnalysisResp;
+import com.a603.tonemate.enumpack.Genre;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -153,10 +156,21 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, int pitchId) {
+    public PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, Long pitchId) {
+    	PitchAnalysis pitchAnalysis = pitchAnalysisRepository.findByPitchIdAndUserId(pitchId, userId).orElseThrow();
+    	
+    	//pitchAnalysis.getOctaveLow(), pitchAnalysis.getOctaveHigh(), Genre.fromCode(genre) -> passibleSong이 normalSong에 포함되는 로직이 되버림 -> 데이터 준비되면 예외처리하기
+    	System.out.println(genre);
+    	System.out.println(Genre.fromCode(genre));
+    	List<Song> passibleSong = songRepository.findTop3ByMfccMeanLessThanOrStftMeanGreaterThanAndSingerGenre(0.2f,0.2f,Genre.fromCode(genre));
+    	List<Song> normalSong = songRepository.findTop3ByMfccMeanLessThanOrStftMeanGreaterThanAndSingerGenre(0.1f,0.3f,Genre.fromCode(genre));
+    	List<Song> impassibleSong = songRepository.findTop3ByMfccMeanGreaterThanAndStftMeanLessThanAndSingerGenre(0.1f,0.3f,Genre.fromCode(genre));
 
-
-        return null;
+        return PitchAnalysisResp.builder()
+        		.passibleSong(passibleSong)
+        		.normalSong(normalSong)
+        		.impassibleSong(impassibleSong)
+        		.build();
     }
 
 }

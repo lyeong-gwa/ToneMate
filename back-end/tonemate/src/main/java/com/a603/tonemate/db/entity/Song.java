@@ -6,9 +6,15 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Getter
@@ -30,16 +36,23 @@ public class Song {
     private float sprVar;
     private float rmsVar;
     
-    @Column(nullable = false)
+    @Column
     private int octaveLow = 0;
-    @Column(nullable = false)
-    private int octaveHigh = 495;
+    @Column
+    private int octaveHigh = 500;
 
     private Long singerId;
     private String title;
     private String numKy;
     private String numTj;
 
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
+    @JoinColumn(name = "singerId", referencedColumnName = "singerId",insertable = false, updatable = false)
+    private Singer singer;
+    
+    
     @Builder
 	public Song(Long songId, float mfccMean, float stftMean, float zcrMean, float spcMean, float sprMean,
 			float rmsMean, float mfccVar, float stftVar, float zcrVar, float spcVar, float sprVar, float rmsVar,

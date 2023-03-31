@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface PitchAnalysisRepository extends JpaRepository<PitchAnalysis, Long> {
     Optional<PitchAnalysis> findByPitchId(Long id);
     List<PitchAnalysis> findAllByUserId(Long userId);
+    Optional<PitchAnalysis> findByPitchIdAndUserId(Long pitchId,Long userId);
 }

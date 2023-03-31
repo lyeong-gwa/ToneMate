@@ -85,8 +85,8 @@ public class MusicController {
     }
     
     @ApiOperation(value = "음역대 분석 장르 요청", notes = "음역대 검사에서 장르에 따른 결과 제공")
-    @GetMapping("/pitch/{genre}/{pitchId}")
-    public ResponseEntity<?> analysisPitchByGenre(@PathVariable("genre") String genre,@PathVariable("pitchId") int pitchId) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+    @GetMapping("/pitch/{pitchId}/{genre}")
+    public ResponseEntity<?> analysisPitchByGenre(@PathVariable("genre") String genre,@PathVariable("pitchId") Long pitchId) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
     	PitchAnalysisResp result = musicService.analysisPitchByGenre(1L,genre, pitchId);
 
         return new ResponseEntity<PitchAnalysisResp>(result, HttpStatus.OK);
