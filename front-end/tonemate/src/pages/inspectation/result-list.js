@@ -34,7 +34,7 @@ export default function ResultList() {
                   음색 검사 결과 : 0 건
                 </p>
               </div>
-              <div className="flex flex-row grow bg-white"></div>
+              <div className="flex flex-row grow bg-gray-500"></div>
             </div>
             <div className="flex flex-col w-full h-2/5 fade-in-custom-20s ">
               <div className="flex flex-col w-full h-10 justify-center items-center lg:items-start ">
@@ -42,7 +42,7 @@ export default function ResultList() {
                   음역대 검사 결과 : 0 건
                 </p>
               </div>
-              <div className="flex flex-row grow bg-white"></div>
+              <div className="flex flex-row grow bg-gray-500"></div>
             </div>
           </MainContainer>
         </Layout>

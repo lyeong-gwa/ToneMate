@@ -2,6 +2,8 @@ import Head from "next/head";
 import Layout from "@/components/layout";
 import TitleContainer from "@/components/content/title-container";
 import MainContainer from "@/components/content/main-container";
+import MyListComponent from "@/components/main/my-list-component";
+import Table from "@/components/table/table";
 
 export default function MusicList() {
   return (
@@ -17,7 +19,10 @@ export default function MusicList() {
           <TitleContainer>
             <p className="text-xl lg:text-4xl text-white">애창곡 리스트</p>
           </TitleContainer>
-          <MainContainer></MainContainer>
+          <MainContainer>
+            <MyListComponent></MyListComponent>
+            <Table></Table>
+          </MainContainer>
         </Layout>
       </main>
     </>

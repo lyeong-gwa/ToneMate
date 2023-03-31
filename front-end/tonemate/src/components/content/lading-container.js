@@ -1,7 +1,7 @@
 const LandingContainer = ({ children }) => {
   return (
     <>
-      <div className="flex flex-col w-full h-full justify-center items-center bg-black bg-opacity-10 bg-intro-1 bg-center bg-cover">
+      <div className="flex flex-col w-full h-full items-center bg-black">
         {children}
       </div>
     </>

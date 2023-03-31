@@ -39,7 +39,6 @@ body {
 .bg-custom {
   background-image: url("../assets/5.png");
 }
-.bg-intro-1 {
-  background-image: url("../assets/2.png");
-}
 @import url(result.css);
+@import url(background.css);
+@import url(intro.css);

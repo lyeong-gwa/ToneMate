@@ -3,6 +3,8 @@ import Layout from "@/components/layout";
 import TitleContainer from "@/components/content/title-container";
 import MainContainer from "@/components/content/main-container";
 
+import { AudioRecorder } from "react-audio-voice-recorder";
+
 export default function VocalColor() {
   return (
     <>
@@ -17,7 +19,16 @@ export default function VocalColor() {
           <TitleContainer>
             <p className="text-xl lg:text-4xl text-white">음색검사</p>
           </TitleContainer>
-          <MainContainer></MainContainer>
+          <MainContainer>
+            {/* 음색 검사 주의사항 및 방법 */}
+            <div className="w-full h-44 lg:h-60 bg-white">1</div>
+            {/* 읽어야할 문구 */}
+            <div className="w-full h-44 lg:h-60 bg-white">
+              <AudioRecorder />
+            </div>
+            {/* 녹음 버튼 및 오디오 비주얼라이제이션 */}
+            <div className="w-full h-44 lg:h-60 bg-white">3</div>
+          </MainContainer>
         </Layout>
       </main>
     </>

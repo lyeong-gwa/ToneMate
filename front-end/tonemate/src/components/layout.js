@@ -9,6 +9,9 @@ const Layout = ({ children }) => {
   return (
     <>
       <div className="flex flex-col lg:flex-row w-screen h-screen bg-black">
+        <div id="stars" className="w-screen h-screen overflow-hidden"></div>
+        <div id="stars2" className="w-screen h-screen overflow-hidden"></div>
+        <div id="stars3" className="w-screen h-screen overflow-hidden"></div>
         <NavBarMobile />
         <NavBarDesk />
         <Content>{children}</Content>
