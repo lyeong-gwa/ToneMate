@@ -13,10 +13,10 @@ import java.util.Optional;
 public interface SongRepository extends JpaRepository<Song, Long> {
     Optional<Song> findBySongId(Long i);
 
-    @Query("SELECT s FROM Song s JOIN Singer si ON s.singerId = si.singerId WHERE si.gender = :gender AND s.octaveLow >= :octaveLow AND s.octaveHigh <= :octaveHigh ORDER BY ABS(((s.octaveLow + s.octaveHigh) / 2) - ((:octaveLow + :octaveHigh) / 2))")
+    @Query("SELECT s FROM Song s JOIN Singer si ON s.singer.singerId = si.singerId WHERE si.gender = :gender AND s.octaveLow >= :octaveLow AND s.octaveHigh <= :octaveHigh ORDER BY ABS(((s.octaveLow + s.octaveHigh) / 2) - ((:octaveLow + :octaveHigh) / 2))")
     List<Song> findByGenderAndOctaveInRange(@Param("octaveLow") int octaveLow, @Param("octaveHigh") int octaveHigh, @Param("gender") boolean gender,Pageable pageable);
 
-    @Query("SELECT s FROM Song s JOIN Singer si ON s.singerId = si.singerId WHERE si.gender = :gender AND s.octaveLow <= :octaveHigh AND s.octaveHigh >= :octaveLow ORDER BY ABS(((s.octaveLow + s.octaveHigh) / 2) - ((:octaveLow + :octaveHigh) / 2))")
+    @Query("SELECT s FROM Song s JOIN Singer si ON s.singer.singerId = si.singerId WHERE si.gender = :gender AND s.octaveLow <= :octaveHigh AND s.octaveHigh >= :octaveLow ORDER BY ABS(((s.octaveLow + s.octaveHigh) / 2) - ((:octaveLow + :octaveHigh) / 2))")
     List<Song> findByGenderAndOctaveOverlap(@Param("octaveLow") int octaveLow, @Param("octaveHigh") int octaveHigh, @Param("gender") boolean gender, Pageable pageable);
 
 }

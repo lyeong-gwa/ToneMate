@@ -42,7 +42,7 @@ public class Song {
     @Column
     private int octaveHigh = 500;
 
-    private Long singerId;
+    //private Long singerId;
     private String title;
     private String numKy;
     private String numTj;
