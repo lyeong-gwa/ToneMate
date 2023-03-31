@@ -1,23 +1,45 @@
 package com.a603.tonemate.api.service;
 
 import com.a603.tonemate.db.entity.Karaoke;
+import com.a603.tonemate.db.entity.KaraokeTop;
+import com.a603.tonemate.dto.KaraokeDto;
+import com.a603.tonemate.dto.KaraokeTopDto;
+import com.a603.tonemate.dto.request.SearchSongReq;
 import com.a603.tonemate.dto.response.KaraokeResp;
-
-import java.util.List;
+import com.a603.tonemate.dto.response.KaraokeTopResp;
+import org.springframework.data.domain.Pageable;
 
 public interface KaraokeService {
     //노래방 Top 100 출력
-    List<KaraokeResp> selectTopSong();
+    KaraokeTopResp selectTopSong(Pageable pageable);
 
-    default KaraokeResp toDto(Karaoke karaoke) {
-        return KaraokeResp.builder()
-                .KaraokeId(karaoke.getKaraokeId())
-                .kyNum(karaoke.getKyNum())
-                .kyTitle(karaoke.getKyTitle())
-                .kySinger(karaoke.getKySinger())
+    //등록되 있는 모든 노래 출력
+    KaraokeResp selectAllSong(Pageable pageable);
+
+    //노래 검색
+    KaraokeResp searchSong(SearchSongReq searchSongReq, Pageable pageable);
+
+    KaraokeResp findLikeList(Long userId, Pageable pageable);
+
+    default KaraokeTopDto toDto(KaraokeTop karaokeTop) {
+        return KaraokeTopDto.builder()
+                .karaokeTopId(karaokeTop.getKaraokeTopId())
+                .kyNum(karaokeTop.getKyNum())
+                .kyTitle(karaokeTop.getKyTitle())
+                .kySinger(karaokeTop.getKySinger())
+                .tjNum(karaokeTop.getTjNum())
+                .tjTitle(karaokeTop.getTjTitle())
+                .tjSinger(karaokeTop.getTjSinger())
+                .build();
+
+    }
+
+    default KaraokeDto toDto(Karaoke karaoke) {
+        return KaraokeDto.builder()
                 .tjNum(karaoke.getTjNum())
-                .tjTitle(karaoke.getTjTitle())
-                .tjSinger(karaoke.getTjSinger())
+                .kyNum(karaoke.getKyNum())
+                .singer(karaoke.getSinger())
+                .title(karaoke.getTitle())
                 .build();
 
     }

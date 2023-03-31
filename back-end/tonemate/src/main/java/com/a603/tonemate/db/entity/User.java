@@ -22,7 +22,7 @@ public class User {
     private String profile;
 
     @Builder
-    public User(Long userId, String username, String password, String nickname, String role, String profile) {
+    public User(Long userId, String username, String nickname, String role, String profile) {
         this.userId = userId;
         this.username = username;
         this.nickname = nickname;

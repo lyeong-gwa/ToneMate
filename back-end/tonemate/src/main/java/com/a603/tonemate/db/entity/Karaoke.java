@@ -12,11 +12,9 @@ import javax.persistence.Id;
 public class Karaoke {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long KaraokeId;
-    private int tjNum;
-    private String tjTitle;
-    private String tjSinger;
+    private Long karaokeId;
     private int kyNum;
-    private String kyTitle;
-    private String kySinger;
+    private int tjNum;
+    private String title;
+    private String singer;
 }

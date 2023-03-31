@@ -90,7 +90,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 userRepository.save(
                         User.builder()
                                 .username(username)
-                                .password(bCryptPasswordEncoder.encode("ToneMate"))
                                 .nickname(nickname)
                                 .role("ROLE_USER")
                                 .profile(finalProfile)
