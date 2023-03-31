@@ -1,6 +1,6 @@
 package com.a603.tonemate.dto.response;
 
-import com.a603.tonemate.db.entity.TimbreAnalysis;
+import com.a603.tonemate.dto.common.SingerDetail;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -38,5 +38,5 @@ public class TimbreAnalysisResp {
     private LocalDateTime time;
 
     @ApiModelProperty(value = "유사도가 높은 가수 정보 제공")
-    private List<SingerDetailResp> singerDetails;
+    private List<SingerDetail> singerDetails;
 }

@@ -11,14 +11,17 @@ import com.a603.tonemate.db.repository.SingerRepository;
 import com.a603.tonemate.db.repository.SongRepository;
 import com.a603.tonemate.db.repository.TimbreAnalysisRepository;
 import com.a603.tonemate.dto.common.PitchResult;
+import com.a603.tonemate.dto.common.SingerSimilarity;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.dto.response.ResultResp;
-import com.a603.tonemate.dto.response.SingerDetailResp;
+import com.a603.tonemate.dto.common.SingerDetail;
 import com.a603.tonemate.dto.response.TimbreAnalysisResp;
-import com.a603.tonemate.enumpack.Genre;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import lombok.ToString;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +42,7 @@ public class MusicServiceImpl implements MusicService {
     private final SongRepository songRepository;
     private final SingerRepository singerRepository;
 
+    @Transactional
     @Override
     public TimbreAnalysisResp saveTimbreAnalysis(Long userId, MultipartFile file) throws Exception {
 
@@ -49,7 +53,7 @@ public class MusicServiceImpl implements MusicService {
         if (result != null) {
 
             // 유사도 높은 순으로 정렬 (내림차순)
-            TreeSet<SingerDetailResp> set = new TreeSet<>();
+            TreeSet<SingerSimilarity> set = new TreeSet<>();
 
             List<String> singers = (ArrayList<String>) result.get("singer");
             List<Double> similarityPercents = (ArrayList<Double>) result.get("similaritypercent");
@@ -57,24 +61,22 @@ public class MusicServiceImpl implements MusicService {
             System.out.println("유사도: " + similarityPercents.get(0).floatValue());
 
             for (int i = 0; i < singers.size(); i++) {
-                Long singerId = Long.valueOf((i + 1));
-//                  Long singerId = singerRepository.findByName(singerName).get().getSingerId();
                 String singerName = singers.get(i);
                 float similarityPercent = similarityPercents.get(i).floatValue();
-                set.add(new SingerDetailResp(singerId, singerName, similarityPercent));
+                set.add(new SingerSimilarity(singerName, similarityPercent));
             }
 
             // 상위 5개의 객체 가져오기
-            List<SingerDetailResp> topFive = new ArrayList<>();
-            for (SingerDetailResp detail : set) {
-//                detail.setSongList(singerRepository.findBySingerId(detail.getSingerId()).get().getSongs());
-                topFive.add(detail);
-                if (topFive.size() == 5) {
+            int top = 5;
+            List<SingerDetail> topSingerDetails = new ArrayList<>();
+            for (SingerSimilarity detail : set) {
+                topSingerDetails.add(new SingerDetail(singerRepository.findByName(detail.getName()).get(), detail.getSimilarityPercent()));
+                if (topSingerDetails.size() == top) {
                     break;
                 }
             }
             System.out.println("정렬된 결과: " + set);
-            System.out.println("상위 5개: " + topFive);
+            System.out.println("상위 "+top+"개: " + topSingerDetails);
 
             TimbreAnalysis newTimbreAnalysis = TimbreAnalysis.builder()
                     .userId(userId)
@@ -90,22 +92,22 @@ public class MusicServiceImpl implements MusicService {
                     .spcVar(((Double)result.get("spc_mean")).floatValue())
                     .sprVar(((Double)result.get("spr_mean")).floatValue())
                     .rmsVar(((Double)result.get("rms_mean")).floatValue())
-                    .singer1(topFive.get(0).getSingerId())
-                    .singer2(topFive.get(1).getSingerId())
-                    .singer3(topFive.get(2).getSingerId())
-                    .singer4(topFive.get(3).getSingerId())
-                    .singer5(topFive.get(4).getSingerId())
-                    .similarity1(topFive.get(0).getSimilarityPercent())
-                    .similarity2(topFive.get(1).getSimilarityPercent())
-                    .similarity3(topFive.get(2).getSimilarityPercent())
-                    .similarity4(topFive.get(3).getSimilarityPercent())
-                    .similarity5(topFive.get(4).getSimilarityPercent())
+                    .singer1(topSingerDetails.get(0).getSingerId())
+                    .singer2(topSingerDetails.get(1).getSingerId())
+                    .singer3(topSingerDetails.get(2).getSingerId())
+                    .singer4(topSingerDetails.get(3).getSingerId())
+                    .singer5(topSingerDetails.get(4).getSingerId())
+                    .similarity1(topSingerDetails.get(0).getSimilarityPercent())
+                    .similarity2(topSingerDetails.get(1).getSimilarityPercent())
+                    .similarity3(topSingerDetails.get(2).getSimilarityPercent())
+                    .similarity4(topSingerDetails.get(3).getSimilarityPercent())
+                    .similarity5(topSingerDetails.get(4).getSimilarityPercent())
                     .time(LocalDateTime.now()).build();
 
             // 분석 결과 데이터베이스에 저장
             TimbreAnalysis saveTimbreAnalysis = timbreAnalysisRepository.save(newTimbreAnalysis);
 
-            List<Long> singerIdList = topFive.stream().map(SingerDetailResp::getSingerId).collect(Collectors.toList());
+            List<Long> singerIdList = topSingerDetails.stream().map(SingerDetail::getSingerId).collect(Collectors.toList());
             // 분석 결과 응답 데이터 생성
             TimbreAnalysisResp timbreAnalysisResp = TimbreAnalysisResp.builder()
                     .mfccMean(saveTimbreAnalysis.getMfccMean())
@@ -122,7 +124,7 @@ public class MusicServiceImpl implements MusicService {
                     .rmsVar(saveTimbreAnalysis.getRmsVar())
                     .timbreId(saveTimbreAnalysis.getTimbreId())
                     .time(saveTimbreAnalysis.getTime())
-                    .singerDetails(topFive)
+                    .singerDetails(topSingerDetails)
                     .build();
             return timbreAnalysisResp;
         }
@@ -177,12 +179,12 @@ public class MusicServiceImpl implements MusicService {
 
         TimbreAnalysis timbreAnalysis = timbreAnalysisRepository.findByTimbreId(timbreId).orElseThrow();
 
-        List<SingerDetailResp> topFive = new ArrayList<>();
-        topFive.add(new SingerDetailResp(singerRepository.findBySingerId(timbreAnalysis.getSinger1()).get(), timbreAnalysis.getSimilarity1()));
-        topFive.add(new SingerDetailResp(singerRepository.findBySingerId(timbreAnalysis.getSinger2()).get(), timbreAnalysis.getSimilarity2()));
-        topFive.add(new SingerDetailResp(singerRepository.findBySingerId(timbreAnalysis.getSinger3()).get(), timbreAnalysis.getSimilarity3()));
-        topFive.add(new SingerDetailResp(singerRepository.findBySingerId(timbreAnalysis.getSinger4()).get(), timbreAnalysis.getSimilarity4()));
-        topFive.add(new SingerDetailResp(singerRepository.findBySingerId(timbreAnalysis.getSinger5()).get(), timbreAnalysis.getSimilarity5()));
+        List<SingerDetail> topFive = new ArrayList<>();
+        topFive.add(new SingerDetail(singerRepository.findBySingerId(timbreAnalysis.getSinger1()).get(), timbreAnalysis.getSimilarity1()));
+        topFive.add(new SingerDetail(singerRepository.findBySingerId(timbreAnalysis.getSinger2()).get(), timbreAnalysis.getSimilarity2()));
+        topFive.add(new SingerDetail(singerRepository.findBySingerId(timbreAnalysis.getSinger3()).get(), timbreAnalysis.getSimilarity3()));
+        topFive.add(new SingerDetail(singerRepository.findBySingerId(timbreAnalysis.getSinger4()).get(), timbreAnalysis.getSimilarity4()));
+        topFive.add(new SingerDetail(singerRepository.findBySingerId(timbreAnalysis.getSinger5()).get(), timbreAnalysis.getSimilarity5()));
 
         TimbreAnalysisResp timbreAnalysisResp = TimbreAnalysisResp.builder()
                 .timbreId(timbreAnalysis.getTimbreId())
