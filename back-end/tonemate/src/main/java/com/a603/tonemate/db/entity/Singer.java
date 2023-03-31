@@ -48,7 +48,6 @@ public class Singer {
     public List<Song> getSongs() {
         return songs;
     }
-   
     
     @Builder
     public Singer(Long singerId, String name, Boolean gender, Date birthYear, Genre genre) {

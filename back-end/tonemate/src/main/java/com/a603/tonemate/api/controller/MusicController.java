@@ -3,10 +3,8 @@ package com.a603.tonemate.api.controller;
 
 import com.a603.tonemate.api.service.MusicService;
 import com.a603.tonemate.api.service.UserService;
-import com.a603.tonemate.db.repository.SingerRepository;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.exception.NoFileException;
-import com.a603.tonemate.exception.NotFoundPitchException;
 import com.a603.tonemate.exception.UnsupportedPitchFileException;
 import com.a603.tonemate.security.auth.JwtTokenProvider;
 import io.swagger.annotations.Api;
@@ -30,7 +28,6 @@ public class MusicController {
     private static final String FAIL = "fail";
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
-    private final SingerRepository singerRepo;
     private final MusicService musicService;
 
 
@@ -61,10 +58,11 @@ public class MusicController {
     @ApiOperation(value = "음역대 분석", notes = "음역대 검사를 위한 녹음 wav파일을 분석 및 저장")
     @PostMapping("/pitch")
     public ResponseEntity<?> analysisPitch(@RequestPart("lowOctave") MultipartFile lowOctave, @RequestPart("highOctave") MultipartFile highOctave) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
-//        Long userId = jwtTokenProvider.getId(token);
+    	Long userId = 1L;//jwtTokenProvider.getId(token);
+    	
     	PitchAnalysisResp result;
         try {
-            result = musicService.analysisPitch(1L,lowOctave, highOctave);
+            result = musicService.analysisPitch(userId,lowOctave, highOctave);
         } catch (NoFileException | UnsupportedPitchFileException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -74,7 +72,9 @@ public class MusicController {
     @ApiOperation(value = "음역대 분석 장르 요청", notes = "음역대 검사에서 장르에 따른 결과 제공")
     @GetMapping("/pitch/{pitchId}/{genre}")
     public ResponseEntity<?> analysisPitchByGenre(@PathVariable("genre") String genre,@PathVariable("pitchId") Long pitchId) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
-    	PitchAnalysisResp result = musicService.analysisPitchByGenre(1L,genre, pitchId);
+    	PitchAnalysisResp result;
+    	
+    	result = musicService.analysisPitchByGenre(1L,genre, pitchId);
 
         return new ResponseEntity<PitchAnalysisResp>(result, HttpStatus.OK);
     }

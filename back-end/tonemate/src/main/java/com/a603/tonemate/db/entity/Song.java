@@ -42,17 +42,17 @@ public class Song {
     @Column
     private int octaveHigh = 500;
 
-//    private Long singerId;
+    private Long singerId;
     private String title;
     private String numKy;
     private String numTj;
 
-    
+
     @ManyToOne
     @JoinColumn(name = "singer_id")
     @JsonBackReference
     private Singer singer;
-    
+
     @Builder
 	public Song(Long songId, float mfccMean, float stftMean, float zcrMean, float spcMean, float sprMean,
 			float rmsMean, float mfccVar, float stftVar, float zcrVar, float spcVar, float sprVar, float rmsVar,

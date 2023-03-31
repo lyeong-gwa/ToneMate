@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -29,13 +30,30 @@ public class PitchAnalysis {
     @CreatedDate
     private LocalDateTime time;
 
+    @Column(columnDefinition = "varchar(350)")
+    private String passibleList;
+    @Column(columnDefinition = "varchar(350)")
+    private String normalList;
+    @Column(columnDefinition = "varchar(350)")
+    private String impassibleList;
+	
+    
     @Builder
-	public PitchAnalysis(Long pitchId, Long userId, int octaveLow, int octaveHigh, LocalDateTime time) {
+    public PitchAnalysis(Long pitchId, Long userId, int octaveLow, int octaveHigh, LocalDateTime time,
+			String passibleList, String normalList, String impassibleList) {
 		super();
 		this.pitchId = pitchId;
 		this.userId = userId;
 		this.octaveLow = octaveLow;
 		this.octaveHigh = octaveHigh;
 		this.time = time;
+		this.passibleList = passibleList;
+		this.normalList = normalList;
+		this.impassibleList = impassibleList;
 	}
+
+
+    
+    
+	
 }
