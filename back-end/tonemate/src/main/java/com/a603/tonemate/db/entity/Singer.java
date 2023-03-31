@@ -40,12 +40,6 @@ public class Singer {
     @Column(columnDefinition = "varchar(100) default 'UNKNOW'")
     private Genre genre;
 
-    @OneToMany(mappedBy = "singer")
-    private List<Song> songs;
-
-    public List<Song> getSongs() {
-        return songs;
-    }
    
     
     @Builder

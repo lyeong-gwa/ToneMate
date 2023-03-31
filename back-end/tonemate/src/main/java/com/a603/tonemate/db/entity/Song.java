@@ -47,12 +47,6 @@ public class Song {
     private String numTj;
 
     
-    @ManyToOne(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.JOIN)
-    @JoinColumn(name = "singerId", referencedColumnName = "singerId",insertable = false, updatable = false)
-    private Singer singer;
-    
-    
     @Builder
 	public Song(Long songId, float mfccMean, float stftMean, float zcrMean, float spcMean, float sprMean,
 			float rmsMean, float mfccVar, float stftVar, float zcrVar, float spcVar, float sprVar, float rmsVar,

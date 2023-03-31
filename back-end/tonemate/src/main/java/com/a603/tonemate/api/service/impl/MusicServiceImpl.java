@@ -17,6 +17,8 @@ import com.a603.tonemate.dto.response.TimbreAnalysisResp;
 import com.a603.tonemate.enumpack.Genre;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -205,25 +207,43 @@ public class MusicServiceImpl implements MusicService {
 
     @Override
     public PitchAnalysisResp analysisPitch(Long userId, MultipartFile lowFile, MultipartFile highFile) {
+    	boolean gender = true;
+    	
         PitchResult lowPitch = pitchUtil.getPitch(lowFile, false);
         PitchResult highPitch = pitchUtil.getPitch(highFile, true);
-        List<Song> passibleSong = songRepository.findTop3ByMfccMeanGreaterThanAndStftMeanLessThan(0.2f,0.2f);
-        List<Song> normalSong = songRepository.findTop3ByMfccMeanGreaterThanAndStftMeanLessThan(0.1f,0.3f);
-        List<Song> impassibleSong = songRepository.findTop3ByMfccMeanLessThanOrStftMeanGreaterThan(0.1f,0.3f);
-
+        
+    	//복구전까지 임시처리
+        int randLow = new Random().nextInt(70) + 20;
+        int randHigh = new Random().nextInt(280) + 100;
+        				
+    	
+        List<Song> passibleSong = songRepository.findByGenderAndOctaveInRange(randLow+10,randHigh-20,gender,PageRequest.of(0, 50));
+        List<Song> normalSong = songRepository.findByGenderAndOctaveInRange(randLow,randHigh,gender,PageRequest.of(0, 50));
+        List<Song> impassibleSong = songRepository.findByGenderAndOctaveOverlap(randLow,randHigh,gender,PageRequest.of(0, 50));
+        List<Long> passibleSongId = new ArrayList<>();
+        List<Long> normalSongId = new ArrayList<>();
+        List<Long> impassibleSongId = new ArrayList<>();
+        
+        passibleSong.forEach(song -> passibleSongId.add(song.getSongId()));
+        normalSong.forEach(song -> normalSongId.add(song.getSongId()));
+        impassibleSong.forEach(song -> impassibleSongId.add(song.getSongId()));
+        
         
         PitchAnalysis pitchAnalysis = pitchAnalysisRepository.save(PitchAnalysis.builder()
-        		.octaveLow(lowPitch.getPitch())
-        		.octaveHigh(highPitch.getPitch())
+        		.octaveLow(randLow)
+        		.octaveHigh(randHigh)
         		.userId(userId)
+        		.passibleList(passibleSongId.toString())
+        		.normalList(normalSongId.toString())
+        		.impassibleList(impassibleSongId.toString())
         		.build());
         
         return PitchAnalysisResp.builder()
-        		.lowOctave(pitchUtil.getOctaveName(lowPitch.getPitch()))
-        		.highOctave(pitchUtil.getOctaveName(highPitch.getPitch()))
-        		.passibleSong(passibleSong)
-        		.normalSong(normalSong)
-        		.impassibleSong(impassibleSong)
+        		.lowOctave("D1")
+        		.highOctave("G3")
+        		.passibleSong(passibleSong.subList(0, Math.min(3, passibleSong.size())))
+        		.normalSong(normalSong.subList(0, Math.min(3, normalSong.size())))
+        		.impassibleSong(impassibleSong.subList(0, Math.min(3, impassibleSong.size())))
         		.pitchId(pitchAnalysis.getPitchId())
         		.time(pitchAnalysis.getTime())
         		.build();
@@ -233,18 +253,17 @@ public class MusicServiceImpl implements MusicService {
     public PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, Long pitchId) {
     	PitchAnalysis pitchAnalysis = pitchAnalysisRepository.findByPitchIdAndUserId(pitchId, userId).orElseThrow();
     	
-    	//pitchAnalysis.getOctaveLow(), pitchAnalysis.getOctaveHigh(), Genre.fromCode(genre) -> passibleSong이 normalSong에 포함되는 로직이 되버림 -> 데이터 준비되면 예외처리하기
-    	System.out.println(genre);
-    	System.out.println(Genre.fromCode(genre));
-    	List<Song> passibleSong = songRepository.findTop3ByMfccMeanLessThanOrStftMeanGreaterThanAndSingerGenre(0.2f,0.2f,Genre.fromCode(genre));
-    	List<Song> normalSong = songRepository.findTop3ByMfccMeanLessThanOrStftMeanGreaterThanAndSingerGenre(0.1f,0.3f,Genre.fromCode(genre));
-    	List<Song> impassibleSong = songRepository.findTop3ByMfccMeanGreaterThanAndStftMeanLessThanAndSingerGenre(0.1f,0.3f,Genre.fromCode(genre));
-
-        return PitchAnalysisResp.builder()
-        		.passibleSong(passibleSong)
-        		.normalSong(normalSong)
-        		.impassibleSong(impassibleSong)
-        		.build();
+    	System.out.println(pitchAnalysis.getPassibleList());
+    	System.out.println(pitchAnalysis.getNormalList());
+    	System.out.println(pitchAnalysis.getImpassibleList());
+    	
+    	
+    	return null;
+//        return PitchAnalysisResp.builder()
+//        		.passibleSong(passibleSong)
+//        		.normalSong(normalSong)
+//        		.impassibleSong(impassibleSong)
+//        		.build();
     }
 
 }
