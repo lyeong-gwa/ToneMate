@@ -7,6 +7,7 @@ import com.a603.tonemate.db.entity.PitchAnalysis;
 import com.a603.tonemate.db.entity.Song;
 import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.db.repository.PitchAnalysisRepository;
+import com.a603.tonemate.db.repository.SingerRepository;
 import com.a603.tonemate.db.repository.SongRepository;
 import com.a603.tonemate.db.repository.TimbreAnalysisRepository;
 import com.a603.tonemate.dto.common.PitchResult;
@@ -18,6 +19,7 @@ import com.a603.tonemate.enumpack.Genre;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -33,6 +35,7 @@ public class MusicServiceImpl implements MusicService {
     private final TimbreAnalysisRepository timbreAnalysisRepository;
     private final PitchAnalysisRepository pitchAnalysisRepository;
     private final SongRepository songRepository;
+    private final SingerRepository singerRepository;
 
     @Override
     public TimbreAnalysisResp saveTimbreAnalysis(Long userId, MultipartFile file) throws Exception {
@@ -62,7 +65,7 @@ public class MusicServiceImpl implements MusicService {
             // 상위 5개의 객체 가져오기
             List<SingerDetailResp> topFive = new ArrayList<>();
             for (SingerDetailResp detail : set) {
-                detail.setSongList(songRepository.findFirst5BySingerId(detail.getSingerId()));
+//                detail.setSongList(singerRepository.findBySingerId(detail.getSingerId()).get().getSongs());
                 topFive.add(detail);
                 if (topFive.size() == 5) {
                     break;
@@ -166,14 +169,35 @@ public class MusicServiceImpl implements MusicService {
         return resultRespList;
     }
 
+    @Transactional
     @Override
     public TimbreAnalysisResp selectOneTimbreAnalysis(Long timbreId) {
 
         TimbreAnalysis timbreAnalysis = timbreAnalysisRepository.findByTimbreId(timbreId).orElseThrow();
 
+        List<SingerDetailResp> topFive = new ArrayList<>();
+        topFive.add(new SingerDetailResp(singerRepository.findBySingerId(timbreAnalysis.getSinger1()).get(), timbreAnalysis.getSimilarity1()));
+        topFive.add(new SingerDetailResp(singerRepository.findBySingerId(timbreAnalysis.getSinger2()).get(), timbreAnalysis.getSimilarity2()));
+        topFive.add(new SingerDetailResp(singerRepository.findBySingerId(timbreAnalysis.getSinger3()).get(), timbreAnalysis.getSimilarity3()));
+        topFive.add(new SingerDetailResp(singerRepository.findBySingerId(timbreAnalysis.getSinger4()).get(), timbreAnalysis.getSimilarity4()));
+        topFive.add(new SingerDetailResp(singerRepository.findBySingerId(timbreAnalysis.getSinger5()).get(), timbreAnalysis.getSimilarity5()));
+
         TimbreAnalysisResp timbreAnalysisResp = TimbreAnalysisResp.builder()
                 .timbreId(timbreAnalysis.getTimbreId())
+                .mfccMean(timbreAnalysis.getMfccMean())
+                .stftMean(timbreAnalysis.getStftMean())
+                .zcrMean(timbreAnalysis.getZcrMean())
+                .spcMean(timbreAnalysis.getSpcMean())
+                .sprMean(timbreAnalysis.getSprMean())
+                .rmsMean(timbreAnalysis.getRmsMean())
+                .mfccVar(timbreAnalysis.getMfccVar())
+                .stftVar(timbreAnalysis.getStftVar())
+                .zcrVar(timbreAnalysis.getZcrVar())
+                .spcVar(timbreAnalysis.getSpcVar())
+                .sprVar(timbreAnalysis.getSprVar())
+                .rmsVar(timbreAnalysis.getRmsVar())
                 .time(timbreAnalysis.getTime())
+                .singerDetails(topFive)
                 .build();
 
         return timbreAnalysisResp;

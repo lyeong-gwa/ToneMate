@@ -1,5 +1,6 @@
 package com.a603.tonemate.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,7 @@ public class Singer {
     private Genre genre;
 
     @OneToMany(mappedBy = "singer")
+    @JsonManagedReference
     private List<Song> songs;
 
     public List<Song> getSongs() {

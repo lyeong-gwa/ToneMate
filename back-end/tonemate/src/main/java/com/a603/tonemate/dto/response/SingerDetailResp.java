@@ -1,5 +1,6 @@
 package com.a603.tonemate.dto.response;
 
+import com.a603.tonemate.db.entity.Singer;
 import com.a603.tonemate.db.entity.Song;
 import lombok.*;
 
@@ -17,6 +18,13 @@ public class SingerDetailResp implements Comparable<SingerDetailResp> {
     public SingerDetailResp(Long singerId, String name, Float similarityPercent){
         this.singerId = singerId;
         this.name = name;
+        this.similarityPercent = similarityPercent;
+    }
+
+    public SingerDetailResp(Singer singer, Float similarityPercent){
+        this.singerId = singer.getSingerId();
+        this.name = singer.getName();
+        this.songList = singer.getSongs().subList(0, 5);
         this.similarityPercent = similarityPercent;
     }
 
