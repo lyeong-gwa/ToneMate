@@ -57,6 +57,7 @@ public class FlaskUtil {
 	    	  Map<String, Object> result = response.getBody();
 	    	  System.out.println(result);
 	          System.out.println(result.get("similaritypercent"));
+			  return result;
 	      } else {
 	          System.out.println("Error: " + response.getStatusCodeValue());
 	      }
