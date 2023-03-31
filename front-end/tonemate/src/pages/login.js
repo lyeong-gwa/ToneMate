@@ -16,8 +16,8 @@ export default function LoginPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="h-screen w-screen bg-base-200">
-          <div className="text-center">
+        <div className="grid h-screen w-screen place-items-center bg-base-200">
+          <div className="grid h-96 w-96 place-items-center rounded-md bg-white">
             <Link href={`${API_URL}/oauth2/authorization/kakao`}>
               <button className="btn">카카오 로그인</button>
             </Link>
