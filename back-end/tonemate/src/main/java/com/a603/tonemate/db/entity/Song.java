@@ -1,14 +1,21 @@
 package com.a603.tonemate.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Getter
@@ -30,20 +37,26 @@ public class Song {
     private float sprVar;
     private float rmsVar;
     
-    @Column(nullable = false)
+    @Column
     private int octaveLow = 0;
-    @Column(nullable = false)
-    private int octaveHigh = 495;
+    @Column
+    private int octaveHigh = 500;
 
-    private Long singerId;
+    //private Long singerId;
     private String title;
     private String numKy;
     private String numTj;
 
+
+    @ManyToOne
+    @JoinColumn(name = "singer_id")
+    @JsonBackReference
+    private Singer singer;
+
     @Builder
 	public Song(Long songId, float mfccMean, float stftMean, float zcrMean, float spcMean, float sprMean,
 			float rmsMean, float mfccVar, float stftVar, float zcrVar, float spcVar, float sprVar, float rmsVar,
-			int octaveLow, int octaveHigh, Long singerId, String title, String numKy, String numTj) {
+			int octaveLow, int octaveHigh, Singer singer, String title, String numKy, String numTj) {
 		super();
 		this.songId = songId;
 		this.mfccMean = mfccMean;
@@ -60,7 +73,7 @@ public class Song {
 		this.rmsVar = rmsVar;
 		this.octaveLow = octaveLow;
 		this.octaveHigh = octaveHigh;
-		this.singerId = singerId;
+		this.singer = singer;
 		this.title = title;
 		this.numKy = numKy;
 		this.numTj = numTj;

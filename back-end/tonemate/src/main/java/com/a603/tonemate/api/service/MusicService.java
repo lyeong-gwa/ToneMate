@@ -1,21 +1,17 @@
 package com.a603.tonemate.api.service;
 
 import com.a603.tonemate.db.entity.PitchAnalysis;
-import com.a603.tonemate.db.entity.Song;
-import com.a603.tonemate.db.entity.TimbreAnalysis;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.dto.response.ResultResp;
 import com.a603.tonemate.dto.response.TimbreAnalysisResp;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
-
-import org.springframework.web.multipart.MultipartFile;
 
 public interface MusicService {
 
     // 음색 검사 내용 추가
-    TimbreAnalysisResp saveTimbreAnalysis(TimbreAnalysis timbreAnalysis);
+    TimbreAnalysisResp saveTimbreAnalysis(Long userId, MultipartFile file) throws Exception;
 
     // 음역대 검사 내용 추가
     PitchAnalysisResp savePitchAnalysis(PitchAnalysis pitchAnalysis);
@@ -36,5 +32,5 @@ public interface MusicService {
     PitchAnalysisResp analysisPitch(Long userId, MultipartFile lowOctave, MultipartFile highOctave);
     
     // 사용자 음역대 검사 기록에 의한 요청처리
-	PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, int pitchId);
+	PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, Long pitchId);
 }

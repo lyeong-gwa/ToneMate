@@ -6,5 +6,6 @@ import java.util.Optional;
 
 public interface SingerRepository extends JpaRepository<Singer, Long> {
     Optional<Singer> findBySingerId(Long i);
-    
+
+    Optional<Singer> findByName(String name);
 }

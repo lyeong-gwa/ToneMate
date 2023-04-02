@@ -1,5 +1,6 @@
 package com.a603.tonemate.dto.response;
 
+import com.a603.tonemate.dto.common.SingerDetail;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,20 +34,9 @@ public class TimbreAnalysisResp {
     private float sprVar;
     private float rmsVar;
 
-    @ApiModelProperty(value = "유사도가 높은 상위 5명의 가수 이름")
-    private String singer1;
-    private String singer2;
-    private String singer3;
-    private String singer4;
-    private String singer5;
-
-    @ApiModelProperty(value = "상위 5명의 각 가수와의 유사도")
-    private float similarity1;
-    private float similarity2;
-    private float similarity3;
-    private float similarity4;
-    private float similarity5;
-
     @ApiModelProperty(value = "음색 분석 검사 일시")
     private LocalDateTime time;
+
+    @ApiModelProperty(value = "유사도가 높은 가수 정보 제공")
+    private List<SingerDetail> singerDetails;
 }
