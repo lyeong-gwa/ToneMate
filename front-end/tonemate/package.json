@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",
+    "canvas": "^2.11.0",
     "compass": "^0.1.1",
     "compass-mixins": "^0.12.12",
     "daisyui": "^2.51.4",
@@ -20,6 +21,7 @@
     "react-alice-carousel": "^2.7.0",
     "react-audio-voice-recorder": "^1.0.5",
     "react-dom": "18.2.0",
+    "react-konva": "^18.2.5",
     "react-query": "^3.39.3",
     "react-toggle-switch": "^3.0.4",
     "tailwind-scrollbar-hide": "^1.1.7",

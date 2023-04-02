@@ -14,10 +14,26 @@ export default function HomePage() {
       <main>
         <Layout>
           <HalfContainer>
-            <div className="flex w-140 h-full bg-gray-400"></div>
-            <div className="flex flex-col grow justify-center items-start bg-gray-200">
-              <div className="m-3">
-                <p className="text-white">TONEMATE</p>
+            <div className="flex flex-row w-full h-full">
+              <div className="flex flex-row justify-end items-end w-full lg:w-140 h-full bg-home">
+                <div className="flex lg:hidden flex-col my-5 grow justify-center items-start bg-trasparent">
+                  <div className="flex flex-row border rounded-full border-black px-2 my-2 mx-3">
+                    <p className="text-red-600 font-alatsi text-sm ">TONEMATE</p>
+                  </div>
+                  <div className="flex flex-col px-2  mx-3 ">
+                    <p className="text-red-600 font-nanum text-xl">톤메이트와 함께</p>
+                    <p className="text-red-600 font-nanum text-xl">내 목소리에 딱 맞는 노래 찾자!</p>
+                  </div>
+                </div>
+              </div>
+              <div className="hidden lg:flex flex-col grow justify-center items-start bg-gradient-to-r from-violet-500 to-fuchsia-500">
+                <div className="flex flex-row border rounded-full border-black px-2 my-2 mx-3">
+                  <p className="text-white font-alatsi ">TONEMATE</p>
+                </div>
+                <div className="flex flex-col px-2  mx-3 ">
+                  <p className="text-white font-nanum text-3xl">톤메이트와 함께</p>
+                  <p className="text-white font-nanum text-3xl">내 목소리에 딱 맞는 노래 찾자!</p>
+                </div>
               </div>
             </div>
           </HalfContainer>
