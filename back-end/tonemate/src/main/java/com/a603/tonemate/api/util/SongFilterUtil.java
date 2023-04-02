@@ -1,5 +1,6 @@
 package com.a603.tonemate.api.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SongFilterUtil {
 	public List<Long> convertStringToLongList(String str) {
+		if("[]".equals(str)) return new ArrayList<Long>();
 	    return Arrays.stream(str.substring(1, str.length() - 1).split(","))
 	            .map(String::trim).map(Long::valueOf).collect(Collectors.toList());
 	}

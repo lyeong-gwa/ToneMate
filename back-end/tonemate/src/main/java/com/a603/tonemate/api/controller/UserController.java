@@ -46,7 +46,7 @@ public class UserController {
     public ResponseEntity<UserResp> selectOneUser(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String token) {
         System.out.println("쿠키 확인: " + token);
         Long userId = jwtTokenProvider.getId(token);
-        System.out.println("본인 정보 확인 가넝");
+        System.out.println("본인 정보 확인 가능");
         return new ResponseEntity<>(userService.selectOneUser(userId), HttpStatus.OK);
     }
 

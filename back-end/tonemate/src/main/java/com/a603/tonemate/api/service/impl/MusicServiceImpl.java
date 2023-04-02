@@ -256,7 +256,6 @@ public class MusicServiceImpl implements MusicService {
 	public PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, Long pitchId) {
 		Genre genreEnum = Genre.fromCode(genre);
 		PitchAnalysis pitchAnalysis = pitchAnalysisRepository.findByPitchIdAndUserId(pitchId, userId).orElseThrow();
-		songFilterUtil.convertStringToLongList(pitchAnalysis.getPassibleList());
 		
 		List<Long> passibleList = songFilterUtil.convertStringToLongList(pitchAnalysis.getPassibleList());
 		List<Long> normalList = songFilterUtil.convertStringToLongList(pitchAnalysis.getNormalList());
