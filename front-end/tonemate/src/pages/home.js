@@ -1,8 +1,11 @@
 import Head from "next/head";
 import Layout from "@/components/layout";
 import HalfContainer from "@/components/content/half-container";
+import { useRouter } from "next/router";
 
 export default function HomePage() {
+  const Router = useRouter();
+
   return (
     <>
       <Head>
@@ -18,11 +21,17 @@ export default function HomePage() {
               <div className="flex flex-row justify-end items-end w-full lg:w-140 h-full bg-home">
                 <div className="flex lg:hidden flex-col my-5 grow justify-center items-start bg-trasparent">
                   <div className="flex flex-row border rounded-full border-black px-2 my-2 mx-3">
-                    <p className="text-red-600 font-alatsi text-sm ">TONEMATE</p>
+                    <p className="text-red-600 font-alatsi text-sm ">
+                      TONEMATE
+                    </p>
                   </div>
                   <div className="flex flex-col px-2  mx-3 ">
-                    <p className="text-red-600 font-nanum text-xl">톤메이트와 함께</p>
-                    <p className="text-red-600 font-nanum text-xl">내 목소리에 딱 맞는 노래 찾자!</p>
+                    <p className="text-red-600 font-nanum text-xl">
+                      톤메이트와 함께
+                    </p>
+                    <p className="text-red-600 font-nanum text-xl">
+                      내 목소리에 딱 맞는 노래 찾자!
+                    </p>
                   </div>
                 </div>
               </div>
@@ -31,8 +40,12 @@ export default function HomePage() {
                   <p className="text-white font-alatsi ">TONEMATE</p>
                 </div>
                 <div className="flex flex-col px-2  mx-3 ">
-                  <p className="text-white font-nanum text-3xl">톤메이트와 함께</p>
-                  <p className="text-white font-nanum text-3xl">내 목소리에 딱 맞는 노래 찾자!</p>
+                  <p className="text-white font-nanum text-3xl">
+                    톤메이트와 함께
+                  </p>
+                  <p className="text-white font-nanum text-3xl">
+                    내 목소리에 딱 맞는 노래 찾자!
+                  </p>
                 </div>
               </div>
             </div>
@@ -41,25 +54,55 @@ export default function HomePage() {
             <div className="flex flex-row m-3">
               <p className="text-2xl text-white">TONEMATE 서비스 바로가기 </p>
             </div>
-            <div className="flex flex-row flex-nowrap overflow-x-auto grow w-full justify-start items-center scrollbar-hide snap-x bg-white">
-              <button className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 h-1/4 mx-3 bg-gray-400">
-                음색 검사
-              </button>
-              <button className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 h-1/4 mx-3 bg-gray-400">
-                음역대 검사
-              </button>
-              <button className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 h-1/4 mx-3 bg-gray-400">
-                검사 결과
-              </button>
-              <button className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 h-1/4 mx-3 bg-gray-400">
-                노래 검색
-              </button>
-              <button className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 h-1/4 mx-3 bg-gray-400">
-                애창곡 리스트
-              </button>
-              <button className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 h-1/4 mx-3 bg-gray-400">
-                서비스
-              </button>
+            <div className="flex flex-row flex-nowrap overflow-x-auto grow w-full justify-start items-center scrollbar-hide snap-x ">
+              <div className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+                <button
+                  className="w-full h-full bg-black rounded-xl"
+                  onClick={() => Router.push("/inspectation/vocal-color")}
+                >
+                  <p className="text-white text-2xl">음색 검사</p>
+                </button>
+              </div>
+              <div className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6  mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+                <button
+                  className="w-full h-full bg-black rounded-xl"
+                  onClick={() => Router.push("/inspectation/vocal-range")}
+                >
+                  <p className="text-white text-2xl">음역대 검사</p>
+                </button>
+              </div>
+              <div className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+                <button
+                  className="w-full h-full bg-black rounded-xl"
+                  onClick={() => Router.push("/inspectation/result-list")}
+                >
+                  <p className="text-white text-2xl">검사 결과</p>
+                </button>
+              </div>
+              <div className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+                <button
+                  className="w-full h-full bg-black rounded-xl"
+                  onClick={() => Router.push("/search")}
+                >
+                  <p className="text-white text-2xl">노래 검색</p>
+                </button>
+              </div>
+              <div className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+                <button
+                  className="w-full h-full bg-black rounded-xl"
+                  onClick={() => Router.push("/user/music-list")}
+                >
+                  <p className="text-white text-2xl">애창곡 리스트</p>
+                </button>
+              </div>
+              <div className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+                <button
+                  className="w-full h-full bg-black rounded-xl"
+                  onClick={() => Router.push("/about")}
+                >
+                  <p className="text-white text-2xl">서비스</p>
+                </button>
+              </div>
             </div>
           </HalfContainer>
         </Layout>

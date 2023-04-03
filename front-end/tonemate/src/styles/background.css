@@ -184,7 +184,7 @@
 /* line 26, ../sass/sa.sass */
 #stars:after {
   content: " ";
-  position: absolute;
+  position: relative;
   top: 2000px;
   width: 1px;
   height: 1px;
@@ -430,7 +430,7 @@
 /* line 42, ../sass/sa.sass */
 #stars2:after {
   content: " ";
-  position: absolute;
+  position: relative;
   top: 2000px;
   width: 2px;
   height: 2px;
@@ -525,7 +525,7 @@
 /* line 58, ../sass/sa.sass */
 #stars3:after {
   content: " ";
-  position: absolute;
+  position: relative;
   top: 2000px;
   width: 3px;
   height: 3px;

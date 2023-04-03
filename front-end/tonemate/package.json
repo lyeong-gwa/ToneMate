@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",
-    "canvas": "^2.11.0",
+    "canvas": "^2.11.2",
     "compass": "^0.1.1",
     "compass-mixins": "^0.12.12",
     "daisyui": "^2.51.4",
