@@ -47,7 +47,9 @@ services:
       - 80:80
       - 8080:8080
     volumes:
-      - ./nginx/${NGINX_CONF}:/etc/nginx/nginx.conf
+      - ./nginx/nginx-dev.conf:/etc/nginx/nginx-dev.conf
+      - ./nginx/nginx-prod.conf:/etc/nginx/nginx-prod.conf
+      - ./nginx/nginx-prod.conf:/etc/nginx/nginx.conf # 기본
     networks:
       - tonemate_dev
       - tonemate_prod
