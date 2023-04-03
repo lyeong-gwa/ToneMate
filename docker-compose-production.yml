@@ -1,8 +1,8 @@
 version: '3.3'
 services:
-  spring:
+  spring_prod:
     build: ./back-end
-    container_name: spring
+    container_name: spring_prod
     environment:
       - DB_URL=${DB_URL}
       - DB_USER=${DB_USER}
@@ -24,10 +24,10 @@ services:
       - AI_DATA:/DATA
     command: java -jar /tonemate/build/libs/tonemate-0.0.1-SNAPSHOT.jar
     networks:
-      - tonemate
+      - tonemate_prod
 
-  flask:
-    container_name: flask
+  flask_prod:
+    container_name: flask_prod
     build: ./AI
     environment:
       - FLASK_FEATURES=${FLASK_FEATURES}
@@ -36,19 +36,19 @@ services:
       - AI_DATA:/DATA
     command: python app.py
     networks:
-      - tonemate
+      - tonemate_prod
     
-  front:
-    container_name: front
+  front_prod:
+    container_name: front_prod
     build:
       context: ./front-end/tonemate
       dockerfile: docker/production/Dockerfile
     networks:
-      - tonemate
+      - tonemate_prod
 volumes:
   AI_DATA:
     external: true
 networks:
-  tonemate:
+  tonemate_prod:
     driver: bridge
     external: true
