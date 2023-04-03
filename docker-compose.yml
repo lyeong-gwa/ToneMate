@@ -48,8 +48,8 @@ services:
     build:
       context: ./front-end/tonemate
       dockerfile: docker/production/Dockerfile
-    ports:
-      - '3003:3000'
+    # ports:
+    #   - '3003:3000'
     environment:
       - SPRING_DOMAIN=spring:5000
     networks:

@@ -27,6 +27,7 @@ services:
     image: mysql
     container_name: mysql
     environment:
+      - TZ = Asia/Seoul
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_USER=${MYSQL_USER}
@@ -35,6 +36,7 @@ services:
     volumes:
       - ./mysql/mysql-init-files/:/docker-entrypoint-initdb.d/
       - ./mysql/res/data/:/var/lib/mysql
+      - ./mysql/config/my.cnf:/etc/my.cnf
     ports:
       - 3305:3306
 
@@ -43,7 +45,6 @@ services:
     image: nginx:1.21.5-alpine
     ports:
       - 80:80
-      - 8000:8000
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     networks:
