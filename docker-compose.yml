@@ -43,6 +43,7 @@ services:
       - tonemate
     
   front:
+    container_name: front
     build:
       context: ./front-end/tonemate
       dockerfile: docker/production/Dockerfile
@@ -58,3 +59,4 @@ volumes:
 networks:
   tonemate:
     driver: bridge
+    external: true
