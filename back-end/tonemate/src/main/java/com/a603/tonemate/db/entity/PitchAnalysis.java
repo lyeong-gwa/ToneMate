@@ -31,29 +31,26 @@ public class PitchAnalysis {
     private LocalDateTime time;
 
     @Column(columnDefinition = "varchar(350)")
-    private String passibleList;
+    private String possibleList;
     @Column(columnDefinition = "varchar(350)")
     private String normalList;
     @Column(columnDefinition = "varchar(350)")
-    private String impassibleList;
-	
-    
+    private String impossibleList;
+
+
     @Builder
     public PitchAnalysis(Long pitchId, Long userId, int octaveLow, int octaveHigh, LocalDateTime time,
-			String passibleList, String normalList, String impassibleList) {
-		super();
-		this.pitchId = pitchId;
-		this.userId = userId;
-		this.octaveLow = octaveLow;
-		this.octaveHigh = octaveHigh;
-		this.time = time;
-		this.passibleList = passibleList;
-		this.normalList = normalList;
-		this.impassibleList = impassibleList;
-	}
+                         String possibleList, String normalList, String impossibleList) {
+        super();
+        this.pitchId = pitchId;
+        this.userId = userId;
+        this.octaveLow = octaveLow;
+        this.octaveHigh = octaveHigh;
+        this.time = time;
+        this.possibleList = possibleList;
+        this.normalList = normalList;
+        this.impossibleList = impossibleList;
+    }
 
 
-    
-    
-	
 }

@@ -1,4 +1,4 @@
-package com.a603.tonemate.api.util;
+package com.a603.tonemate.util;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class KaraokeTopDto extends KaraokeCommonDto {
-    @ApiModelProperty(value = "음악 순위")
+    @ApiModelProperty(value = "음악 순위", example = "1")
     private Long karaokeTopId;
     @ApiModelProperty(value = "애창곡 존재 여부")
     private Boolean isLike;
