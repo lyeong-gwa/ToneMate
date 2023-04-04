@@ -44,13 +44,11 @@ public class FileUtil {
 
     //String으로 된 url File로 변경
     public String urlUpload(String url, String dirName) throws IOException {
-        System.out.println("urlUpload의 url: " + url);
 
         URL profile = new URL(url);
-        System.out.println("여기 옴?");
 
         String fileName = dirName + "/" + Math.random() * 1000 + "_" + "socialprofile"; // 이미지 이름
-        String ext = url.substring(url.lastIndexOf('.') + 1, url.length()); // 확장자
+        String ext = url.substring(url.lastIndexOf('.') + 1); // 확장자
         BufferedImage img = ImageIO.read(profile);
         //파일 저장 경로 생성
         File uploadFile = new File("upload/" + fileName + "." + ext);
@@ -61,7 +59,6 @@ public class FileUtil {
 
         //이미지를 파일로 업로드
         ImageIO.write(img, ext, uploadFile);
-        System.out.println("소셜로그인 파일 변환 완료");
 
         //s3에 저장
         String uploadImageUrl = putS3(uploadFile, fileName);
