@@ -1,7 +1,7 @@
 package com.a603.tonemate.util.annotation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -14,17 +14,14 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 @Component
+@RequiredArgsConstructor
 public class QueryStringArgumentResolver implements HandlerMethodArgumentResolver {
-
-    @Autowired
-    private ObjectMapper mapper;
-
+    private final ObjectMapper om;
 
     @Override
     public boolean supportsParameter(final MethodParameter methodParameter) {
         return methodParameter.getParameterAnnotation(QueryStringArgResolver.class) != null;
     }
-
 
     @Override
     public Object resolveArgument(final MethodParameter methodParameter,
@@ -32,24 +29,22 @@ public class QueryStringArgumentResolver implements HandlerMethodArgumentResolve
                                   final NativeWebRequest nativeWebRequest,
                                   final WebDataBinderFactory webDataBinderFactory) throws Exception {
         final HttpServletRequest request = (HttpServletRequest) nativeWebRequest.getNativeRequest();
-        final String json = qs2json(URLDecoder.decode(request.getQueryString(), StandardCharsets.UTF_8));
-        return mapper.readValue(json, methodParameter.getParameterType());
+        final String json = queryToJson(URLDecoder.decode(request.getQueryString(), StandardCharsets.UTF_8));
+        return om.readValue(json, methodParameter.getParameterType());
     }
 
-
-    private String qs2json(String a) {
-        String res = "{\"";
-
-        for (int i = 0; i < a.length(); i++) {
-            if (a.charAt(i) == '=') {
-                res += "\"" + ":" + "\"";
-            } else if (a.charAt(i) == '&') {
-                res += "\"" + "," + "\"";
+    private String queryToJson(String query) {
+        StringBuilder result = new StringBuilder("{\"");
+        for (int i = 0; i < query.length(); i++) {
+            if (query.charAt(i) == '=') {
+                result.append("\"" + ":" + "\"");
+            } else if (query.charAt(i) == '&') {
+                result.append("\"" + "," + "\"");
             } else {
-                res += a.charAt(i);
+                result.append(query.charAt(i));
             }
         }
-        res += "\"" + "}";
-        return res;
+        result.append("\"" + "}");
+        return result.toString();
     }
 }
