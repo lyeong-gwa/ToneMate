@@ -22,7 +22,6 @@ public class AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        System.out.println("AuthenticationSuccessHandler의 토큰 만들기~");
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication); // tokenInfo 만들어서
 
         redisTemplate.opsForValue()

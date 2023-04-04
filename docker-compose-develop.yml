@@ -2,7 +2,7 @@ version: '3.3'
 services:
   spring_dev:
     build: ./back-end
-    container_name: spring_dev
+    container_name: springDev
     environment:
       - DB_URL=${DB_URL}
       - DB_USER=${DB_USER}
@@ -19,7 +19,7 @@ services:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - KAKAO_REDIRECT_URI=${KAKAO_REDIRECT_URI}
       - GOOGLE_REDIRECT_URI=${GOOGLE_REDIRECT_URI}
-      - FLASK_DOMAIN=flask:5000
+      - FLASK_DOMAIN=flaskDev:5000
     volumes:
       - AI_DATA:/DATA
     command: java -jar /tonemate/build/libs/tonemate-0.0.1-SNAPSHOT.jar
@@ -27,7 +27,7 @@ services:
       - tonemate_dev
 
   flask_dev:
-    container_name: flask_dev
+    container_name: flaskDev
     build: ./AI
     environment:
       - FLASK_FEATURES=${FLASK_FEATURES}
@@ -39,7 +39,7 @@ services:
       - tonemate_dev
     
   front_dev:
-    container_name: front_dev
+    container_name: frontDev
     build:
       context: ./front-end/tonemate
       dockerfile: docker/production/Dockerfile # dev 버전이라도 production해야함, dev는 local사용

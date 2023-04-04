@@ -6,24 +6,22 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.http.MediaType;
-import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JwtExceptionFilter extends OncePerRequestFilter {
+public class JwtExceptionFilter extends GenericFilter {
 
 
     public JwtExceptionFilter() {
     }
 
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         try {
-            filterChain.doFilter(request, response); //jwtauthenticaionfilter
+            chain.doFilter(request, response); //jwtauthenticaionfilter
         } catch (NoTokenException e) {
             setErrorResponse(response, "토큰이 없습니다.");
         } catch (ExpiredJwtException e) {
@@ -36,12 +34,15 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
             setErrorResponse(response, "시그니처 검증에 실패한 토큰입니다.");
         } catch (IllegalArgumentException e) {
             setErrorResponse(response, "토큰에 해당하는 유저가 없습니다.");
+        } catch (Exception e) {
+            System.out.println("넌 누구냐");
+            System.out.println(e.getClass());
         }
     }
 
-    private void setErrorResponse(HttpServletResponse response, String error) throws IOException {
+    private void setErrorResponse(ServletResponse response, String error) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, error);
+        ((HttpServletResponse) response).sendError(HttpServletResponse.SC_UNAUTHORIZED, error);
     }
 }

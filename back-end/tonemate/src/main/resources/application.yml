@@ -52,11 +52,13 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 200MB
-springfox:
-  documentation:
-    swagger:
-      v2:
-        enabled: true
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+#springfox:
+#  documentation:
+#    swagger:
 
 logging:
   level:

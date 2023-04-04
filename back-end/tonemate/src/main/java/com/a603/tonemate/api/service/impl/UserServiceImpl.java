@@ -1,12 +1,12 @@
 package com.a603.tonemate.api.service.impl;
 
 import com.a603.tonemate.api.service.UserService;
-import com.a603.tonemate.api.util.FileUtil;
 import com.a603.tonemate.db.entity.User;
 import com.a603.tonemate.db.repository.UserRepository;
 import com.a603.tonemate.dto.request.UserUpdateReq;
 import com.a603.tonemate.dto.response.UserResp;
 import com.a603.tonemate.security.auth.JwtTokenProvider;
+import com.a603.tonemate.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,5 +46,6 @@ public class UserServiceImpl implements UserService {
         System.out.println(userRepository.existsByNickname(nickname));
         return userRepository.existsByNickname(nickname);
     }
+
 
 }

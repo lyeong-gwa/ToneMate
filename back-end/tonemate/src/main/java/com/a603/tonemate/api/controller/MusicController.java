@@ -5,8 +5,6 @@ import com.a603.tonemate.api.service.MusicService;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.exception.AnalysisPitchByGenreException;
 import com.a603.tonemate.exception.AnalysisPitchException;
-import com.a603.tonemate.exception.NoFileException;
-import com.a603.tonemate.exception.UnsupportedPitchFileException;
 import com.a603.tonemate.security.auth.JwtProperties;
 import com.a603.tonemate.security.auth.JwtTokenProvider;
 import io.swagger.annotations.Api;
@@ -38,8 +36,8 @@ public class MusicController {
 
     @ApiOperation(value = "음색 분석", notes = "음색 검사를 위한 녹음 wav파일을 분석 및 저장")
     @PostMapping("/timbre")
-    public ResponseEntity<?> analysisTimbre(@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token,@RequestParam("fileWav") MultipartFile file) throws Exception {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
-    	Long userId = jwtTokenProvider.getId(token);
+    public ResponseEntity<?> analysisTimbre(@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token, @RequestParam("fileWav") MultipartFile file) throws Exception {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+        Long userId = jwtTokenProvider.getId(token);
         return new ResponseEntity<>(musicService.saveTimbreAnalysis(userId, file), HttpStatus.OK);
     }
 
@@ -47,44 +45,44 @@ public class MusicController {
     @ApiOperation(value = "음역대 분석", notes = "음역대 검사를 위한 녹음 wav파일을 분석 및 저장")
     @PostMapping("/pitch")
     public ResponseEntity<?> analysisPitch(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String token, @RequestPart("lowOctave") MultipartFile lowOctave, @RequestPart("highOctave") MultipartFile highOctave) {
-    	Long userId = jwtTokenProvider.getId(token);
-    	
-    	PitchAnalysisResp result;
+        Long userId = jwtTokenProvider.getId(token);
+
+        PitchAnalysisResp result;
         try {
-            result = musicService.analysisPitch(userId,lowOctave, highOctave);
+            result = musicService.analysisPitch(userId, lowOctave, highOctave);
         } catch (Exception e) {//NoFileException | UnsupportedPitchFileException e
-        	throw AnalysisPitchException.fromException(e);
+            throw AnalysisPitchException.fromException(e);
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-    
+
     @ApiOperation(value = "음역대 분석 장르 요청", notes = "음역대 검사에서 장르에 따른 결과 제공")
     @GetMapping("/pitch/{pitchId}/{genre}")
-    public ResponseEntity<?> analysisPitchByGenre(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String token, @PathVariable("genre") String genre,@PathVariable("pitchId") Long pitchId) {
-    	Long userId = jwtTokenProvider.getId(token);
-    	PitchAnalysisResp result;
-    	
-    	try {
-    		result = musicService.analysisPitchByGenre(userId,genre, pitchId);
+    public ResponseEntity<?> analysisPitchByGenre(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String token, @PathVariable("genre") String genre, @PathVariable("pitchId") Long pitchId) {
+        Long userId = jwtTokenProvider.getId(token);
+        PitchAnalysisResp result;
+
+        try {
+            result = musicService.analysisPitchByGenre(userId, genre, pitchId);
         } catch (Exception e) {
             throw AnalysisPitchByGenreException.fromException(e);
         }
 
         return new ResponseEntity<PitchAnalysisResp>(result, HttpStatus.OK);
     }
-    
+
 
     @ApiOperation(value = "검사 결과 목록", notes = "사용자가 진행했던 분석결과를 리스트로 제공")
     @GetMapping("/result")
     public ResponseEntity<?> resultList(@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token) {
-    	Long userId = jwtTokenProvider.getId(token);
+        Long userId = jwtTokenProvider.getId(token);
         musicService.getResultList(userId);
         return new ResponseEntity<>(musicService.getResultList(userId), HttpStatus.OK);
     }
 
     @ApiOperation(value = "검사 결과 삭제", notes = "사용자가 선택한 검사 결과를 삭제한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "검사 유형 (timbre/pitch)"),
-    @ApiImplicitParam(name = "id", value = "검사 아이디")})
+            @ApiImplicitParam(name = "id", value = "검사 아이디", example = "1")})
     @DeleteMapping("/result/{type}/{id}")
     public ResponseEntity<?> deleteResult(@PathVariable("type") String type, @PathVariable("id") Long id) {
 
@@ -95,9 +93,9 @@ public class MusicController {
 
     @ApiOperation(value = "검사 결과 조회", notes = "사용자가 선택한 검사 결과의 상세 정보를 조회한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "검사 유형 (timbre/pitch)"),
-    @ApiImplicitParam(name = "id", value = "검사 아이디")})
+            @ApiImplicitParam(name = "id", value = "검사 아이디", example = "1")})
     @GetMapping("/result/{type}/{id}")
-    public ResponseEntity<?> selectOneResult(@PathVariable("type") String type, @PathVariable("id") Long id){//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+    public ResponseEntity<?> selectOneResult(@PathVariable("type") String type, @PathVariable("id") Long id) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
 
 
         if (type.equals("timbre")) {

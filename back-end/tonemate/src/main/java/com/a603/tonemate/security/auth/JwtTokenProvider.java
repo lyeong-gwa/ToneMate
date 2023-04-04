@@ -13,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
@@ -89,15 +90,11 @@ public class JwtTokenProvider {
 
     // 토큰 정보를 검증하는 메서드
     public boolean validateToken(String token) {
-        System.out.println("validateToken 토큰 검사");
-        System.out.println("-=--------------------------------------");
         Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
         return true;
     }
 
     private Claims parseClaims(String accessToken) {
-        System.out.println("parseClaims 토큰 정보 뽑기");
-        System.out.println("--------------------------------------------------------------------------");
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody();
         } catch (ExpiredJwtException e) {
@@ -106,15 +103,15 @@ public class JwtTokenProvider {
     }
 
     public Long getId(String token) {
-        return Long.parseLong(parseClaims(parseToken(token)).get("id").toString());
+        return Long.parseLong(parseClaims(token).get("id").toString());
     }
 
-    public String parseToken(String token) {
-        if (token.startsWith(JwtProperties.TOKEN_PREFIX)) {
-            token = token.substring(JwtProperties.TOKEN_PREFIX.length());
-        }
-        return token;
-    }
+//    public String parseToken(String token) {
+//        if (token.startsWith(JwtProperties.TOKEN_PREFIX)) {
+//            token = token.substring(JwtProperties.TOKEN_PREFIX.length());
+//        }
+//        return token;
+//    }
 
     public TokenReq getToken(HttpServletRequest request) {
         TokenReq tokenReq = new TokenReq();
@@ -129,4 +126,15 @@ public class JwtTokenProvider {
         return tokenReq;
     }
 
+    public String getAccessToken(ServletRequest request) {
+        if (((HttpServletRequest) request).getCookies() != null) {
+            for (Cookie cookie : ((HttpServletRequest) request).getCookies()) {
+                String name = cookie.getName();
+                if (name.equals("accessToken")) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
 }

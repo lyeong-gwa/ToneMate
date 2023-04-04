@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -31,10 +31,9 @@ public class SecurityConfig {
 
     private final CustomLogoutHandler customLogoutHandler;
 
-
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/tokens/reissue", "/swagger-ui/**", "/swagger-resources/**", "/v2/api-docs/**", "/favicon.ico");
     }
 
     @Bean
@@ -52,7 +51,6 @@ public class SecurityConfig {
                 .addLogoutHandler(customLogoutHandler)// 로그아웃 구현할 class 넣기
                 .and()
                 .authorizeRequests()
-                .antMatchers("/tokens/reissue").permitAll()
                 .anyRequest().permitAll()//authenticated() // 인가 검증
                 .and()
                 .oauth2Login()

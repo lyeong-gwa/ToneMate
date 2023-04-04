@@ -16,6 +16,7 @@ public interface UserService {
 
     boolean checkNickname(String nickname);
 
+
     default UserResp toDto(User user) {
         return UserResp.builder()
                 .profileImg(user.getProfile())

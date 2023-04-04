@@ -41,23 +41,21 @@ public class UserController {
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "본인 정보 불러오기", notes = "본인의 이름, 프로필, 팔로워/팔로잉 수 정보")
+    @ApiOperation(value = "본인 정보 불러오기", notes = "본인의 이름, 프로필 정보")
     @GetMapping("/users")
-    public ResponseEntity<UserResp> selectOneUser(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String token) {
-        System.out.println("쿠키 확인: " + token);
-        Long userId = jwtTokenProvider.getId(token);
-        System.out.println("본인 정보 확인 가능");
+    public ResponseEntity<UserResp> selectOneUser(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String accessToken) {
+        Long userId = jwtTokenProvider.getId(accessToken);
         return new ResponseEntity<>(userService.selectOneUser(userId), HttpStatus.OK);
     }
 
     @ApiOperation(value = "닉네임 중복 검사", notes = "프로필 변경 시 닉네임 중복 검사하기")
     @GetMapping("/duplicate")
     public ResponseEntity<?> checkNickname(String nickname) {
-        System.out.println("중복검사 : " + nickname);
         if (userService.checkNickname(nickname)) {
             return new ResponseEntity<>(FAIL, HttpStatus.OK);
         }
         return new ResponseEntity<>(SUCCESS, HttpStatus.OK);
     }
+
 
 }

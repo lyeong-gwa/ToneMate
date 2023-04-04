@@ -25,7 +25,6 @@ public class UserDetailsCustom implements OAuth2User {
 
     @Override
     public String getName() {
-        System.out.println("userNickname: " + user.getNickname());
         return user.getNickname();
     }
 
