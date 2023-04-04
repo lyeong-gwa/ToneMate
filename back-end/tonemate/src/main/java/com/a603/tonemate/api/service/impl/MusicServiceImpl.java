@@ -89,12 +89,12 @@ public class MusicServiceImpl implements MusicService {
                     .spcMean(((Double)result.get("spc_mean")).floatValue())
                     .sprMean(((Double)result.get("spr_mean")).floatValue())
                     .rmsMean(((Double)result.get("rms_mean")).floatValue())
-                    .mfccVar(((Double)result.get("mfcc_mean")).floatValue())
-                    .stftVar(((Double)result.get("stft_mean")).floatValue())
-                    .zcrVar(((Double)result.get("zcr_mean")).floatValue())
-                    .spcVar(((Double)result.get("spc_mean")).floatValue())
-                    .sprVar(((Double)result.get("spr_mean")).floatValue())
-                    .rmsVar(((Double)result.get("rms_mean")).floatValue())
+                    .mfccVar(((Double)result.get("mfcc_var")).floatValue())
+                    .stftVar(((Double)result.get("stft_var")).floatValue())
+                    .zcrVar(((Double)result.get("zcr_var")).floatValue())
+                    .spcVar(((Double)result.get("spc_var")).floatValue())
+                    .sprVar(((Double)result.get("spr_var")).floatValue())
+                    .rmsVar(((Double)result.get("rms_var")).floatValue())
                     .singer1(topSingerDetails.get(0).getSingerId())
                     .singer2(topSingerDetails.get(1).getSingerId())
                     .singer3(topSingerDetails.get(2).getSingerId())
@@ -200,10 +200,21 @@ public class MusicServiceImpl implements MusicService {
 
 		PitchAnalysis pitchAnalysis = pitchAnalysisRepository.findByPitchId(pitchId).orElseThrow();
 
-		PitchAnalysisResp pitchAnalysisResp = PitchAnalysisResp.builder().pitchId(pitchAnalysis.getPitchId())
-				.time(pitchAnalysis.getTime()).build();
+		List<Long> possibleList = songFilterUtil.convertStringToLongList(pitchAnalysis.getPossibleList());
+		List<Long> normalList = songFilterUtil.convertStringToLongList(pitchAnalysis.getNormalList());
+		List<Long> impossibleList = songFilterUtil.convertStringToLongList(pitchAnalysis.getImpossibleList());
 
-		return pitchAnalysisResp;
+		List<Song> possibleSong = songRepository.findBySongIdIn(possibleList);
+		List<Song> normalSong = songRepository.findBySongIdIn(normalList);
+		List<Song> impossibleSong = songRepository.findBySongIdIn(impossibleList);
+
+		return PitchAnalysisResp.builder()
+				.lowOctave(pitchUtil.getOctaveName(pitchAnalysis.getOctaveLow()))
+				.highOctave(pitchUtil.getOctaveName(pitchAnalysis.getOctaveHigh()))
+				.possibleSong(possibleSong.subList(0, Math.min(3, possibleSong.size())))
+				.normalSong(normalSong.subList(0, Math.min(3, normalSong.size())))
+				.impossibleSong(impossibleSong.subList(0, Math.min(3, impossibleSong.size())))
+				.pitchId(pitchAnalysis.getPitchId()).time(pitchAnalysis.getTime()).build();
 	}
 
 	@Override
@@ -227,28 +238,28 @@ public class MusicServiceImpl implements MusicService {
 		int randLow = new Random().nextInt(28);
 		int randHigh = new Random().nextInt(27) + 32;
 
-		List<Song> passibleSong = songRepository.findByGenderAndOctaveInRange(lowPitch.getPitch() + 1, highPitch.getPitch() - 1, gender,
+		List<Song> possibleSong = songRepository.findByGenderAndOctaveInRange(lowPitch.getPitch() + 1, highPitch.getPitch() - 1, gender,
 				PageRequest.of(0, 50));
 		List<Song> normalSong = songRepository.findByGenderAndOctaveInRange(lowPitch.getPitch(), highPitch.getPitch(), gender,
 				PageRequest.of(0, 50));
-		List<Song> impassibleSong = songRepository.findByGenderAndOctaveOverlap(lowPitch.getPitch(), highPitch.getPitch(), gender,
+		List<Song> impossibleSong = songRepository.findByGenderAndOctaveOverlap(lowPitch.getPitch(), highPitch.getPitch(), gender,
 				PageRequest.of(0, 50));
-		List<Long> passibleSongId = new ArrayList<>();
+		List<Long> possibleSongId = new ArrayList<>();
 		List<Long> normalSongId = new ArrayList<>();
-		List<Long> impassibleSongId = new ArrayList<>();
+		List<Long> impossibleSongId = new ArrayList<>();
 
-		passibleSong.forEach(song -> passibleSongId.add(song.getSongId()));
+		possibleSong.forEach(song -> possibleSongId.add(song.getSongId()));
 		normalSong.forEach(song -> normalSongId.add(song.getSongId()));
-		impassibleSong.forEach(song -> impassibleSongId.add(song.getSongId()));
+		impossibleSong.forEach(song -> impossibleSongId.add(song.getSongId()));
 
 		PitchAnalysis pitchAnalysis = pitchAnalysisRepository.save(PitchAnalysis.builder().octaveLow(randLow)
-				.octaveHigh(randHigh).userId(userId).passibleList(passibleSongId.toString())
-				.normalList(normalSongId.toString()).impassibleList(impassibleSongId.toString()).build());
+				.octaveHigh(randHigh).userId(userId).possibleList(possibleSongId.toString())
+				.normalList(normalSongId.toString()).impossibleList(impossibleSongId.toString()).build());
 
 		return PitchAnalysisResp.builder().lowOctave(pitchUtil.getOctaveName(lowPitch.getPitch())).highOctave(pitchUtil.getOctaveName(highPitch.getPitch()))
-				.passibleSong(passibleSong.subList(0, Math.min(3, passibleSong.size())))
+				.possibleSong(possibleSong.subList(0, Math.min(3, possibleSong.size())))
 				.normalSong(normalSong.subList(0, Math.min(3, normalSong.size())))
-				.impassibleSong(impassibleSong.subList(0, Math.min(3, impassibleSong.size())))
+				.impossibleSong(impossibleSong.subList(0, Math.min(3, impossibleSong.size())))
 				.pitchId(pitchAnalysis.getPitchId()).time(pitchAnalysis.getTime()).build();
 	}
 
@@ -257,19 +268,19 @@ public class MusicServiceImpl implements MusicService {
 		Genre genreEnum = Genre.fromCode(genre);
 		PitchAnalysis pitchAnalysis = pitchAnalysisRepository.findByPitchIdAndUserId(pitchId, userId).orElseThrow();
 		
-		List<Long> passibleList = songFilterUtil.convertStringToLongList(pitchAnalysis.getPassibleList());
+		List<Long> possibleList = songFilterUtil.convertStringToLongList(pitchAnalysis.getPossibleList());
 		List<Long> normalList = songFilterUtil.convertStringToLongList(pitchAnalysis.getNormalList());
-		List<Long> impassibleList = songFilterUtil.convertStringToLongList(pitchAnalysis.getImpassibleList());
+		List<Long> impossibleList = songFilterUtil.convertStringToLongList(pitchAnalysis.getImpossibleList());
 
-		List<Song> passibleSongs = songFilterUtil.getSongsBySongIdsAndGenre(songRepository,passibleList, genreEnum);
+		List<Song> possibleSongs = songFilterUtil.getSongsBySongIdsAndGenre(songRepository,possibleList, genreEnum);
 		List<Song> normalSongs = songFilterUtil.getSongsBySongIdsAndGenre(songRepository,normalList, genreEnum);
-		List<Song> impassibleSongs = songFilterUtil.getSongsBySongIdsAndGenre(songRepository,impassibleList, genreEnum);
+		List<Song> impossibleSongs = songFilterUtil.getSongsBySongIdsAndGenre(songRepository,impossibleList, genreEnum);
 
 
         return PitchAnalysisResp.builder()
-        		.passibleSong(passibleSongs)
+        		.possibleSong(possibleSongs)
         		.normalSong(normalSongs)
-        		.impassibleSong(impassibleSongs)
+        		.impossibleSong(impossibleSongs)
         		.build();
 	}
 

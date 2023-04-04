@@ -1,6 +1,7 @@
 package com.a603.tonemate.dto.response;
 
 import com.a603.tonemate.dto.common.SingerDetail;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,7 @@ public class TimbreAnalysisResp {
     private float rmsVar;
 
     @ApiModelProperty(value = "음색 분석 검사 일시")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime time;
 
     @ApiModelProperty(value = "유사도가 높은 가수 정보 제공")
