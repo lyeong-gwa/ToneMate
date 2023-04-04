@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @ApiModel(value = "음색/음역대 분석 검사 결과 리스트", description = "음색/음역대 검사 결과 목록의 정보들이 담김(검사 id, 검사 유형, 검사 일시)")
 public class ResultResp implements Comparable<ResultResp> {
 
-    @ApiModelProperty(value = "검사 결과 id")
+    @ApiModelProperty(value = "검사 결과 id", example = "1")
     private Long resultId;
 
     @ApiModelProperty(value = "검사 결과 유형(음색 or 음역대)")

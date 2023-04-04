@@ -82,7 +82,7 @@ public class MusicController {
 
     @ApiOperation(value = "검사 결과 삭제", notes = "사용자가 선택한 검사 결과를 삭제한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "검사 유형 (timbre/pitch)"),
-            @ApiImplicitParam(name = "id", value = "검사 아이디")})
+            @ApiImplicitParam(name = "id", value = "검사 아이디", example = "1")})
     @DeleteMapping("/result/{type}/{id}")
     public ResponseEntity<?> deleteResult(@PathVariable("type") String type, @PathVariable("id") Long id) {
 
@@ -93,7 +93,7 @@ public class MusicController {
 
     @ApiOperation(value = "검사 결과 조회", notes = "사용자가 선택한 검사 결과의 상세 정보를 조회한다.")
     @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "검사 유형 (timbre/pitch)"),
-            @ApiImplicitParam(name = "id", value = "검사 아이디")})
+            @ApiImplicitParam(name = "id", value = "검사 아이디", example = "1")})
     @GetMapping("/result/{type}/{id}")
     public ResponseEntity<?> selectOneResult(@PathVariable("type") String type, @PathVariable("id") Long id) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
 

@@ -17,7 +17,7 @@ import java.util.List;
 @Getter
 @ApiModel(value = "음색 분석 검사 결과", description = "사용자가 보낸 wav 파일에 대한 음색 분석 결과 정보들이 담김")
 public class PitchAnalysisResp {
-    @ApiModelProperty(value = "음역대 분석 결과 id")
+    @ApiModelProperty(value = "음역대 분석 결과 id", example = "1")
     private Long pitchId;
 
     @ApiModelProperty(value = "사용자 음역대의 최저음")

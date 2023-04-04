@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 public class KaraokeCommonDto {
-    @ApiModelProperty(value = "TJ 노래방 번호")
+    @ApiModelProperty(value = "TJ 노래방 번호", example = "1")
     private Integer tjNum;
 
     @ApiModelProperty(value = "가수 이름")
