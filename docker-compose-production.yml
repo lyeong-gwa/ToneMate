@@ -2,7 +2,7 @@ version: '3.3'
 services:
   spring_prod:
     build: ./back-end
-    container_name: spring_prod
+    container_name: springProd
     environment:
       - DB_URL=${DB_URL}
       - DB_USER=${DB_USER}
@@ -27,7 +27,7 @@ services:
       - tonemate_prod
 
   flask_prod:
-    container_name: flask_prod
+    container_name: flaskProd
     build: ./AI
     environment:
       - FLASK_FEATURES=${FLASK_FEATURES}
@@ -39,7 +39,7 @@ services:
       - tonemate_prod
     
   front_prod:
-    container_name: front_prod
+    container_name: frontProd
     build:
       context: ./front-end/tonemate
       dockerfile: docker/production/Dockerfile
