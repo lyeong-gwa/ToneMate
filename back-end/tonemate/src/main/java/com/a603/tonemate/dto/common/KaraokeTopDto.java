@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 
 
 @Getter
-public class KaraokeTopDto {
+@NoArgsConstructor
+public class KaraokeTopDto extends KaraokeCommonDto {
     @ApiModelProperty(value = "음악 순위")
     private Long karaokeTopId;
     @ApiModelProperty(value = "애창곡 존재 여부")

@@ -2,13 +2,14 @@ package com.a603.tonemate.db.entity;
 
 import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
+@Table(indexes = {
+        @Index(name = "idx_tj_num", columnList = "tjNum"),
+        @Index(name = "idx_title_no_space", columnList = "titleNoSpace"),
+        @Index(name = "idx_singer_no_space", columnList = "singerNoSpace")})
 public class Karaoke {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

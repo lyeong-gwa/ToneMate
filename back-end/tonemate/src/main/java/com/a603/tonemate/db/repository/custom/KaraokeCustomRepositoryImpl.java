@@ -26,12 +26,22 @@ public class KaraokeCustomRepositoryImpl implements KaraokeCustomRepository {
     private final JPAQueryFactory query;
 
     @Override
-    public Page<Karaoke> search(SearchSongReq param, Pageable pageable) {
-        List<Karaoke> songs = query
-                .select(karaoke)
+    public Page<KaraokeDto> search(SearchSongReq param, Pageable pageable) {
+        List<KaraokeDto> songs = query
+                .select(Projections.constructor(KaraokeDto.class,
+                        karaoke.tjNum,
+                        karaoke.singer,
+                        karaoke.title,
+                        new CaseBuilder()
+                                .when(likeSong.userId.eq(param.getUserId()))
+                                .then(true)
+                                .otherwise(false)
+                ))
                 .from(karaoke)
+                .leftJoin(likeSong)
+                .on(likeSong.userId.eq(param.getUserId()), likeSong.karaoke.eq(karaoke))
                 .where(containsSinger(param.getSinger()), containsTitle(param.getTitle()),
-                        (containsKyNum(param.getNum())).or(containsTjNum(param.getNum())))
+                        containsKyNum(param.getNum()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -86,13 +96,6 @@ public class KaraokeCustomRepositoryImpl implements KaraokeCustomRepository {
     }
 
     private BooleanExpression containsKyNum(Integer num) {
-        if (num != null) {
-            return karaoke.tjNum.eq(num);
-        }
-        return null;
-    }
-
-    private BooleanExpression containsTjNum(Integer num) {
         if (num != null) {
             return karaoke.tjNum.eq(num);
         }

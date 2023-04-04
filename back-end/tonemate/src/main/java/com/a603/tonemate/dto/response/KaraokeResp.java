@@ -12,7 +12,7 @@ import java.util.List;
 public class KaraokeResp {
 
     @ApiModelProperty(value = "노래 정보들")
-    private List<KaraokeDto> songs;
+    private List<? extends KaraokeCommonDto> songs;
 
     @ApiModelProperty(value = "한 페이지에서 나타낼수 있는 노래의 수")
     private Integer pageSize;

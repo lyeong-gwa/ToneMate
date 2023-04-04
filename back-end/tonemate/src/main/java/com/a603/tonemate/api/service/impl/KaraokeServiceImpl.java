@@ -3,8 +3,8 @@ package com.a603.tonemate.api.service.impl;
 import com.a603.tonemate.api.service.KaraokeService;
 import com.a603.tonemate.db.repository.KaraokeRepository;
 import com.a603.tonemate.db.repository.KaraokeTopRepository;
-import com.a603.tonemate.dto.KaraokeDto;
-import com.a603.tonemate.dto.KaraokeTopDto;
+import com.a603.tonemate.dto.common.KaraokeDto;
+import com.a603.tonemate.dto.common.KaraokeTopDto;
 import com.a603.tonemate.dto.request.SearchSongReq;
 import com.a603.tonemate.dto.response.KaraokeResp;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class KaraokeServiceImpl implements KaraokeService {
         Page<KaraokeTopDto> topSongs = karaokeTopRepository.findAll(userId, pageable);
 
 
-        return KaraokeTopResp.builder()
+        return KaraokeResp.builder()
                 .songs(topSongs.getContent())
                 .pageSize(topSongs.getPageable().getPageSize())
                 .totalPageNumber(topSongs.getTotalPages())
@@ -32,8 +32,8 @@ public class KaraokeServiceImpl implements KaraokeService {
     }
 
     @Override
-    public KaraokeResp selectAllSong(Pageable pageable) {
-        Page<KaraokeDto> allSongs = karaokeRepository.findAll(pageable).map(this::toDto);
+    public KaraokeResp selectAllSong(Pageable pageable, Long userId) {
+        Page<KaraokeDto> allSongs = karaokeRepository.findAll(userId, pageable);
 
         return KaraokeResp.builder()
                 .songs(allSongs.getContent())
@@ -44,9 +44,9 @@ public class KaraokeServiceImpl implements KaraokeService {
     }
 
     @Override
-    public KaraokeResp searchSong(SearchSongReq searchSongReq, Pageable pageable) {
-        Page<KaraokeDto> songs = karaokeRepository.search(searchSongReq, pageable).map(this::toDto);
-
+    public KaraokeResp searchSong(SearchSongReq searchSongReq, Pageable pageable, Long userId) {
+        searchSongReq.setUserId(userId);
+        Page<KaraokeDto> songs = karaokeRepository.search(searchSongReq, pageable);
         return KaraokeResp.builder()
                 .songs(songs.getContent())
                 .pageSize(songs.getPageable().getPageSize())

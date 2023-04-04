@@ -19,19 +19,17 @@ public class Singer {
     @Column(nullable = true)
     private boolean gender;
     private Date birthYear;
-    
+
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
     @Builder
-    public Singer(Long singerId, String name, boolean gender, Date birthYear, Genre genre) {
-        this.singerId = singerId;
+    public Singer(String name, boolean gender, Date birthYear, Genre genre) {
         this.name = name;
         this.gender = gender;
         this.birthYear = birthYear;
         this.genre = genre;
     }
-
 
 
 }

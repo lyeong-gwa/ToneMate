@@ -15,4 +15,5 @@ public class SearchSongReq {
     private String singer;
     private String title;
     private Integer num;
+    private Long userId;
 }
