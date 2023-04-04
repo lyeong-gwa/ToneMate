@@ -12,7 +12,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
       - /usr/local/bin/docker-compose:/usr/local/bin/docker-compose
-      - ${DATA_PATH}:/var/DATA
+      - AI_DATA:/var/DATA
 
 
   redis:
@@ -53,6 +53,9 @@ services:
     networks:
       - tonemate_dev
       - tonemate_prod
+volumes:
+  AI_DATA:
+    external: true
 networks:
   tonemate_dev:
     external: true
