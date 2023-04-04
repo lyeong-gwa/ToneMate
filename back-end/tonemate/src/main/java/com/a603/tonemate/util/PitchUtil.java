@@ -1,4 +1,4 @@
-package com.a603.tonemate.api.util;
+package com.a603.tonemate.util;
 
 import be.tarsos.dsp.AudioDispatcher;
 import be.tarsos.dsp.io.jvm.AudioDispatcherFactory;

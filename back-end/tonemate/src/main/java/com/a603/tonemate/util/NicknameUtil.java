@@ -1,4 +1,4 @@
-package com.a603.tonemate.api.util;
+package com.a603.tonemate.util;
 
 import com.a603.tonemate.db.entity.User;
 import com.a603.tonemate.db.repository.UserRepository;

@@ -1,13 +1,13 @@
 package com.a603.tonemate.security.oauth2;
 
 
-import com.a603.tonemate.api.util.FileUtil;
 import com.a603.tonemate.db.entity.User;
 import com.a603.tonemate.db.repository.UserRepository;
 import com.a603.tonemate.security.auth.UserDetailsCustom;
 import com.a603.tonemate.security.oauth2.provider.GoogleUserInfo;
 import com.a603.tonemate.security.oauth2.provider.KaKaoUserInfo;
 import com.a603.tonemate.security.oauth2.provider.OAuth2UserInfo;
+import com.a603.tonemate.util.FileUtil;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
