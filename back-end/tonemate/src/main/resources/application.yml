@@ -14,13 +14,13 @@ spring:
           kakao:
             client-secret: ${KAKAO_SECRET}
             client-authentication-method: POST
-            redirect-uri: http://localhost:3000/oauth/login/kakao
+            redirect-uri: ${KAKAO_REDIRECT_URI}
             authorization-grant-type: authorization_code
             client-id: ${KAKAO_ID}
             scope: profile_nickname,account_email,profile_image
             client-name: kakao
           google:
-            redirect-uri: http://localhost:3000/google
+            redirect-uri: ${GOOGLE_REDIRECT_URI}
             client-secret: ${GOOGLE_SECRET}
             client-id: ${GOOGLE_ID}
             scope: email,profile
@@ -31,15 +31,14 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
   redis:
-    #    host: ${REDIS_HOST}
+    host: ${REDIS_HOST}
     port: 6379
-    host: localhost
-  #    password: ${REDIS_PASSWORD}
+    password: ${REDIS_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
+      use-new-id-generator-mappings: false
     open-in-view: false
-    show-sql: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
@@ -52,7 +51,7 @@ spring:
   servlet:
     multipart:
       max-file-size: 100MB
-      max-request-size: 100MB
+      max-request-size: 200MB
   data:
     web:
       pageable:

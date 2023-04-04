@@ -1,10 +1,17 @@
 import Head from 'next/head';
-import Image from 'next/image';
-import { Inter } from 'next/font/google';
+import Link from 'next/link';
 
-const inter = Inter({ subsets: ['latin'] });
+import { HeroWrapper, HeroContent, Navbar } from '@/components/Layout';
+import { useUser } from '@/features/auth';
+import { LoadingFallback } from '@/components/Fallbacks';
 
 export default function LandingPage() {
+  const { user } = useUser({ redirectTo: '/home', redirectIfFound: true });
+
+  if (!user) {
+    return <LoadingFallback />;
+  }
+
   return (
     <>
       <Head>
@@ -14,7 +21,59 @@ export default function LandingPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div>랜딩</div>
+        <Navbar user={user} />
+        <HeroWrapper>
+          <HeroContent>
+            <h1 className="text-5xl font-bold leading-tight">TONEMATE</h1>
+            <p className="py-6">목소리에게 어울리는 친구를</p>
+            <Link className="btn-primary btn" href="/login">
+              시작하기
+            </Link>
+          </HeroContent>
+        </HeroWrapper>
+        <HeroWrapper>
+          <HeroContent>
+            <h1 className="text-5xl font-bold leading-tight">
+              자신에게 <br />
+              어울리는 노래를 <br />
+              찾아보세요
+            </h1>
+            <p className="py-6">
+              나와 비슷한 아티스트를 알고 싶을 때<br />
+              음색에 적합한 노래를 알고 싶을 때<br />
+              노래방에서 부를 노래가 떨어졌을 때
+            </p>
+          </HeroContent>
+        </HeroWrapper>
+        <HeroWrapper>
+          <HeroContent>
+            <h1 className="text-5xl font-bold leading-tight">
+              녹음 한 번으로 <br />
+              분석을
+            </h1>
+            <p className="py-6">
+              한 번만 녹음하세요 <br />
+              TONEMATE가 <br />
+              당신의 목소리를 분석해드려요
+            </p>
+          </HeroContent>
+        </HeroWrapper>
+        <HeroWrapper>
+          <HeroContent>
+            <h1 className="text-5xl font-bold leading-tight">
+              5000곡 <br />
+              100명
+            </h1>
+            <p className="py-6">
+              TONEMATE가 <br />
+              맞춤 서비스를 제공하기 위해 <br />
+              분석한 데이터에요
+            </p>
+            <Link className="btn-primary btn" href="/login">
+              시작하기
+            </Link>
+          </HeroContent>
+        </HeroWrapper>
       </main>
     </>
   );

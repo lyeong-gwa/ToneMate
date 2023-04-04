@@ -1,6 +1,12 @@
-import Head from "next/head";
+import Head from 'next/head';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+import { API_URL } from '@/config';
 
 export default function LoginPage() {
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -10,7 +16,13 @@ export default function LoginPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div>로그인</div>
+        <div className="grid h-screen w-screen place-items-center bg-base-200">
+          <div className="grid h-96 w-96 place-items-center rounded-md bg-white">
+            <Link href={`${API_URL}/oauth2/authorization/kakao`}>
+              <button className="btn">카카오 로그인</button>
+            </Link>
+          </div>
+        </div>
       </main>
     </>
   );
