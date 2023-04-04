@@ -868,25 +868,25 @@ export default function VoiceColorResult() {
                     </p>
                     <PlayIcon className="flex w-6 h-6 text-red-600 mr-4" />
                   </button>
-                  <button className="flex flex-row w-full justify-between items-center mb-1" onClick={() => clickVideo(result.singerDetails[3].name, result.singerDetails[3].songList[1].title)}>
+                  <button className="flex flex-row w-full justify-between items-center mb-1" onClick={() => clickVideo(result.singerDetails[4].name, result.singerDetails[4].songList[1].title)}>
                     <p className="flex text-white ml-4">
                       1. {result.singerDetails[4].songList[1].title}
                     </p>
                     <PlayIcon className="flex w-6 h-6 text-red-600 mr-4" />
                   </button>
-                  <button className="flex flex-row w-full justify-between items-center mb-1" onClick={() => clickVideo(result.singerDetails[3].name, result.singerDetails[3].songList[2].title)}>
+                  <button className="flex flex-row w-full justify-between items-center mb-1" onClick={() => clickVideo(result.singerDetails[4].name, result.singerDetails[4].songList[2].title)}>
                     <p className="flex text-white ml-4">
                       1. {result.singerDetails[4].songList[2].title}
                     </p>
                     <PlayIcon className="flex w-6 h-6 text-red-600 mr-4" />
                   </button>
-                  <button className="flex flex-row w-full justify-between items-center mb-1" onClick={() => clickVideo(result.singerDetails[3].name, result.singerDetails[3].songList[3].title)}>
+                  <button className="flex flex-row w-full justify-between items-center mb-1" onClick={() => clickVideo(result.singerDetails[4].name, result.singerDetails[4].songList[3].title)}>
                     <p className="flex text-white ml-4">
                       1. {result.singerDetails[4].songList[3].title}
                     </p>
                     <PlayIcon className="flex w-6 h-6 text-red-600 mr-4" />
                   </button>
-                  <button className="flex flex-row w-full justify-between items-center mb-1" onClick={() => clickVideo(result.singerDetails[3].name, result.singerDetails[3].songList[4].title)}>
+                  <button className="flex flex-row w-full justify-between items-center mb-1" onClick={() => clickVideo(result.singerDetails[4].name, result.singerDetails[4].songList[4].title)}>
                     <p className="flex text-white ml-4">
                       1. {result.singerDetails[4].songList[4].title}
                     </p>
