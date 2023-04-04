@@ -241,6 +241,7 @@ public class MusicServiceImpl implements MusicService {
         List<Long> normalSongId = new ArrayList<>();
         List<Long> impossibleSongId = new ArrayList<>();
 
+        //50 이하의 데이터에서 for문과 큰 성능 차이가 없다. forEach가 더 유연한 대처가능
         possibleSong.forEach(song -> possibleSongId.add(song.getSongId()));
         normalSong.forEach(song -> normalSongId.add(song.getSongId()));
         impossibleSong.forEach(song -> impossibleSongId.add(song.getSongId()));
