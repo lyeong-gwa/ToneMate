@@ -33,6 +33,7 @@ module.exports = {
       },
       height: {
         "3/7": "45%",
+        "5/9": "55%",
       },
       animation: {
         fadein1: "fadein 1s linear",

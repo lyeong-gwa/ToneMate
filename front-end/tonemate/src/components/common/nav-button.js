@@ -20,7 +20,7 @@ function NavButton(props) {
     if (props.value === nowURL) {
       setIsNow(true);
     }
-  });
+  }, []);
 
   // function
   function clickNavButton() {
