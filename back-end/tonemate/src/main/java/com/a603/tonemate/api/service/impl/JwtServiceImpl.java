@@ -32,33 +32,26 @@ public class JwtServiceImpl implements JwtService {
         try {
             jwtTokenProvider.validateToken(refreshToken);
         } catch (Exception e) {
-            System.out.println("refresh 토큰 문제 있음");
             return null;
         }
-        System.out.println("refresh 검증 끝");
 
         //받은 토큰에서 유저 정보 가져오기
         Long userId = jwtTokenProvider.getId(accessToken);
-        System.out.println("받은 토큰에서 유저정보 가져오기 끝");
         //Redis에서 User 정보를 기반으로 저장된 RefreshToken 가져오기
-        System.out.println("레디스 토큰 : " + redisTemplate.opsForValue().get(userId.toString()));
         String saveRefreshToken = (String) redisTemplate.opsForValue().get(userId.toString());
 
         // 로그아웃되어 Redis에 RefreshToken이 존재하지 않는 경우
         if (saveRefreshToken == null) {
-            System.out.println("이미 로그아웃함");
             return null;
 //            return new ResponseEntity<>("로그아웃이 된 사람", HttpStatus.BAD_REQUEST);
         }
 
         //보낸 리프레쉬 토큰과 찾은 리프레쉬 토큰이 다른 경우
         if (!saveRefreshToken.equals(refreshToken)) {
-            System.out.println("리프레쉬 비교했는데 다름");
             return null;
 //            return new ResponseEntity<>("Refresh 정보가 일치하지 않음", HttpStatus.BAD_REQUEST);
         }
 
-        System.out.println("오,,,,토큰 발급해줄게");
         //새로운 토큰 생성
         Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
         TokenInfo tokenInfo = jwtTokenProvider.generateToken(authentication);
