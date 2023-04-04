@@ -1,5 +1,6 @@
 package com.a603.tonemate.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ public class ResultResp implements Comparable<ResultResp> {
     private String type;
 
     @ApiModelProperty(value = "검사 일시")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime time;
 
     @Override
