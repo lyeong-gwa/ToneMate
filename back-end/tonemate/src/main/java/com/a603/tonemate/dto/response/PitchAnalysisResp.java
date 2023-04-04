@@ -1,6 +1,7 @@
 package com.a603.tonemate.dto.response;
 
 import com.a603.tonemate.db.entity.Song;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class PitchAnalysisResp {
     private String highOctave;
 
     @ApiModelProperty(value = "음역대 분석 검사 일시")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
     private LocalDateTime time;
 
     @ApiModelProperty(value = "잘 부를 수 있는 노래")
