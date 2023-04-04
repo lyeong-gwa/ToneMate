@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/tokens/reissue").permitAll()
+                .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/**", "/favicon.ico").permitAll()
                 .anyRequest().permitAll()//authenticated() // 인가 검증
                 .and()
                 .oauth2Login()
