@@ -1,2 +1,3 @@
 jenkins/*
-mysql/*
+mysql/res/data/*
+mysql/mysql-init-files/*
