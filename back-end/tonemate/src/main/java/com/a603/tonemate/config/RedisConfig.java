@@ -21,15 +21,15 @@ public class RedisConfig {
 
     @Value("${spring.redis.port}")
     private int port;
-    @Value("${spring.redis.password}")
-    private String password;
+//    @Value("${spring.redis.password}")
+//    private String password;
 
     //RedisTemplate를 이용한 방식
     //RedisConnectionFactory 인터페이스를 통해 LettuceConnectionFactory를 생성하여 반환
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(host, port);
-        redisStandaloneConfiguration.setPassword(password);
+//        redisStandaloneConfiguration.setPassword(password);
         return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
 

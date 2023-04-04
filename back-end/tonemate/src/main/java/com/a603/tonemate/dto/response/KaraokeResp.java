@@ -1,6 +1,6 @@
 package com.a603.tonemate.dto.response;
 
-import com.a603.tonemate.dto.KaraokeDto;
+import com.a603.tonemate.dto.common.KaraokeCommonDto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,12 +14,12 @@ public class KaraokeResp {
     @ApiModelProperty(value = "노래 정보들")
     private List<KaraokeDto> songs;
 
-    @ApiModelProperty(value = "한 페이지에서 나타내는 노래의 수")
-    private int pageSize;
+    @ApiModelProperty(value = "한 페이지에서 나타낼수 있는 노래의 수")
+    private Integer pageSize;
     @ApiModelProperty(value = "전체 페이지 번호")
-    private int totalPageNumber;
+    private Integer totalPageNumber;
 
-    @ApiModelProperty(value = "확인 해봐야함")
-    private int size;
+    @ApiModelProperty(value = "찾은 노래 개수")
+    private Long totalCount;
 
 }

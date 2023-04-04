@@ -8,7 +8,6 @@ import com.a603.tonemate.security.auth.UserDetailsCustom;
 import com.a603.tonemate.security.oauth2.provider.GoogleUserInfo;
 import com.a603.tonemate.security.oauth2.provider.KaKaoUserInfo;
 import com.a603.tonemate.security.oauth2.provider.OAuth2UserInfo;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -16,19 +15,16 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final FileUtil fileUtil;
 //    private final NicknameUtil nicknameUtil;
 
-    public CustomOAuth2UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, FileUtil fileUtil) {
+    public CustomOAuth2UserService(UserRepository userRepository, FileUtil fileUtil) {
         this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.fileUtil = fileUtil;
     }
 
@@ -49,16 +45,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2UserInfo oAuth2UserInfo;
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
             //구글 로그인 요청
-            System.out.println("구글 로그인 요청~~");
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
             //카카오 로그인 요청
-            System.out.println("카카오 로그인 요청~~");
-            oAuth2UserInfo = new KaKaoUserInfo((Map) oAuth2User.getAttributes());
-            System.out.println(oAuth2UserInfo);
+            oAuth2UserInfo = new KaKaoUserInfo(oAuth2User.getAttributes());
         } else {
             //다른 소셜 로그인 요청
-            System.out.println("우리는 구글과 카카오만 지원해요 ㅎㅎ");
             return null;
         }
         //ex)kakao_1238471249
@@ -71,8 +63,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String profile = oAuth2UserInfo.getProfile();
         //프로필 S3 업로드
         try {
-            System.out.println("파일 변환 시작");
-
             profile = fileUtil.urlUpload(profile, "profile");
         } catch (IOException e) {
             throw new RuntimeException("프로필 파일 경로가 이상함");

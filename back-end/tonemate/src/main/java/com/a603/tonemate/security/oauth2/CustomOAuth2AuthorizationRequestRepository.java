@@ -77,18 +77,14 @@ public class CustomOAuth2AuthorizationRequestRepository<T extends OAuth2Authoriz
 
     @Override
     public OAuth2AuthorizationRequest removeAuthorizationRequest(HttpServletRequest request) {
-        System.out.println("removeAuthorizationRequest");
         Assert.notNull(request, "request cannot be null");
 
         OAuth2AuthorizationRequest originalRequest;
 
         //state에 google과 kakao를 구분할 수 있는 string을 넣어놓았다. 올바른 방법이 아니므로 다른 방법을 찾아봐야 한다.
         String registrationId = request.getParameter("state");
-        System.out.println("1");
         ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId(registrationId);
-        System.out.println("2");
         if (clientRegistration == null) {
-        System.out.println("3");
             throw new IllegalArgumentException("Invalid Client Registration with Id: " + registrationId);
         }
         OAuth2AuthorizationRequest.Builder builder = OAuth2AuthorizationRequest.authorizationCode()
@@ -96,9 +92,7 @@ public class CustomOAuth2AuthorizationRequestRepository<T extends OAuth2Authoriz
                         attrs.put(OAuth2ParameterNames.REGISTRATION_ID,
                                 clientRegistration.getRegistrationId()));
 
-        System.out.println("4");
         String redirectUriStr = expandRedirectUri(request, clientRegistration);
-        System.out.println("5");
 
         builder.clientId(clientRegistration.getClientId())
                 .authorizationUri(clientRegistration.getProviderDetails().getAuthorizationUri())
@@ -106,9 +100,7 @@ public class CustomOAuth2AuthorizationRequestRepository<T extends OAuth2Authoriz
                 .scopes(clientRegistration.getScopes())
                 .state(request.getParameter("state"));
 
-        System.out.println("6");
         originalRequest = builder.build();
-        System.out.println("7");
 
         return originalRequest;
     }

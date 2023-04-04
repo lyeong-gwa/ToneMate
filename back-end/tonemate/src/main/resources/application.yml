@@ -31,13 +31,15 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
   redis:
-    host: ${REDIS_HOST}
+    #    host: ${REDIS_HOST}
     port: 6379
-    password: ${REDIS_PASSWORD}
+    host: localhost
+  #    password: ${REDIS_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
     open-in-view: false
+    show-sql: true
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:

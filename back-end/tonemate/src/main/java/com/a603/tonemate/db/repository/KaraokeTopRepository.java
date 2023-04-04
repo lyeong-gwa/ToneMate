@@ -5,5 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface KaraokeTopRepository extends JpaRepository<KaraokeTop, Long> {
 
-
 }

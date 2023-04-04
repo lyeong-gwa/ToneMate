@@ -7,7 +7,6 @@ import com.a603.tonemate.dto.KaraokeDto;
 import com.a603.tonemate.dto.KaraokeTopDto;
 import com.a603.tonemate.dto.request.SearchSongReq;
 import com.a603.tonemate.dto.response.KaraokeResp;
-import com.a603.tonemate.dto.response.KaraokeTopResp;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,14 +19,15 @@ public class KaraokeServiceImpl implements KaraokeService {
     private final KaraokeRepository karaokeRepository;
 
     @Override
-    public KaraokeTopResp selectTopSong(Pageable pageable) {
-        Page<KaraokeTopDto> topSongs = karaokeTopRepository.findAll(pageable).map(this::toDto);
+    public KaraokeResp selectTopSong(Pageable pageable, Long userId) {
+        Page<KaraokeTopDto> topSongs = karaokeTopRepository.findAll(userId, pageable);
+
 
         return KaraokeTopResp.builder()
                 .songs(topSongs.getContent())
                 .pageSize(topSongs.getPageable().getPageSize())
                 .totalPageNumber(topSongs.getTotalPages())
-                .size(topSongs.getSize())
+                .totalCount(topSongs.getTotalElements())
                 .build();
     }
 
@@ -39,7 +39,7 @@ public class KaraokeServiceImpl implements KaraokeService {
                 .songs(allSongs.getContent())
                 .pageSize(allSongs.getPageable().getPageSize())
                 .totalPageNumber(allSongs.getTotalPages())
-                .size(allSongs.getSize())
+                .totalCount(allSongs.getTotalElements())
                 .build();
     }
 
@@ -51,21 +51,7 @@ public class KaraokeServiceImpl implements KaraokeService {
                 .songs(songs.getContent())
                 .pageSize(songs.getPageable().getPageSize())
                 .totalPageNumber(songs.getTotalPages())
-                .size(songs.getSize())
+                .totalCount(songs.getTotalElements())
                 .build();
     }
-
-
-    @Override
-    public KaraokeResp findLikeList(Long userId, Pageable pageable) {
-        Page<KaraokeDto> likeList = karaokeRepository.likeList(userId, pageable).map(this::toDto);
-        return KaraokeResp.builder()
-                .songs(likeList.getContent())
-                .pageSize(likeList.getPageable().getPageSize())
-                .totalPageNumber(likeList.getTotalPages())
-                .size(likeList.getSize()).build();
-
-    }
-
-
 }

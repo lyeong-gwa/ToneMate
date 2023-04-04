@@ -12,7 +12,7 @@ import javax.persistence.Id;
 public class LikeSong {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long likeId;
+    private Long likeSongId;
     private Long userId;
     private Long karaokeId;
 }
