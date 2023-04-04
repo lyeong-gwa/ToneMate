@@ -34,9 +34,6 @@ public class JwtExceptionFilter extends GenericFilter {
             setErrorResponse(response, "시그니처 검증에 실패한 토큰입니다.");
         } catch (IllegalArgumentException e) {
             setErrorResponse(response, "토큰에 해당하는 유저가 없습니다.");
-        } catch (Exception e) {
-            System.out.println("넌 누구냐");
-            System.out.println(e.getClass());
         }
     }
 
