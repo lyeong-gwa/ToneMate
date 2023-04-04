@@ -17,7 +17,6 @@ import com.a603.tonemate.dto.response.TimbreAnalysisResp;
 import com.a603.tonemate.enumpack.Genre;
 import com.a603.tonemate.util.FlaskUtil;
 import com.a603.tonemate.util.PitchUtil;
-import com.a603.tonemate.util.SongFilterUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -34,7 +33,6 @@ import java.util.stream.Stream;
 public class MusicServiceImpl implements MusicService {
     private final FlaskUtil flaskUtil;
     private final PitchUtil pitchUtil;
-    private final SongFilterUtil songFilterUtil;
     private final TimbreAnalysisRepository timbreAnalysisRepository;
     private final PitchAnalysisRepository pitchAnalysisRepository;
     private final SongRepository songRepository;
@@ -195,9 +193,9 @@ public class MusicServiceImpl implements MusicService {
 
         PitchAnalysis pitchAnalysis = pitchAnalysisRepository.findByPitchId(pitchId).orElseThrow();
 
-        List<Long> possibleList = songFilterUtil.convertStringToLongList(pitchAnalysis.getPossibleList());
-        List<Long> normalList = songFilterUtil.convertStringToLongList(pitchAnalysis.getNormalList());
-        List<Long> impossibleList = songFilterUtil.convertStringToLongList(pitchAnalysis.getImpossibleList());
+        List<Long> possibleList = convertStringToLongList(pitchAnalysis.getPossibleList());
+        List<Long> normalList = convertStringToLongList(pitchAnalysis.getNormalList());
+        List<Long> impossibleList = convertStringToLongList(pitchAnalysis.getImpossibleList());
 
         List<Song> possibleSong = songRepository.findBySongIdIn(possibleList);
         List<Song> normalSong = songRepository.findBySongIdIn(normalList);
@@ -263,13 +261,13 @@ public class MusicServiceImpl implements MusicService {
         Genre genreEnum = Genre.fromCode(genre);
         PitchAnalysis pitchAnalysis = pitchAnalysisRepository.findByPitchIdAndUserId(pitchId, userId).orElseThrow();
 
-        List<Long> possibleList = songFilterUtil.convertStringToLongList(pitchAnalysis.getPossibleList());
-        List<Long> normalList = songFilterUtil.convertStringToLongList(pitchAnalysis.getNormalList());
-        List<Long> impossibleList = songFilterUtil.convertStringToLongList(pitchAnalysis.getImpossibleList());
+        List<Long> possibleList = convertStringToLongList(pitchAnalysis.getPossibleList());
+        List<Long> normalList = convertStringToLongList(pitchAnalysis.getNormalList());
+        List<Long> impossibleList = convertStringToLongList(pitchAnalysis.getImpossibleList());
 
-        List<Song> possibleSongs = songFilterUtil.getSongsBySongIdsAndGenre(songRepository, possibleList, genreEnum);
-        List<Song> normalSongs = songFilterUtil.getSongsBySongIdsAndGenre(songRepository, normalList, genreEnum);
-        List<Song> impossibleSongs = songFilterUtil.getSongsBySongIdsAndGenre(songRepository, impossibleList, genreEnum);
+        List<Song> possibleSongs = songRepository.findSingerByIdAndGenre(possibleList, genreEnum);
+        List<Song> normalSongs = songRepository.findSingerByIdAndGenre(normalList, genreEnum);
+        List<Song> impossibleSongs = songRepository.findSingerByIdAndGenre(impossibleList, genreEnum);
 
 
         return PitchAnalysisResp.builder()
@@ -277,6 +275,20 @@ public class MusicServiceImpl implements MusicService {
                 .normalSong(normalSongs)
                 .impossibleSong(impossibleSongs)
                 .build();
+    }
+
+    // 문자열 배열을 실제 리스트로 생성 str ="[1, 2, 3, 4]"
+    public List<Long> convertStringToLongList(String str) {
+        List<Long> convertList = new ArrayList<>();
+        if ("[]".equals(str)) return convertList;
+        
+        String[] stringArray = str.substring(1, str.length() - 1).split(",");
+        for (String s : stringArray) {
+            String trimmed = s.trim();
+            Long converted = Long.valueOf(trimmed);
+            convertList.add(converted);
+        }
+        return convertList;
     }
 
 }
