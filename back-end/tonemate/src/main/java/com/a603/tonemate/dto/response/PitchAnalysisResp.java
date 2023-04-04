@@ -32,13 +32,13 @@ public class PitchAnalysisResp {
     private LocalDateTime time;
 
     @ApiModelProperty(value = "잘 부를 수 있는 노래")
-    private List<Song> passibleSong;
+    private List<Song> possibleSong;
 
     @ApiModelProperty(value = "적당히 부를 수 있는 노래")
     private List<Song> normalSong;
 
     @ApiModelProperty(value = "못 부르는 노래")
-    private List<Song> impassibleSong;
+    private List<Song> impossibleSong;
 
 
 }
