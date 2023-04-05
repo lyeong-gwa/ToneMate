@@ -5,9 +5,14 @@ import MainContainer from "@/components/content/main-container";
 import ResultChart from "@/components/table/result-chart";
 
 import { PlayIcon } from "@heroicons/react/24/solid";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 // npm install react-chartjs-2 chart.js
 export default function VoiceColorResult() {
+  const router = useRouter();
+  const { timbreId } = router.query;
+
   const result = {
     timbreId: 27,
     mfccMean: -0.16980843,
@@ -567,6 +572,10 @@ export default function VoiceColorResult() {
       "https://www.youtube.com/results?search_query=" + name + " " + keyword;
     window.open(url);
   }
+
+  useEffect(() => {
+    console.log(timbreId);
+  });
 
   return (
     <>

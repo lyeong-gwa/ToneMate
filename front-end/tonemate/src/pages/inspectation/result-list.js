@@ -76,7 +76,7 @@ export default function ResultList() {
             <p className="text-xl lg:text-4xl text-white">검사 결과</p>
           </TitleContainer>
           <MainContainer>
-            <div className="flex flex-col w-full h-12 justify-center items-center lg:items-start">
+            <div className="flex flex-col w-full h-12 justify-center items-center lg:items-start fade-in-custom-10s">
               <p className="text-md lg:text-2xl text-white">
                 000님은 총 {result.timbre.length + result.pitch.length}건의 검사
                 결과를 가지고 있습니다.
@@ -92,11 +92,15 @@ export default function ResultList() {
                 {result.timbre.map((item) => (
                   <div
                     key={item.timbreId}
-                    className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"
+                    className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-1 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"
                   >
                     <button
                       className="w-full h-full bg-black rounded-xl"
-                      onClick={() => Router.push("/inspectation/vocal-color")}
+                      onClick={() =>
+                        Router.push(
+                          "/inspectation/vocal-color-result/" + item.timbreId
+                        )
+                      }
                     >
                       <p className="text-white text-xl lg:text-2xl m-2">
                         음색검사
@@ -130,11 +134,15 @@ export default function ResultList() {
                 {result.pitch.map((item) => (
                   <div
                     key={item.pitchId}
-                    className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"
+                    className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-1 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"
                   >
                     <button
                       className="w-full h-full bg-black rounded-xl"
-                      onClick={() => Router.push("/inspectation/vocal-color")}
+                      onClick={() =>
+                        Router.push(
+                          "/inspectation/vocal-range-result/" + item.pitchId
+                        )
+                      }
                     >
                       <p className="text-white text-xl lg:text-2xl m-2">
                         음역대 검사

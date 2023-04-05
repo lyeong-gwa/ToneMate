@@ -3,7 +3,13 @@ import Layout from "@/components/layout";
 import TitleContainer from "@/components/content/title-container";
 import MainContainer from "@/components/content/main-container";
 
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
 export default function VoiceRangeResult() {
+  const router = useRouter();
+  const { pitchId } = router.query;
+
   const song = {
     songId: 2542,
     mfccMean: -0.192657,
@@ -34,6 +40,10 @@ export default function VoiceRangeResult() {
     normalSong: [song, song, song],
     impossibleSong: [song, song, song],
   };
+
+  useEffect(() => {
+    console.log(pitchId);
+  });
 
   return (
     <>
