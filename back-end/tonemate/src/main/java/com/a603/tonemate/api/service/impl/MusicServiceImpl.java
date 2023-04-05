@@ -11,6 +11,7 @@ import com.a603.tonemate.db.repository.TimbreAnalysisRepository;
 import com.a603.tonemate.dto.common.PitchResult;
 import com.a603.tonemate.dto.common.SingerDetail;
 import com.a603.tonemate.dto.common.SingerSimilarity;
+import com.a603.tonemate.dto.request.PitchAnalysisReq;
 import com.a603.tonemate.dto.response.PitchAnalysisResp;
 import com.a603.tonemate.dto.response.ResultResp;
 import com.a603.tonemate.dto.response.TimbreAnalysisResp;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -189,9 +191,8 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public PitchAnalysisResp selectOnePitchAnalysis(Long pitchId) {
-
-        PitchAnalysis pitchAnalysis = pitchAnalysisRepository.findByPitchId(pitchId).orElseThrow();
+    public PitchAnalysisResp selectOnePitchAnalysis(Long userId, Long pitchId) {
+		PitchAnalysis pitchAnalysis = pitchAnalysisRepository.findByPitchIdAndUserId(pitchId, userId).orElseThrow();
 
         List<Long> possibleList = convertStringToLongList(pitchAnalysis.getPossibleList());
         List<Long> normalList = convertStringToLongList(pitchAnalysis.getNormalList());
@@ -202,11 +203,11 @@ public class MusicServiceImpl implements MusicService {
         List<Song> impossibleSong = songRepository.findBySongIdIn(impossibleList);
 
         return PitchAnalysisResp.builder()
-                .lowOctave(pitchUtil.getOctaveName(pitchAnalysis.getOctaveLow()))
-                .highOctave(pitchUtil.getOctaveName(pitchAnalysis.getOctaveHigh()))
-                .possibleSong(possibleSong.subList(0, Math.min(3, possibleSong.size())))
-                .normalSong(normalSong.subList(0, Math.min(3, normalSong.size())))
-                .impossibleSong(impossibleSong.subList(0, Math.min(3, impossibleSong.size())))
+        		.lowOctave(pitchUtil.getOctaveName(pitchAnalysis.getOctaveLow()))
+        		.highOctave(pitchUtil.getOctaveName(pitchAnalysis.getOctaveHigh()))
+                .possibleSong(possibleSong)
+                .normalSong(normalSong)
+                .impossibleSong(impossibleSong)
                 .pitchId(pitchAnalysis.getPitchId()).time(pitchAnalysis.getTime()).build();
     }
 
@@ -221,29 +222,36 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public PitchAnalysisResp analysisPitch(Long userId, MultipartFile lowFile, MultipartFile highFile) {
-        boolean gender = true;
-
-        PitchResult lowPitch = pitchUtil.getPitch(lowFile, false);
-        PitchResult highPitch = pitchUtil.getPitch(highFile, true);
+    public PitchAnalysisResp analysisPitch(Long userId, MultipartFile highOctave, MultipartFile lowOctave) {
+    	System.out.println(highOctave+" " + lowOctave);
+        PitchResult lowPitch = pitchUtil.getPitch(lowOctave, false);
+        PitchResult highPitch = pitchUtil.getPitch(highOctave, true);
         System.out.println(lowPitch + " " + highPitch);
         // 복구전까지 임시처리
         int randLow = new Random().nextInt(28);
         int randHigh = new Random().nextInt(27) + 32;
 
-        List<Song> possibleSong = songRepository.findByGenderAndOctaveInRange(lowPitch.getPitch() + 1, highPitch.getPitch() - 1, gender,
-                PageRequest.of(0, 50));
-        List<Song> normalSong = songRepository.findByGenderAndOctaveInRange(lowPitch.getPitch(), highPitch.getPitch(), gender,
-                PageRequest.of(0, 50));
-        List<Song> impossibleSong = songRepository.findByGenderAndOctaveOverlap(lowPitch.getPitch(), highPitch.getPitch(), gender,
-                PageRequest.of(0, 50));
+        List<Song> possibleNormalSong = songRepository.findByOctaveInRange(lowPitch.getPitch(), highPitch.getPitch(), PageRequest.of(0, 6));
+        
+        int size = possibleNormalSong.size();
+        List<Song> possibleSong = possibleNormalSong.subList(0, Math.min(3, size));
+        
+        List<Song> normalSong = new ArrayList<>();
+        if(size>3) {
+        	normalSong = possibleNormalSong.subList(3, Math.min(6, size));
+        }
+        
+        List<Song> impossibleSong = songRepository.findByOctaveOverlap(lowPitch.getPitch(), highPitch.getPitch(), PageRequest.of(0, 3));
+        
         List<Long> possibleSongId = new ArrayList<>();
         List<Long> normalSongId = new ArrayList<>();
         List<Long> impossibleSongId = new ArrayList<>();
 
         //50 이하의 데이터에서 for문과 큰 성능 차이가 없다. forEach가 더 유연한 대처가능
-        possibleSong.forEach(song -> possibleSongId.add(song.getSongId()));
-        normalSong.forEach(song -> normalSongId.add(song.getSongId()));
+        int possibleNormalSongLen = Math.min(3, possibleNormalSong.size());
+        
+        possibleNormalSong.subList(0, possibleNormalSongLen).forEach(song -> possibleSongId.add(song.getSongId()));
+        possibleNormalSong.subList(possibleNormalSongLen,Math.min(possibleNormalSongLen+3, possibleNormalSong.size())).forEach(song -> normalSongId.add(song.getSongId()));
         impossibleSong.forEach(song -> impossibleSongId.add(song.getSongId()));
 
         PitchAnalysis pitchAnalysis = pitchAnalysisRepository.save(PitchAnalysis.builder().octaveLow(randLow)
@@ -251,12 +259,14 @@ public class MusicServiceImpl implements MusicService {
                 .normalList(normalSongId.toString()).impossibleList(impossibleSongId.toString()).build());
 
         return PitchAnalysisResp.builder().lowOctave(pitchUtil.getOctaveName(lowPitch.getPitch())).highOctave(pitchUtil.getOctaveName(highPitch.getPitch()))
-                .possibleSong(possibleSong.subList(0, Math.min(3, possibleSong.size())))
-                .normalSong(normalSong.subList(0, Math.min(3, normalSong.size())))
-                .impossibleSong(impossibleSong.subList(0, Math.min(3, impossibleSong.size())))
-                .pitchId(pitchAnalysis.getPitchId()).time(pitchAnalysis.getTime()).build();
+                .possibleSong(possibleSong)
+                .normalSong(normalSong)
+                .impossibleSong(impossibleSong)
+                .pitchId(pitchAnalysis.getPitchId())
+                .time(pitchAnalysis.getTime()).build();
     }
 
+    
     @Override
     public PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, Long pitchId) {
         Genre genreEnum = Genre.fromCode(genre);
