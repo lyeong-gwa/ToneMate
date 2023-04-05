@@ -2,12 +2,14 @@ package com.a603.tonemate.db.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@BatchSize(size = 5)
 @Table(indexes = {@Index(name = "idx_octavelow", columnList = "octaveLow"),@Index(name = "idx_octavehigh", columnList = "octaveHigh")})//index
 public class Song {
     @Id

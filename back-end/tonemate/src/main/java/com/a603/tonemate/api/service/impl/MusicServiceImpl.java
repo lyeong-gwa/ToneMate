@@ -158,7 +158,7 @@ public class MusicServiceImpl implements MusicService {
     public TimbreAnalysisResp selectOneTimbreAnalysis(Long timbreId) {
 
         TimbreAnalysis timbreAnalysis = timbreAnalysisRepository.findByTimbreId(timbreId).orElseThrow();
-
+        System.out.println(timbreAnalysis.getSingerSimilarities().get(0).getSinger().getSongs().size());
         return TimbreAnalysisResp.builder()
                 .timbreId(timbreAnalysis.getTimbreId())
                 .mfccMean(timbreAnalysis.getMfccMean())
