@@ -37,6 +37,7 @@ public class MusicController {
     @ApiOperation(value = "음색 분석", notes = "음색 검사를 위한 녹음 wav파일을 분석 및 저장")
     @PostMapping("/timbre")
     public ResponseEntity<?> analysisTimbre(@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token, @RequestParam("fileWav") MultipartFile file) throws Exception {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+        System.out.println(file.getContentType());
         Long userId = jwtTokenProvider.getId(token);
         return new ResponseEntity<>(musicService.saveTimbreAnalysis(userId, file), HttpStatus.OK);
     }
