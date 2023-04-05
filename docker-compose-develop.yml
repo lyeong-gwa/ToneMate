@@ -19,7 +19,7 @@ services:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - KAKAO_REDIRECT_URI=${KAKAO_REDIRECT_URI}
       - GOOGLE_REDIRECT_URI=${GOOGLE_REDIRECT_URI}
-      - FLASK_DOMAIN=flaskDev:5000
+      - FLASK_DOMAIN=${FLASK_DOMAIN}
     volumes:
       - AI_DATA:/DATA
     command: java -jar /tonemate/build/libs/tonemate-0.0.1-SNAPSHOT.jar
