@@ -105,7 +105,7 @@ export default function VocalColor() {
     audio.play();
 
     const formData = new FormData();
-    formData.append('audio', recordedBlob);
+    formData.append('fileWav', recordedBlob);
     // J
     axios
       .post('/music/timbre', formData)
