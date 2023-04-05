@@ -1,16 +1,14 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+
 import Layout from '@/components/layout';
 import TitleContainer from '@/components/content/title-container';
 import MainContainer from '@/components/content/main-container';
 
+import { axios } from '@/lib/axios';
 import { useRef, useState } from 'react';
 
-// J
-import { axios } from '@/lib/axios';
-import { useRouter } from 'next/router';
-
 export default function VocalColor() {
-  // J
   const router = useRouter();
 
   // 상태 관리
