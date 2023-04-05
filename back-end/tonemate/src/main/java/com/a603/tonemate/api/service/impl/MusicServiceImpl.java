@@ -260,6 +260,7 @@ public class MusicServiceImpl implements MusicService {
     @Override
     public PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, Long pitchId) {
         Genre genreEnum = Genre.fromCode(genre);
+   
         PitchAnalysis pitchAnalysis = pitchAnalysisRepository.findByPitchIdAndUserId(pitchId, userId).orElseThrow();
 
         List<Long> possibleList = convertStringToLongList(pitchAnalysis.getPossibleList());
@@ -270,7 +271,6 @@ public class MusicServiceImpl implements MusicService {
         List<Song> normalSongs = songRepository.findSingerByIdAndGenre(normalList, genreEnum);
         List<Song> impossibleSongs = songRepository.findSingerByIdAndGenre(impossibleList, genreEnum);
 
-
         return PitchAnalysisResp.builder()
                 .possibleSong(possibleSongs)
                 .normalSong(normalSongs)
@@ -279,7 +279,7 @@ public class MusicServiceImpl implements MusicService {
     }
 
     // 문자열 배열을 실제 리스트로 생성 str ="[1, 2, 3, 4]"
-    public List<Long> convertStringToLongList(String str) {
+    private List<Long> convertStringToLongList(String str) {
         List<Long> convertList = new ArrayList<>();
         if ("[]".equals(str)) return convertList;
         

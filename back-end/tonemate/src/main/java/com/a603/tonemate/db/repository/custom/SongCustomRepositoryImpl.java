@@ -24,7 +24,7 @@ public class SongCustomRepositoryImpl implements SongCustomRepository{
                 .select(song) //song 테이블의 속성들 전부
                 .from(song) //song을 기준으로
                 .join(song.singer, singer) // singer와 join
-                .where(singer.singerId.in(ids), singer.genre.eq(genre)) //id, genre
+                .where(song.songId.in(ids), singer.genre.eq(genre)) //id, genre
                 .limit(3)
                 .fetch();
 	}
