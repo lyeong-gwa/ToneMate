@@ -1,11 +1,9 @@
 import NavMenu from './nav-menu';
 import UserCard from '@/components/card/user-card';
 import Logo from '@/components/common/logo-button';
-import { useLogout } from '@/features/auth';
+import { logout } from '@/features/auth';
 
 export default function NavBarDesk() {
-  const logout = useLogout();
-
   return (
     <>
       <div className="hidden h-screen w-80 flex-col border-r-2 border-gray-600 bg-transparent lg:flex">
