@@ -4,18 +4,18 @@ import Link from 'next/link';
 import { useUser } from '@/features/auth';
 import { Navbar } from '@/components/Layout';
 import { LoadingFallback } from '@/components/Fallbacks';
-import Layout from "@/components/layout";
-import HalfContainer from "@/components/content/half-container";
-import { useRouter } from "next/router";
+import Layout from '@/components/layout';
+import HalfContainer from '@/components/content/half-container';
+import { useRouter } from 'next/router';
 
 export default function HomePage() {
   const Router = useRouter();
 
-  const { user } = useUser({ redirectTo: '/', redirectIfFound: false });
+  // const { user } = useUser({ redirectTo: '/', redirectIfFound: false });
 
-  if (!user || !user.data) {
-    return <LoadingFallback />;
-  }
+  // if (!user || !user.data) {
+  //   return <LoadingFallback />;
+  // }
 
   return (
     <>
@@ -28,90 +28,82 @@ export default function HomePage() {
       <main>
         <Layout>
           <HalfContainer>
-            <div className="flex flex-row w-full h-full">
-              <div className="flex flex-row justify-end items-end w-full lg:w-140 h-full bg-home">
-                <div className="flex lg:hidden flex-col my-5 grow justify-center items-start bg-trasparent">
-                  <div className="flex flex-row border rounded-full border-black px-2 my-2 mx-3">
-                    <p className="text-red-600 font-alatsi text-sm ">
-                      TONEMATE
-                    </p>
+            <div className="flex h-full w-full flex-row">
+              <div className="bg-home flex h-full w-full flex-row items-end justify-end lg:w-140">
+                <div className="bg-trasparent my-5 flex grow flex-col items-start justify-center lg:hidden">
+                  <div className="mx-3 my-2 flex flex-row rounded-full border border-black px-2">
+                    <p className="font-alatsi text-sm text-red-600 ">TONEMATE</p>
                   </div>
-                  <div className="flex flex-col px-2  mx-3 ">
-                    <p className="text-red-600 font-nanum text-xl">
-                      톤메이트와 함께
-                    </p>
-                    <p className="text-red-600 font-nanum text-xl">
+                  <div className="mx-3 flex flex-col  px-2 ">
+                    <p className="font-nanum text-xl text-red-600">톤메이트와 함께</p>
+                    <p className="font-nanum text-xl text-red-600">
                       내 목소리에 딱 맞는 노래 찾자!
                     </p>
                   </div>
                 </div>
               </div>
-              <div className="hidden lg:flex flex-col grow justify-center items-start bg-gradient-to-r from-violet-500 to-fuchsia-500">
-                <div className="flex flex-row border rounded-full border-black px-2 my-2 mx-3">
-                  <p className="text-white font-alatsi ">TONEMATE</p>
+              <div className="hidden grow flex-col items-start justify-center bg-gradient-to-r from-violet-500 to-fuchsia-500 lg:flex">
+                <div className="mx-3 my-2 flex flex-row rounded-full border border-black px-2">
+                  <p className="font-alatsi text-white ">TONEMATE</p>
                 </div>
-                <div className="flex flex-col px-2  mx-3 ">
-                  <p className="text-white font-nanum text-3xl">
-                    톤메이트와 함께
-                  </p>
-                  <p className="text-white font-nanum text-3xl">
-                    내 목소리에 딱 맞는 노래 찾자!
-                  </p>
+                <div className="mx-3 flex flex-col  px-2 ">
+                  <p className="font-nanum text-3xl text-white">톤메이트와 함께</p>
+                  <p className="font-nanum text-3xl text-white">내 목소리에 딱 맞는 노래 찾자!</p>
                 </div>
               </div>
             </div>
           </HalfContainer>
           <HalfContainer>
-            <div className="flex flex-row m-3">
+            <div className="m-3 flex flex-row">
               <p className="text-2xl text-white">TONEMATE 서비스 바로가기 </p>
             </div>
-            <div className="flex flex-row flex-nowrap overflow-x-auto grow w-full justify-start items-center scrollbar-hide snap-x ">
-              <div className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+            <div className="flex w-full grow snap-x flex-row flex-nowrap items-center justify-start overflow-x-auto scrollbar-hide ">
+              <div className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-2 lg:w-1/4">
                 <button
-                  className="w-full h-full bg-black rounded-xl"
-                  onClick={() => Router.push("/inspectation/vocal-color")}
+                  className="h-full w-full rounded-xl bg-black"
+                  onClick={() => Router.push('/inspectation/vocal-color')}
                 >
-                  <p className="text-white text-2xl">음색 검사</p>
+                  <p className="text-2xl text-white">음색 검사</p>
                 </button>
               </div>
-              <div className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6  mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+              <div className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center  rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-2 lg:w-1/4">
                 <button
-                  className="w-full h-full bg-black rounded-xl"
-                  onClick={() => Router.push("/inspectation/vocal-range")}
+                  className="h-full w-full rounded-xl bg-black"
+                  onClick={() => Router.push('/inspectation/vocal-range')}
                 >
-                  <p className="text-white text-2xl">음역대 검사</p>
+                  <p className="text-2xl text-white">음역대 검사</p>
                 </button>
               </div>
-              <div className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+              <div className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-2 lg:w-1/4">
                 <button
-                  className="w-full h-full bg-black rounded-xl"
-                  onClick={() => Router.push("/inspectation/result-list")}
+                  className="h-full w-full rounded-xl bg-black"
+                  onClick={() => Router.push('/inspectation/result-list')}
                 >
-                  <p className="text-white text-2xl">검사 결과</p>
+                  <p className="text-2xl text-white">검사 결과</p>
                 </button>
               </div>
-              <div className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+              <div className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-2 lg:w-1/4">
                 <button
-                  className="w-full h-full bg-black rounded-xl"
-                  onClick={() => Router.push("/search")}
+                  className="h-full w-full rounded-xl bg-black"
+                  onClick={() => Router.push('/search')}
                 >
-                  <p className="text-white text-2xl">노래 검색</p>
+                  <p className="text-2xl text-white">노래 검색</p>
                 </button>
               </div>
-              <div className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+              <div className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-2 lg:w-1/4">
                 <button
-                  className="w-full h-full bg-black rounded-xl"
-                  onClick={() => Router.push("/user/music-list")}
+                  className="h-full w-full rounded-xl bg-black"
+                  onClick={() => Router.push('/user/music-list')}
                 >
-                  <p className="text-white text-2xl">애창곡 리스트</p>
+                  <p className="text-2xl text-white">애창곡 리스트</p>
                 </button>
               </div>
-              <div className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
+              <div className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-2 lg:w-1/4">
                 <button
-                  className="w-full h-full bg-black rounded-xl"
-                  onClick={() => Router.push("/about")}
+                  className="h-full w-full rounded-xl bg-black"
+                  onClick={() => Router.push('/about')}
                 >
-                  <p className="text-white text-2xl">서비스</p>
+                  <p className="text-2xl text-white">서비스</p>
                 </button>
               </div>
             </div>
