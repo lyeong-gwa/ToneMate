@@ -1,9 +1,10 @@
-import Head from "next/head";
-import Layout from "@/components/layout";
-import Table from "@/components/table/table";
-import TitleContainer from "@/components/content/title-container";
-import MainContainer from "@/components/content/main-container";
-import SearchComponent from "@/components/main/search-component";
+import Head from 'next/head';
+
+import Layout from '@/components/layout';
+import Table from '@/components/table/table';
+import TitleContainer from '@/components/content/title-container';
+import MainContainer from '@/components/content/main-container';
+import SearchComponent from '@/components/main/search-component';
 
 export default function Search() {
   return (
@@ -17,11 +18,11 @@ export default function Search() {
       <main>
         <Layout>
           <TitleContainer>
-            <p className="text-xl lg:text-4xl text-white">노래 검색</p>
+            <p className="text-xl text-white lg:text-4xl">노래 검색</p>
           </TitleContainer>
           <MainContainer>
-            <SearchComponent></SearchComponent>
-            <Table></Table>
+            <SearchComponent />
+            <Table />
           </MainContainer>
         </Layout>
       </main>

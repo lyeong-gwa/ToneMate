@@ -1,358 +1,150 @@
-import { useState } from "react";
-import { HeartIcon } from "@heroicons/react/24/solid";
-import { ChevronLeftIcon } from "@heroicons/react/24/solid";
-import { ChevronRightIcon } from "@heroicons/react/24/solid";
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  HeartIcon as HeartSolidIcon,
+} from '@heroicons/react/24/solid';
+import { HeartIcon as HeartOutlineIcon } from '@heroicons/react/24/outline';
+import { getSongs } from '@/features/karaoke';
 
 function Table() {
   const [page, setPage] = useState(1);
-  const [basePage, setBasePage] = useState(1);
-  const [endPage, setEndPage] = useState(12);
 
-  function clickHeart() {
-    console.log("clickHeart");
-  }
+  const { isLoading, isError, error, data, isFetching, isPreviousData } = useQuery({
+    queryKey: ['songs', page],
+    queryFn: () => getSongs({ page }),
+    keepPreviousData: true,
+  });
 
-  function prevPages() {
-    console.log("prevPage");
-  }
+  // function clickHeart() {
+  //   console.log('clickHeart');
+  // }
 
-  function nextPages() {
-    console.log("nextPage");
-  }
+  // function prevPages() {
+  //   console.log('prevPage');
+  // }
 
-  function clickPage(page) {
-    console.log("clickPage" + page);
-  }
+  // function nextPages() {
+  //   console.log('nextPage');
+  // }
+
+  // function clickPage(page) {
+  //   console.log('clickPage' + page);
+  // }
 
   return (
     <>
-      <div className="flex flex-col w-full h-full justify-start items-center">
-        {/* Table Head : 테이블 태그로 작성시에 사이즈 조절에 문제가 생겨서 div태그로 커스터마이징 */}
-        <div className="flex flex-row justify-between w-full h-10 border-y mb-3 border-yellow-400 fade-in-custom-15s">
-          <div className="flex flex-row w-4/12 mx-2 items-center bg-black">
-            <p className="font-nanum text-sm lg:text-lg text-white">
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제목
-            </p>
-          </div>
-          <div className="flex flex-row w-4/12 justify-center items-center bg-black">
-            <p className="font-nanum text-sm lg:text-lg text-white">가수</p>
-          </div>
-          <div className="flex flex-row w-1/12 justify-center items-center bg-black">
-            <p className="font-nanum text-sm lg:text-lg text-white">TJ</p>
-          </div>
-          <div className="flex flex-row w-1/12 justify-center items-center bg-black">
-            <p className="font-nanum text-sm lg:text-lg text-white">KY</p>
-          </div>
-          <div className="flex flex-row w-1/12 mx-2 justify-center items-center bg-black">
-            <p className="font-nanum text-sm lg:text-lg text-white">담기</p>
-          </div>
-        </div>
-        {/* Table Body : 테이블 태그로 작성시에 사이즈 조절에 문제가 생겨 div태그로 커스터마이징 */}
-        <div className="flex flex-col w-full mb-2 fade-in-custom-15s">
-          <div className="flex flex-row justify-between w-full h-14 mb-1 rounded-full bg-white opacity-40">
-            <div className="flex flex-row w-4/12 mx-2 items-center ">
-              <p className="font-nanum text-sm lg:text-lg text-white">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사건의
-                지평선
-              </p>
+      <div>
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : isError ? (
+          <div>Error: {error.message}</div>
+        ) : (
+          <div className="flex h-full w-full flex-col items-center justify-start">
+            <div className="fade-in-custom-15s mb-3 flex h-10 w-full flex-row justify-between border-y border-yellow-400">
+              <div className="mx-2 flex w-4/12 flex-row items-center bg-black">
+                <p className="font-nanum text-sm text-white lg:text-lg">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;제목
+                </p>
+              </div>
+              <div className="flex w-4/12 flex-row items-center justify-center bg-black">
+                <p className="font-nanum text-sm text-white lg:text-lg">가수</p>
+              </div>
+              <div className="flex w-1/12 flex-row items-center justify-center bg-black">
+                <p className="font-nanum text-sm text-white lg:text-lg">TJ</p>
+              </div>
+              <div className="mx-2 flex w-1/12 flex-row items-center justify-center bg-black">
+                <p className="font-nanum text-sm text-white lg:text-lg">담기</p>
+              </div>
             </div>
-            <div className="flex flex-row w-4/12 justify-center items-center ">
-              <p className="font-nanum text-sm lg:text-lg text-white">
-                윤하 (feat. 션)
-              </p>
-            </div>
-            <div className="flex flex-row w-1/12 justify-center items-center ">
-              <p className="font-nanum text-sm lg:text-lg text-white">88888</p>
-            </div>
-            <div className="flex flex-row w-1/12 justify-center items-center ">
-              <p className="font-nanum text-sm lg:text-lg text-white">88888</p>
-            </div>
-            <div className="flex flex-row w-1/12 mx-2 justify-center items-center ">
-              <button onClick={clickHeart}>
-                <HeartIcon className="w-4 h-4 lg:w-5 lg:h-5 text-white" />
-              </button>
-            </div>
+            {data?.songs?.map((song) => (
+              <div className="fade-in-custom-15s mb-2 flex w-full flex-col" key={song.tjNum}>
+                <div className="mb-1 flex h-14 w-full flex-row justify-between rounded-full bg-white opacity-40">
+                  <div className="mx-2 flex w-4/12 flex-row items-center ">
+                    <p className="font-nanum text-sm text-white lg:text-lg">
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{song.title}
+                    </p>
+                  </div>
+                  <div className="flex w-4/12 flex-row items-center justify-center ">
+                    <p className="font-nanum text-sm text-white lg:text-lg">{song.singer}</p>
+                  </div>
+                  <div className="flex w-1/12 flex-row items-center justify-center ">
+                    <p className="font-nanum text-sm text-white lg:text-lg">{song.tjNum}</p>
+                  </div>
+                  <div className="mx-2 flex w-1/12 flex-row items-center justify-center ">
+                    <button onClick={clickHeart}>
+                      {song.isLike ? (
+                        <HeartSolidIcon className="h-4 w-4 text-white lg:h-5 lg:w-5" />
+                      ) : (
+                        <HeartOutlineIcon className="h-4 w-4 text-white lg:h-5 lg:w-5" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
-
-        {/* Page Nation : 한페이지에 15개씩 화면에 노출되도록 설정 */}
-        <div className="flex flex-row justify-between items-center w-2/5 lg:w-1/5 h-10 mb-2 fade-in-custom-20s">
+        )}
+        <span>Current Page: {page}</span>
+        <button
+          onClick={() => {
+            if (page !== data.totalPageNumber) {
+              setPage((old) => old + 1);
+            }
+          }}
+          // Disable the Next Page button until we know a next page is available
+          // disabled={isPreviousData || !data?.hasMore}
+        >
+          Next Page
+        </button>
+        {isFetching ? <span> Loading...</span> : null}{' '}
+      </div>
+      {/* <div className="flex h-full w-full flex-col items-center justify-start"> */}
+      {/* <div className="fade-in-custom-20s mb-2 flex h-10 w-2/5 flex-row items-center justify-between lg:w-1/5">
           <button onClick={prevPages}>
-            <ChevronLeftIcon className="w-6 h-6 text-white" />
+            <ChevronLeftIcon className="h-6 w-6 text-white" />
+          </button>
+          <button onClick={() => setPage((old) => Math.max(old - 1, 1))} disabled={page === }>
+           <ChevronLeftIcon className="h-6 w-6 text-white" />
           </button>
           <button
             onClick={() => clickPage(basePage)}
-            className="font-nanum text-sm lg:text-lg text-white"
+            className="font-nanum text-sm text-white lg:text-lg"
           >
             {basePage}
           </button>
           <button
             onClick={() => clickPage(basePage + 1)}
-            className="font-nanum text-sm lg:text-lg text-white"
+            className="font-nanum text-sm text-white lg:text-lg"
           >
             {basePage + 1}
           </button>
           <button
             onClick={() => clickPage(basePage + 2)}
-            className="font-nanum text-sm lg:text-lg text-white"
+            className="font-nanum text-sm text-white lg:text-lg"
           >
             {basePage + 2}
           </button>
           <button
             onClick={() => clickPage(basePage + 3)}
-            className="font-nanum text-sm lg:text-lg text-white"
+            className="font-nanum text-sm text-white lg:text-lg"
           >
             {basePage + 3}
           </button>
           <button
             onClick={() => clickPage(basePage + 4)}
-            className="font-nanum text-sm lg:text-lg text-white"
+            className="font-nanum text-sm text-white lg:text-lg"
           >
             {basePage + 4}
           </button>
           <button onClick={nextPages}>
-            <ChevronRightIcon className="w-6 h-6 text-white" />
+            <ChevronRightIcon className="h-6 w-6 text-white" />
           </button>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </>
   );
 }
 
 export default Table;
-
-{
-  /* <table className="w-full px-3 border">
-          <thead>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">제목</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">가수</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">KY</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">TJ</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">담기</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white" />
-                </button>
-              </td>
-            </tr>
-            <tr className="border border-gray-500">
-              <td className="w-3/12 h-8 px-3 text-white">사건의 지평선</td>
-              <td className="w-3/12 h-8 px-3 text-center text-white">윤하</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">11111</td>
-              <td className="w-1/12 h-8 px-3 text-center text-white">81870</td>
-              <td className="w-1/12 h-8 px-3 justify-center items-center">
-                <button className="flex flex-row w-full justify-center items-center">
-                  <HeartIcon className="w-6 h-6 text-white border-white border" />
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table> */
-}
