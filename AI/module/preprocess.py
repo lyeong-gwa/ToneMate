@@ -4,12 +4,7 @@ import numpy as np
 
 # 데이터 크기 조정
 def resize(feature, new_size):
-    # 1차원인 경우
-    if len(feature)==1:        
-        pad_width = (0, new_size - len(feature[0]))
-    # 다차원인 경우    
-    elif len(feature) > 1:
-        pad_width = [(0, 0), (0, new_size - len(feature[0]))]
+    pad_width = [(0, 0), (0, new_size - len(feature[0]))]
     
     if len(feature[0]) < new_size:
         feature = np.pad(feature, pad_width, mode='constant', constant_values=0)
