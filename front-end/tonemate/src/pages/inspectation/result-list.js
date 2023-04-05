@@ -2,6 +2,7 @@ import Head from "next/head";
 import Layout from "@/components/layout";
 import TitleContainer from "@/components/content/title-container";
 import MainContainer from "@/components/content/main-container";
+import { useRouter } from "next/router";
 
 // npm install tw-elements
 //animate-[spinner-grow_2s_ease-in-out]
@@ -9,6 +10,58 @@ import MainContainer from "@/components/content/main-container";
 // npm install tailwindcss-animation-delay
 
 export default function ResultList() {
+  const Router = useRouter();
+
+  const result = {
+    pitch: [
+      {
+        pitchId: 5,
+        time: "2023-04-05 09:50",
+        lowOctave: "B1",
+        highOctave: "G3",
+      },
+      {
+        pitchId: 4,
+        time: "2023-04-04 09:50",
+        lowOctave: "B1",
+        highOctave: "G3",
+      },
+      {
+        pitchId: 3,
+        time: "2023-04-03 09:50",
+        lowOctave: "C1",
+        highOctave: "A3",
+      },
+    ],
+    timbre: [
+      {
+        timbreId: 40,
+        time: "2023-04-05 10:12",
+        singer: ["폴킴", "김조한", "김범수", "이승열", "케이윌"],
+      },
+      {
+        timbreId: 39,
+        time: "2023-04-05 10:06",
+        singer: ["폴킴", "김조한", "김범수", "이승열", "케이윌"],
+      },
+      {
+        timbreId: 38,
+        time: "2023-04-05 10:05",
+        singer: ["폴킴", "김조한", "김범수", "이승열", "케이윌"],
+      },
+      {
+        timbreId: 37,
+        time: "2023-04-05 10:04",
+        singer: ["폴킴", "김조한", "김범수", "이승열", "케이윌"],
+      },
+      {
+        timbreId: 36,
+        time: "2023-04-05 10:03",
+        singer: ["폴킴", "김조한", "김범수", "이승열", "케이윌"],
+      },
+    ],
+  };
+
   return (
     <>
       <Head>
@@ -25,24 +78,80 @@ export default function ResultList() {
           <MainContainer>
             <div className="flex flex-col w-full h-12 justify-center items-center lg:items-start">
               <p className="text-md lg:text-2xl text-white">
-                000님은 총 0건의 검사 결과를 가지고 있습니다.
+                000님은 총 {result.timbre.length + result.pitch.length}건의 검사
+                결과를 가지고 있습니다.
               </p>
             </div>
             <div className="flex flex-col w-full h-2/5 fade-in-custom-15s">
               <div className="flex flex-col w-full h-10 justify-center items-center lg:items-start">
                 <p className="text-sm lg:text-xl text-white">
-                  음색 검사 결과 : 0 건
+                  음색 검사 결과 : {result.timbre.length} 건
                 </p>
               </div>
-              <div className="flex flex-row grow bg-gray-500"></div>
+              <div className="flex flex-row flex-nowrap overflow-x-auto grow w-full justify-start items-center scrollbar-hide snap-x ">
+                {result.timbre.map((item) => (
+                  <div
+                    key={item.timbreId}
+                    className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"
+                  >
+                    <button
+                      className="w-full h-full bg-black rounded-xl"
+                      onClick={() => Router.push("/inspectation/vocal-color")}
+                    >
+                      <p className="text-white text-xl lg:text-2xl m-2">
+                        음색검사
+                      </p>
+                      <p className="text-white text-xl lg:text-2xl m-2">
+                        {item.time}
+                      </p>
+
+                      <div className="flex flex-row justify-around m-3">
+                        {item.singer.map((item) => (
+                          <p
+                            key={item}
+                            className="text-white text-sm lg:text-xl"
+                          >
+                            {item}
+                          </p>
+                        ))}
+                      </div>
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="flex flex-col w-full h-2/5 fade-in-custom-20s ">
               <div className="flex flex-col w-full h-10 justify-center items-center lg:items-start ">
                 <p className="text-sm lg:text-xl text-white">
-                  음역대 검사 결과 : 0 건
+                  음역대 검사 결과 : {result.pitch.length} 건
                 </p>
               </div>
-              <div className="flex flex-row grow bg-gray-500"></div>
+              <div className="flex flex-row flex-nowrap overflow-x-auto grow w-full justify-start items-center scrollbar-hide snap-x ">
+                {result.pitch.map((item) => (
+                  <div
+                    key={item.pitchId}
+                    className="snap-center grow-0 flex-shrink-0 basis-auto w-4/5 lg:w-1/4 h-5/6 mx-3 p-2 rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500"
+                  >
+                    <button
+                      className="w-full h-full bg-black rounded-xl"
+                      onClick={() => Router.push("/inspectation/vocal-color")}
+                    >
+                      <p className="text-white text-xl lg:text-2xl m-2">
+                        음역대 검사
+                      </p>
+                      <p className="text-white text-xl lg:text-2xl m-2">
+                        {item.time}
+                      </p>
+                      <p className="text-white text-mg m-2">
+                        최고 음역대 : {item.highOctave}
+                      </p>
+                      <p className="text-white text-mg m-2">
+                        최저 음역대 : {item.lowOctave}
+                      </p>
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </MainContainer>
         </Layout>

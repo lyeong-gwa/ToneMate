@@ -3,6 +3,7 @@ import Layout from "@/components/layout";
 import TitleContainer from "@/components/content/title-container";
 import MainContainer from "@/components/content/main-container";
 import { useState, useRef } from "react";
+import { useEffect } from "react";
 
 export default function VocalRange() {
   // 상태 관리 : 녹음 상태
@@ -116,6 +117,13 @@ export default function VocalRange() {
     console.log(formData.get("highAudio"));
     console.log(formData.get("lowAudio"));
   };
+
+  // 비정상적인 종료를 할 때 : 페이지 이동과 같은
+  useEffect(() => {
+    return () => {
+      if (isHighRecording || isLowRecording) stopRecording();
+    };
+  }, []);
 
   return (
     <>
