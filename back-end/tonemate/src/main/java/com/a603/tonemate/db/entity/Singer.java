@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class Singer {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(100) default 'UNKNOW'")
     private Genre genre;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
     @JoinColumn(name = "singer_id")
     @BatchSize(size = 5)
     private List<Song> songs;
