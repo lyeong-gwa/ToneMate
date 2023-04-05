@@ -7,11 +7,6 @@ import com.a603.tonemate.dto.common.PitchResult;
 import com.a603.tonemate.dto.common.SingerDetail;
 import com.a603.tonemate.dto.common.SingerSimilaritytmp;
 import com.a603.tonemate.dto.response.*;
-import com.a603.tonemate.dto.common.SingerSimilarity;
-import com.a603.tonemate.dto.request.PitchAnalysisReq;
-import com.a603.tonemate.dto.response.PitchAnalysisResp;
-import com.a603.tonemate.dto.response.ResultResp;
-import com.a603.tonemate.dto.response.TimbreAnalysisResp;
 import com.a603.tonemate.enumpack.Genre;
 import com.a603.tonemate.util.FlaskUtil;
 import com.a603.tonemate.util.PitchUtil;
@@ -21,10 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -193,7 +186,7 @@ public class MusicServiceImpl implements MusicService {
 
     @Override
     public PitchAnalysisResp selectOnePitchAnalysis(Long userId, Long pitchId) {
-		PitchAnalysis pitchAnalysis = pitchAnalysisRepository.findByPitchIdAndUserId(pitchId, userId).orElseThrow();
+        PitchAnalysis pitchAnalysis = pitchAnalysisRepository.findByPitchIdAndUserId(pitchId, userId).orElseThrow();
 
         List<Long> possibleList = convertStringToLongList(pitchAnalysis.getPossibleList());
         List<Long> normalList = convertStringToLongList(pitchAnalysis.getNormalList());
@@ -204,8 +197,8 @@ public class MusicServiceImpl implements MusicService {
         List<Song> impossibleSong = songRepository.findBySongIdIn(impossibleList);
 
         return PitchAnalysisResp.builder()
-        		.lowOctave(pitchUtil.getOctaveName(pitchAnalysis.getOctaveLow()))
-        		.highOctave(pitchUtil.getOctaveName(pitchAnalysis.getOctaveHigh()))
+                .lowOctave(pitchUtil.getOctaveName(pitchAnalysis.getOctaveLow()))
+                .highOctave(pitchUtil.getOctaveName(pitchAnalysis.getOctaveHigh()))
                 .possibleSong(possibleSong)
                 .normalSong(normalSong)
                 .impossibleSong(impossibleSong)
@@ -224,7 +217,7 @@ public class MusicServiceImpl implements MusicService {
 
     @Override
     public PitchAnalysisResp analysisPitch(Long userId, MultipartFile highOctave, MultipartFile lowOctave) {
-    	System.out.println(highOctave+" " + lowOctave);
+        System.out.println(highOctave + " " + lowOctave);
         PitchResult lowPitch = pitchUtil.getPitch(lowOctave, false);
         PitchResult highPitch = pitchUtil.getPitch(highOctave, true);
         System.out.println(lowPitch + " " + highPitch);
@@ -238,8 +231,8 @@ public class MusicServiceImpl implements MusicService {
         List<Song> possibleSong = possibleNormalSong.subList(0, Math.min(3, size));
 
         List<Song> normalSong = new ArrayList<>();
-        if(size>3) {
-        	normalSong = possibleNormalSong.subList(3, Math.min(6, size));
+        if (size > 3) {
+            normalSong = possibleNormalSong.subList(3, Math.min(6, size));
         }
 
         List<Song> impossibleSong = songRepository.findByOctaveOverlap(lowPitch.getPitch(), highPitch.getPitch(), PageRequest.of(0, 3));
@@ -252,7 +245,7 @@ public class MusicServiceImpl implements MusicService {
         int possibleNormalSongLen = Math.min(3, possibleNormalSong.size());
 
         possibleNormalSong.subList(0, possibleNormalSongLen).forEach(song -> possibleSongId.add(song.getSongId()));
-        possibleNormalSong.subList(possibleNormalSongLen,Math.min(possibleNormalSongLen+3, possibleNormalSong.size())).forEach(song -> normalSongId.add(song.getSongId()));
+        possibleNormalSong.subList(possibleNormalSongLen, Math.min(possibleNormalSongLen + 3, possibleNormalSong.size())).forEach(song -> normalSongId.add(song.getSongId()));
         impossibleSong.forEach(song -> impossibleSongId.add(song.getSongId()));
 
         PitchAnalysis pitchAnalysis = pitchAnalysisRepository.save(PitchAnalysis.builder().octaveLow(randLow)
