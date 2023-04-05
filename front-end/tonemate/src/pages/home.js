@@ -1,15 +1,14 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { useUser } from '@/features/auth';
-import { Navbar } from '@/components/Layout';
 import { LoadingFallback } from '@/components/Fallbacks';
 import Layout from '@/components/layout';
 import HalfContainer from '@/components/content/half-container';
-import { useRouter } from 'next/router';
 
 export default function HomePage() {
-  const Router = useRouter();
+  const router = useRouter();
 
   const { user } = useUser({ redirectTo: '/', redirectIfFound: false });
 
@@ -61,7 +60,7 @@ export default function HomePage() {
               <div className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-2 lg:w-1/4">
                 <button
                   className="h-full w-full rounded-xl bg-black"
-                  onClick={() => Router.push('/inspectation/vocal-color')}
+                  onClick={() => router.push('/inspectation/vocal-color')}
                 >
                   <p className="text-2xl text-white">음색 검사</p>
                 </button>
@@ -69,7 +68,7 @@ export default function HomePage() {
               <div className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center  rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-2 lg:w-1/4">
                 <button
                   className="h-full w-full rounded-xl bg-black"
-                  onClick={() => Router.push('/inspectation/vocal-range')}
+                  onClick={() => router.push('/inspectation/vocal-range')}
                 >
                   <p className="text-2xl text-white">음역대 검사</p>
                 </button>
@@ -77,7 +76,7 @@ export default function HomePage() {
               <div className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-2 lg:w-1/4">
                 <button
                   className="h-full w-full rounded-xl bg-black"
-                  onClick={() => Router.push('/inspectation/result-list')}
+                  onClick={() => router.push('/inspectation/result-list')}
                 >
                   <p className="text-2xl text-white">검사 결과</p>
                 </button>
@@ -85,7 +84,7 @@ export default function HomePage() {
               <div className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-2 lg:w-1/4">
                 <button
                   className="h-full w-full rounded-xl bg-black"
-                  onClick={() => Router.push('/search')}
+                  onClick={() => router.push('/search')}
                 >
                   <p className="text-2xl text-white">노래 검색</p>
                 </button>
@@ -93,7 +92,7 @@ export default function HomePage() {
               <div className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-2 lg:w-1/4">
                 <button
                   className="h-full w-full rounded-xl bg-black"
-                  onClick={() => Router.push('/user/music-list')}
+                  onClick={() => router.push('/user/music-list')}
                 >
                   <p className="text-2xl text-white">애창곡 리스트</p>
                 </button>
@@ -101,7 +100,7 @@ export default function HomePage() {
               <div className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-2 lg:w-1/4">
                 <button
                   className="h-full w-full rounded-xl bg-black"
-                  onClick={() => Router.push('/about')}
+                  onClick={() => router.push('/about')}
                 >
                   <p className="text-2xl text-white">서비스</p>
                 </button>
