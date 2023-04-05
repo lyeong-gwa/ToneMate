@@ -72,7 +72,7 @@ export default function VocalColor() {
         });
 
         mediaRecorder.addEventListener('stop', () => {
-          const blob = new Blob(chunks, { type: 'audio/wav' });
+          const blob = new Blob(chunks, { type: 'audio/wave' });
           setRecordedBlob(blob);
           const audioURL = window.URL.createObjectURL(blob);
           const audio = new Audio(audioURL);
@@ -105,8 +105,7 @@ export default function VocalColor() {
     audio.play();
 
     const formData = new FormData();
-    const fileWav = new File([recordedBlob], 'ai.wav');
-    formData.append('fileWav', fileWav);
+    formData.append('fileWav', recordedBlob);
     // J
     axios
       .post('/music/timbre', formData)
