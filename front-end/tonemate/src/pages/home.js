@@ -11,11 +11,11 @@ import { useRouter } from 'next/router';
 export default function HomePage() {
   const Router = useRouter();
 
-  // const { user } = useUser({ redirectTo: '/', redirectIfFound: false });
+  const { user } = useUser({ redirectTo: '/', redirectIfFound: false });
 
-  // if (!user || !user.data) {
-  //   return <LoadingFallback />;
-  // }
+  if (!user || !user.data) {
+    return <LoadingFallback />;
+  }
 
   return (
     <>

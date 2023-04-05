@@ -52,7 +52,6 @@ module.exports = {
     },
   },
   plugins: [
-    require('daisyui'), // daisyui
     require('tailwind-scrollbar-hide'), // scroll
     require('tailwindcss-animation-delay'), // tailwindcss-animation-delay
     require('@tailwindcss/typography'),
