@@ -12,7 +12,7 @@ import { HeartIcon } from "@heroicons/react/24/solid";
 export default function NavMenu() {
   return (
     <>
-      <div className="flex flex-col justify-start items-start sm:w-11/12">
+      <div className="flex flex-col justify-start items-start w-64">
         {/* 홈 Navigation Botton */}
         <NavButton icon={HomeIcon} name="홈 화면" value="/home" />
 

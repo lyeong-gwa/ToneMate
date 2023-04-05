@@ -18,7 +18,7 @@ export default function HomePage() {
         <Layout>
           <HalfContainer>
             <div className="flex flex-row w-full h-full">
-              <div className="flex flex-row justify-end items-end w-full lg:w-140 h-full bg-home">
+              <div className="flex flex-row justify-end items-end w-full lg:w-140 h-full bg-home z-0">
                 <div className="flex lg:hidden flex-col my-5 grow justify-center items-start bg-trasparent">
                   <div className="flex flex-row border rounded-full border-black px-2 my-2 mx-3">
                     <p className="text-red-600 font-alatsi text-sm ">

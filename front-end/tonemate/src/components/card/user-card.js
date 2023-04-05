@@ -9,7 +9,7 @@ export default function UserCard() {
   };
   return (
     <>
-      <div className="flex flex-row w-11/12 justify-around items-center m-1 border-gray-500 border-y-2 my-3">
+      <div className="flex flex-row w-60 lg:w-11/12 justify-around items-center m-1 border-gray-500 border-y-2 my-3">
         <div className="flex w-2/5 my-5 mx-2 ">
           <img
             className="rounded-full w-16 h-16"

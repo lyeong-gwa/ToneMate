@@ -4,6 +4,37 @@ import TitleContainer from "@/components/content/title-container";
 import MainContainer from "@/components/content/main-container";
 
 export default function VoiceRangeResult() {
+  const song = {
+    songId: 2542,
+    mfccMean: -0.192657,
+    stftMean: -0.0974291,
+    zcrMean: -0.316204,
+    spcMean: -0.711506,
+    sprMean: -1.22481,
+    rmsMean: -0.17009,
+    mfccVar: -0.109476,
+    stftVar: -0.0206782,
+    zcrVar: 0.407448,
+    spcVar: 0.607542,
+    sprVar: 0.934375,
+    rmsVar: -0.289904,
+    octaveLow: 0,
+    octaveHigh: 500,
+    title: "Amateur",
+    numKy: null,
+    numTj: null,
+  };
+
+  const result = {
+    pitchId: 6,
+    lowOctave: "G1",
+    highOctave: "F#1",
+    time: "2023-04-02T14:42:08.7533907",
+    possibleSong: [song, song, song],
+    normalSong: [song, song, song],
+    impossibleSong: [song, song, song],
+  };
+
   return (
     <>
       <Head>
@@ -18,11 +49,89 @@ export default function VoiceRangeResult() {
             <p className="text-xl lg:text-4xl text-white">음역대 검사 결과</p>
           </TitleContainer>
           <MainContainer>
-            <div className="flex flex-col w-full bg-white">
-              <p>000님의 00일 음역대 검사 결과입니다.</p>
-            </div>
-            <div className="flex flex-col w-full grow bg-white">
-              <p>내용</p>
+            <div className="flex flex-col lg:flex-row w-full h-full justify-between ">
+              <div className="flex flex-col w-full h-2/5 lg:w-5/12 lg:h-full justify-between">
+                {/*  */}
+                <div className="flex flex-col w-full">
+                  <p className="text-white text-center lg:text-left text-md font-nanum mx-2 lg:text-2xl">
+                    000님의 00일
+                  </p>
+                  <p className="text-white text-center lg:text-left text-md font-nanum mx-2 lg:text-2xl">
+                    음역대 검사 결과입니다.
+                  </p>
+                </div>
+                {/* 유저 검사 결과 : 최저, 최고음 */}
+                <div className="flex flex-col w-full h-2/5 border border-white rounded-xl">
+                  <div>
+                    <p className="text-white text-center lg:text-left text-md font-nanum mx-2 lg:text-2xl">
+                      해당 음역대는 한국식 표기법을 따릅니다.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-white text-center lg:text-left text-md font-nanum mx-2 lg:text-2xl">
+                      최고음 : {result.highOctave}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-white text-center lg:text-left text-md font-nanum mx-2 lg:text-2xl">
+                      최저음 : {result.lowOctave}
+                    </p>
+                  </div>
+                </div>
+                {/* 유저 검사 결과 : 차트 */}
+                <div className="flex flex-row w-full h-2/5 border border-white rounded-xl"></div>
+              </div>
+
+              {/* 추천곡 */}
+              <div className="flex flex-col w-full h-3/6 lg:w-6/12 lg:h-full justify-between">
+                {/* 잘 부를 수 있는 노래 */}
+                <div className="flex flex-col w-full h-3/10 border border-white rounded-xl">
+                  {/* 텍스트 */}
+                  <div className="flex flex-row mt-2 mx-2">
+                    <p className="text-white text-center lg:text-start text-2xl font-nanum mx-2 lg:text-2xl">
+                      # 잘 부를 수 있는 노래
+                    </p>
+                  </div>
+                  {/* 노래 3곡 */}
+                  <div className="flex flex-col lg:flex-row grow justify-around items-center">
+                    <div className="flex flex-col w-full lg:w-1/4 h-5/6 bg-white"></div>
+                    <div className="flex flex-col w-full lg:w-1/4 h-5/6 bg-white"></div>
+                    <div className="flex flex-col w-full lg:w-1/4 h-5/6 bg-white"></div>
+                  </div>
+                </div>
+
+                {/* 적당히 부를 수 있는 노래 */}
+                <div className="flex flex-col w-full h-3/10 border border-white rounded-xl">
+                  {/* 텍스트 */}
+                  <div className="flex flex-row mt-2 mx-2">
+                    <p className="text-white text-center lg:text-start text-2xl font-nanum mx-2 lg:text-2xl">
+                      # 적당한 노래
+                    </p>
+                  </div>
+                  {/* 노래 3곡 */}
+                  <div className="flex flex-col lg:flex-row grow justify-around items-center">
+                    <div className="flex flex-col w-full lg:w-1/4 h-5/6 bg-white"></div>
+                    <div className="flex flex-col w-full lg:w-1/4 h-5/6 bg-white"></div>
+                    <div className="flex flex-col w-full lg:w-1/4 h-5/6 bg-white"></div>
+                  </div>
+                </div>
+
+                {/* 부르면 안되는 노래 */}
+                <div className="flex flex-col w-full h-3/10 border border-white rounded-xl">
+                  {/* 텍스트 */}
+                  <div className="flex flex-row mt-2 mx-2">
+                    <p className="text-white text-center lg:text-start text-2xl font-nanum mx-2 lg:text-2xl">
+                      # 부르면 안되는 노래
+                    </p>
+                  </div>
+                  {/* 노래 3곡 */}
+                  <div className="flex flex-col lg:flex-row grow justify-around items-center">
+                    <div className="flex flex-col w-full lg:w-1/4 h-5/6 bg-white"></div>
+                    <div className="flex flex-col w-full lg:w-1/4 h-5/6 bg-white"></div>
+                    <div className="flex flex-col w-full lg:w-1/4 h-5/6 bg-white"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </MainContainer>
         </Layout>

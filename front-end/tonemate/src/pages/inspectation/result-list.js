@@ -23,7 +23,7 @@ export default function ResultList() {
             <p className="text-xl lg:text-4xl text-white">검사 결과</p>
           </TitleContainer>
           <MainContainer>
-            <div className="flex flex-col w-full h-12 justify-center items-center lg:items-start fade-in-custom-10s">
+            <div className="flex flex-col w-full h-12 justify-center items-center lg:items-start">
               <p className="text-md lg:text-2xl text-white">
                 000님은 총 0건의 검사 결과를 가지고 있습니다.
               </p>

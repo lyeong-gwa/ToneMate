@@ -68,6 +68,7 @@ function ResultChart(props) {
       fill: false,
       borderColor: "red",
       borderWidth: 2,
+      backgroundColor: "red",
     };
     userData.data.push(parseFloat(props.result.mfccMean));
     userData.data.push(parseFloat(props.result.stftMean));
@@ -91,6 +92,7 @@ function ResultChart(props) {
       fill: false,
       borderColor: "blue",
       borderWidth: 2,
+      backgroundColor: "blue",
     };
     singerData.data.push(0);
     singerData.data.push(0);

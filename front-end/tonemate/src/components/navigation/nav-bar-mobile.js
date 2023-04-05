@@ -23,7 +23,16 @@ export default function NavBarMobile() {
           />
         </div>
       </div>
-      {menu ? <NavMenuMobile /> : ""}
+      {menu ? (
+        <div
+          className="flex absolute top-0 left-0 w-screen h-screen bg-slate-400 z-10 bg-opacity-60"
+          onClick={toggleMenu}
+        >
+          <NavMenuMobile />
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 }
