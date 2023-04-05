@@ -178,6 +178,7 @@ public class MusicServiceImpl implements MusicService {
                                 o.getSinger().getName(),
                                 o.getSimilarityPercent(),
                                 o.getSinger().getSongs().stream()
+                                        .limit(5)
                                         .map(this::toSongResp)
                                         .collect(Collectors.toList())))
                         .collect(Collectors.toList()))
