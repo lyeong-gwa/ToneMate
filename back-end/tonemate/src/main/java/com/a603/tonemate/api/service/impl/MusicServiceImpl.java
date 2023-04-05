@@ -51,18 +51,18 @@ public class MusicServiceImpl implements MusicService {
             //timbre 엔티티 먼저 생성
             TimbreAnalysis timbreAnalysis = TimbreAnalysis.builder()
                     .userId(userId)
-                    .mfccMean((Float) result.get("mfcc_mean"))
-                    .stftMean((Float) result.get("stft_mean"))
-                    .zcrMean((Float) result.get("zcr_mean"))
-                    .spcMean((Float) result.get("spc_mean"))
-                    .sprMean((Float) result.get("spr_mean"))
-                    .rmsMean((Float) result.get("rms_mean"))
-                    .mfccVar((Float) result.get("mfcc_var"))
-                    .stftVar((Float) result.get("stft_var"))
-                    .zcrVar((Float) result.get("zcr_var"))
-                    .spcVar((Float) result.get("spc_var"))
-                    .sprVar((Float) result.get("spr_var"))
-                    .rmsVar((Float) result.get("rms_var"))
+                    .mfccMean(((Double) result.get("mfcc_mean")).floatValue())
+                    .stftMean(((Double) result.get("stft_mean")).floatValue())
+                    .zcrMean(((Double) result.get("zcr_mean")).floatValue())
+                    .spcMean(((Double) result.get("spc_mean")).floatValue())
+                    .sprMean(((Double) result.get("spr_mean")).floatValue())
+                    .rmsMean(((Double) result.get("rms_mean")).floatValue())
+                    .mfccVar(((Double) result.get("mfcc_var")).floatValue())
+                    .stftVar(((Double) result.get("stft_var")).floatValue())
+                    .zcrVar(((Double) result.get("zcr_var")).floatValue())
+                    .spcVar(((Double) result.get("spc_var")).floatValue())
+                    .sprVar(((Double) result.get("spr_var")).floatValue())
+                    .rmsVar(((Double) result.get("rms_var")).floatValue())
                     .build();
             timbreAnalysis = timbreAnalysisRepository.save(timbreAnalysis);
             for (int i = 0; i < singers.size(); i++) {
@@ -87,7 +87,7 @@ public class MusicServiceImpl implements MusicService {
             for (Singer singer : singerList) {
                 for (SingerSimilaritytmp singerName : singerNames) {
                     if (singer.getName().equals(singerName.getName())) {
-                        singerSimilarities.add(new SingerSimilarity(singer, singerName.getSimilarityPercent()));
+                        singerSimilarities.add(new SingerSimilarity(timbreAnalysis.getTimbreId(), singer, singerName.getSimilarityPercent()));
                         break;
                     }
                 }

@@ -28,7 +28,7 @@ public class TimbreAnalysis extends BaseTime {
     private float spcVar;
     private float sprVar;
     private float rmsVar;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "timbre_id")
     private List<SingerSimilarity> singerSimilarities;
 

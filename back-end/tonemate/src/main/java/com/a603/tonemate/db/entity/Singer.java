@@ -25,7 +25,7 @@ public class Singer {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(100) default 'UNKNOW'")
     private Genre genre;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "singer_id")
     @BatchSize(size = 5)
     private List<Song> songs;
