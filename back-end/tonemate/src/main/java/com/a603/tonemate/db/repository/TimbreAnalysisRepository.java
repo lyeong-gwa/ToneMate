@@ -10,5 +10,6 @@ public interface TimbreAnalysisRepository extends JpaRepository<TimbreAnalysis, 
     Optional<TimbreAnalysis> findByTimbreId(Long i);
 
     List<TimbreAnalysis> findAllByUserId(Long userId);
-    List<TimbreAnalysis> findAllByUserIdOrderByTimeDesc(Long userId);
+
+    List<TimbreAnalysis> findAllByUserIdOrderByTimbreIdDesc(Long userId);
 }

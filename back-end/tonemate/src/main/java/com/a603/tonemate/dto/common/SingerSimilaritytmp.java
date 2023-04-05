@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class SingerSimilarity implements Comparable<SingerSimilarity> {
+public class SingerSimilaritytmp implements Comparable<SingerSimilaritytmp> {
 
     // 가수 이름
     private String name;
@@ -14,10 +14,10 @@ public class SingerSimilarity implements Comparable<SingerSimilarity> {
 
     // 유사도 높은 순으로 정렬(내림차순)
     @Override
-    public int compareTo(SingerSimilarity o){
-        if (o.similarityPercent > this.similarityPercent){
+    public int compareTo(SingerSimilaritytmp o) {
+        if (o.similarityPercent > this.similarityPercent) {
             return 1;
-        } else if (o.similarityPercent < this.similarityPercent){
+        } else if (o.similarityPercent < this.similarityPercent) {
             return -1;
         } else {
             return 0;
