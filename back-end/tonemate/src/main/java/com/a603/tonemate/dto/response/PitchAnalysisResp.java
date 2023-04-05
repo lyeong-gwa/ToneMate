@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
-@ApiModel(value = "음색 분석 검사 결과", description = "사용자가 보낸 wav 파일에 대한 음색 분석 결과 정보들이 담김")
+@ApiModel(value = "음역대 분석 검사 결과", description = "사용자가 보낸 wav 파일에 대한 음역대 분석 결과 정보들이 담김")
 public class PitchAnalysisResp {
     @ApiModelProperty(value = "음역대 분석 결과 id", example = "1")
     private Long pitchId;

@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .and()
                 .logout()
                 .logoutUrl("/logout") // 로그아웃 처리 URL
-                .logoutSuccessUrl("/login") // 로그아웃 성공후 이동할 페이지
+//                .logoutSuccessUrl("/login") // 로그아웃 성공후 이동할 페이지
                 .deleteCookies("accessToken", "refreshToken") // 쿠키 삭제
                 .addLogoutHandler(customLogoutHandler)// 로그아웃 구현할 class 넣기
                 .and()

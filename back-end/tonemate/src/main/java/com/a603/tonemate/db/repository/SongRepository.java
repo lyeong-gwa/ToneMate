@@ -14,11 +14,11 @@ import java.util.Optional;
 public interface SongRepository extends JpaRepository<Song, Long>,SongCustomRepository {
     Optional<Song> findBySongId(Long i);
 
-    @Query("SELECT s FROM Song s JOIN Singer si ON s.singer.singerId = si.singerId WHERE si.gender = :gender AND s.octaveLow >= :octaveLow AND s.octaveHigh <= :octaveHigh ORDER BY ABS(((s.octaveLow + s.octaveHigh) / 2) - ((:octaveLow + :octaveHigh) / 2))")
-    List<Song> findByGenderAndOctaveInRange(@Param("octaveLow") int octaveLow, @Param("octaveHigh") int octaveHigh, @Param("gender") boolean gender,Pageable pageable);
+    @Query("SELECT s FROM Song s WHERE s.octaveLow >= :octaveLow AND s.octaveHigh <= :octaveHigh ORDER BY ABS(((s.octaveLow + s.octaveHigh) / 2) - ((:octaveLow + :octaveHigh) / 2))")
+    List<Song> findByOctaveInRange(@Param("octaveLow") int octaveLow, @Param("octaveHigh") int octaveHigh, Pageable pageable);
 
-    @Query("SELECT s FROM Song s JOIN Singer si ON s.singer.singerId = si.singerId WHERE si.gender = :gender AND s.octaveLow <= :octaveHigh AND s.octaveHigh >= :octaveLow ORDER BY ABS(((s.octaveLow + s.octaveHigh) / 2) - ((:octaveLow + :octaveHigh) / 2))")
-    List<Song> findByGenderAndOctaveOverlap(@Param("octaveLow") int octaveLow, @Param("octaveHigh") int octaveHigh, @Param("gender") boolean gender, Pageable pageable);
+    @Query("SELECT s FROM Song s WHERE s.octaveLow <= :octaveHigh AND s.octaveHigh >= :octaveLow ORDER BY ABS(((s.octaveLow + s.octaveHigh) / 2) - ((:octaveLow + :octaveHigh) / 2))")
+    List<Song> findByOctaveOverlap(@Param("octaveLow") int octaveLow, @Param("octaveHigh") int octaveHigh, Pageable pageable);
 
     List<Song> findBySongIdIn(List<Long> idList);
 }

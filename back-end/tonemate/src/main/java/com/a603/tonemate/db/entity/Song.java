@@ -8,26 +8,30 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(indexes = {@Index(name = "idx_octavelow", columnList = "octaveLow"),@Index(name = "idx_octavehigh", columnList = "octaveHigh")})//index
 public class Song {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long songId;
-    private float mfccMean;
-    private float stftMean;
-    private float zcrMean;
-    private float spcMean;
-    private float sprMean;
-    private float rmsMean;
-    private float mfccVar;
-    private float stftVar;
-    private float zcrVar;
-    private float spcVar;
-    private float sprVar;
-    private float rmsVar;
+    private Float mfccMean;
+    private Float stftMean;
+    private Float zcrMean;
+    private Float spcMean;
+    private Float sprMean;
+    private Float rmsMean;
+    private Float mfccVar;
+    private Float stftVar;
+    private Float zcrVar;
+    private Float spcVar;
+    private Float sprVar;
+    private Float rmsVar;
+
     @Column
-    private int octaveLow = 0;
+    private Integer octaveLow = 0;
     @Column
-    private int octaveHigh = 500;
+    private Integer octaveHigh = 500;
+
+    //private Long singerId;
     private String title;
     private String numKy;
     private String numTj;
