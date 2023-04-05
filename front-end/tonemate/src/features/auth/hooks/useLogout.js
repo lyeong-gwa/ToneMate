@@ -6,6 +6,6 @@ export const useLogout = () => {
   const router = useRouter();
   return () => {
     logout();
-    router.push('/');
+    // .then(router.push('/'));
   };
 };

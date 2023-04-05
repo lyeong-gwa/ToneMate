@@ -11,7 +11,6 @@ export default function HomePage() {
   const router = useRouter();
 
   const { user } = useUser({ redirectTo: '/', redirectIfFound: false });
-
   if (!user || !user.data) {
     return <LoadingFallback />;
   }

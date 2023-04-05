@@ -19,7 +19,7 @@ export default function NavBarDesk() {
         <div className="mb-6 flex w-full flex-col items-center justify-center ">
           <div className="flex w-5/6 flex-col rounded-lg bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-0.5">
             <button
-              onClick={logout}
+              onClick={() => logout()}
               className="flex h-10 w-full flex-col items-center justify-center rounded-lg bg-black"
             >
               <p className="font-nanum text-white lg:text-xl">로그아웃</p>
