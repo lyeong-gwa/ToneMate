@@ -11,4 +11,5 @@ public interface PitchAnalysisRepository extends JpaRepository<PitchAnalysis, Lo
     Optional<PitchAnalysis> findByPitchId(Long id);
     List<PitchAnalysis> findAllByUserId(Long userId);
     Optional<PitchAnalysis> findByPitchIdAndUserId(Long pitchId,Long userId);
+    List<PitchAnalysis> findAllByUserIdOrderByTimeDesc(Long userId);
 }

@@ -63,7 +63,7 @@ public class MusicController {
         PitchAnalysisResp result;
 
         try {
-            result = musicService.analysisPitchByGenre(userId, genre, pitchId);
+            result = musicService.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          analysisPitchByGenre(userId, genre, pitchId);
         } catch (Exception e) {
             throw AnalysisPitchByGenreException.fromException(e);
         }
@@ -80,31 +80,39 @@ public class MusicController {
         return new ResponseEntity<>(musicService.getResultList(userId), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "검사 결과 삭제", notes = "사용자가 선택한 검사 결과를 삭제한다.")
-    @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "검사 유형 (timbre/pitch)"),
-            @ApiImplicitParam(name = "id", value = "검사 아이디", example = "1")})
-    @DeleteMapping("/result/{type}/{id}")
-    public ResponseEntity<?> deleteResult(@PathVariable("type") String type, @PathVariable("id") Long id) {
+    @ApiOperation(value = "음색 검사 결과 조회", notes = "사용자가 선택한 음색 검사 결과의 상세 정보를 조회한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "timbreId", value = "음색 검사 아이디", example = "1")})
+    @GetMapping("/result/timbre/{timbreId}")
+    public ResponseEntity<?> selectOneTimbreResult(@PathVariable("timbreId") Long timbreId) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
 
-        musicService.deleteResult(type, id);
-
-        return new ResponseEntity<>("검사 결과 삭제", HttpStatus.OK);
+        return new ResponseEntity<>(musicService.selectOneTimbreAnalysis(timbreId), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "검사 결과 조회", notes = "사용자가 선택한 검사 결과의 상세 정보를 조회한다.")
-    @ApiImplicitParams({@ApiImplicitParam(name = "type", value = "검사 유형 (timbre/pitch)"),
-            @ApiImplicitParam(name = "id", value = "검사 아이디", example = "1")})
-    @GetMapping("/result/{type}/{id}")
-    public ResponseEntity<?> selectOneResult(@PathVariable("type") String type, @PathVariable("id") Long id) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
+    @ApiOperation(value = "음역대 검사 결과 조회", notes = "사용자가 선택한 음역대 검사 결과의 상세 정보를 조회한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "pitchId", value = "음역대 검사 아이디", example = "1")})
+    @GetMapping("/result/pitch/{pitchId}")
+    public ResponseEntity<?> selectOnePitchResult(@PathVariable("pitchId") Long pitchId) {//@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token
 
-
-        if (type.equals("timbre")) {
-            return new ResponseEntity<>(musicService.selectOneTimbreAnalysis(id), HttpStatus.OK);
-        } else if (type.equals("pitch")) {
-            return new ResponseEntity<>(musicService.selectOnePitchAnalysis(id), HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>("검사 결과 조회", HttpStatus.OK);
+        return new ResponseEntity<>(musicService.selectOnePitchAnalysis(pitchId), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "음색 검사 결과 삭제", notes = "사용자가 선택한 음색 검사 결과를 삭제한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "timbreId", value = "음색 검사 아이디", example = "1")})
+    @DeleteMapping("/result/timbre/{timbreId}")
+    public ResponseEntity<?> deleteTimbreResult(@PathVariable("timbreId") Long timbreId) {
+
+        musicService.deleteTimbreResult(timbreId);
+
+        return new ResponseEntity<>("음색 검사 결과 삭제", HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "음역대 검사 결과 삭제", notes = "사용자가 선택한 음역대 검사 결과를 삭제한다.")
+    @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "음역대 검사 아이디", example = "1")})
+    @DeleteMapping("/result/pitch/{pitchId}")
+    public ResponseEntity<?> deletePitchResult(@PathVariable("pitchId") Long pitchId) {
+
+        musicService.deleteTimbreResult(pitchId);
+
+        return new ResponseEntity<>("음역대 검사 결과 삭제", HttpStatus.OK);
+    }
 }

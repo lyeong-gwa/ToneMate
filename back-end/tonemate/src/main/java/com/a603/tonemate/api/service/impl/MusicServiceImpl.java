@@ -11,9 +11,7 @@ import com.a603.tonemate.db.repository.TimbreAnalysisRepository;
 import com.a603.tonemate.dto.common.PitchResult;
 import com.a603.tonemate.dto.common.SingerDetail;
 import com.a603.tonemate.dto.common.SingerSimilarity;
-import com.a603.tonemate.dto.response.PitchAnalysisResp;
-import com.a603.tonemate.dto.response.ResultResp;
-import com.a603.tonemate.dto.response.TimbreAnalysisResp;
+import com.a603.tonemate.dto.response.*;
 import com.a603.tonemate.enumpack.Genre;
 import com.a603.tonemate.util.FlaskUtil;
 import com.a603.tonemate.util.PitchUtil;
@@ -144,21 +142,26 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public List<ResultResp> getResultList(Long userId) {
+    public ResultResp getResultList(Long userId) {
 
-        List<PitchAnalysis> pitchAnalysisList = pitchAnalysisRepository.findAllByUserId(userId);
-        List<TimbreAnalysis> timbreAnalysisList = timbreAnalysisRepository.findAllByUserId(userId);
+        List<PitchAnalysis> pitchAnalysisList = pitchAnalysisRepository.findAllByUserIdOrderByTimeDesc(userId);
+        List<TimbreAnalysis> timbreAnalysisList = timbreAnalysisRepository.findAllByUserIdOrderByTimeDesc(userId);
 
-        List<ResultResp> resultRespList = Stream
-                .concat(timbreAnalysisList
-                                .stream()
-                                .map(x -> ResultResp.builder().resultId(x.getTimbreId()).type("timbre").time(x.getTime())
-                                        .build()),
-                        pitchAnalysisList.stream().map(x -> ResultResp.builder().resultId(x.getPitchId()).type("pitch")
-                                .time(x.getTime()).build()))
-                .collect(Collectors.toList());
+        String key = "name";
+        List<TimbreResultResp> timbreResultRespList = timbreAnalysisList
+                                                    .stream()
+                                                    .map(x -> TimbreResultResp.builder()
+                                                            .timbreId(x.getTimbreId()).time(x.getTime())
+                                                            .singer()
+                                                    .build()).collect(Collectors.toList());
+        List<PitchResultResp> pitchResultRespList = pitchAnalysisList
+                                                    .stream()
+                                                    .map(x -> PitchResultResp.builder().pitchId(x.getPitchId()).time(x.getTime())
+                                                            .lowOctave(pitchUtil.getOctaveName(x.getOctaveLow()))
+                                                            .highOctave(pitchUtil.getOctaveName(x.getOctaveHigh()))
+                                                    .build()).collect(Collectors.toList());
 
-        Collections.sort(resultRespList);
+        ResultResp resultRespList = ResultResp.builder().pitch(pitchResultRespList).timbre(timbreResultRespList).build();
 
         return resultRespList;
     }
@@ -278,6 +281,16 @@ public class MusicServiceImpl implements MusicService {
                 .build();
     }
 
+    @Override
+    public void deleteTimbreResult(Long resultId) {
+
+    }
+
+    @Override
+    public void deletePitchResult(Long resultId) {
+
+    }
+
     // 문자열 배열을 실제 리스트로 생성 str ="[1, 2, 3, 4]"
     private List<Long> convertStringToLongList(String str) {
         List<Long> convertList = new ArrayList<>();
@@ -291,5 +304,4 @@ public class MusicServiceImpl implements MusicService {
         }
         return convertList;
     }
-
 }

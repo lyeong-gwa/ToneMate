@@ -17,7 +17,7 @@ public interface MusicService {
     PitchAnalysisResp savePitchAnalysis(PitchAnalysis pitchAnalysis);
 
     // 검사 결과 목록 조회
-    List<ResultResp> getResultList(Long userId);
+    ResultResp getResultList(Long userId);
 
     // 음색 검사 결과 조회
     TimbreAnalysisResp selectOneTimbreAnalysis(Long timbreId);
@@ -33,4 +33,10 @@ public interface MusicService {
     
     // 사용자 음역대 검사 기록에 의한 요청처리
 	PitchAnalysisResp analysisPitchByGenre(Long userId, String genre, Long pitchId);
+
+    // 음색 검사 결과 삭제
+    void deleteTimbreResult(Long resultId);
+
+    // 검사 결과 삭제
+    void deletePitchResult(Long resultId);
 }
