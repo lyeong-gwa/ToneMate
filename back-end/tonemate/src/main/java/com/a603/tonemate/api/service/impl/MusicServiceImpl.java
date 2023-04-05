@@ -117,11 +117,6 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public PitchAnalysisResp savePitchAnalysis(PitchAnalysis pitchAnalysis) {
-        return null;
-    }
-
-    @Override
     public ResultResp getResultList(Long userId) {
 
         List<PitchAnalysis> pitchAnalysisList = pitchAnalysisRepository.findAllByUserIdOrderByPitchIdDesc(userId);
@@ -155,9 +150,9 @@ public class MusicServiceImpl implements MusicService {
 
     @Transactional
     @Override
-    public TimbreAnalysisResp selectOneTimbreAnalysis(Long timbreId) {
+    public TimbreAnalysisResp selectOneTimbreAnalysis(Long userId, Long timbreId) {
 
-        TimbreAnalysis timbreAnalysis = timbreAnalysisRepository.findByTimbreId(timbreId).orElseThrow();
+        TimbreAnalysis timbreAnalysis = timbreAnalysisRepository.findByTimbreIdAndUserId(timbreId, userId).orElseThrow();
         System.out.println(timbreAnalysis.getSingerSimilarities().get(0).getSinger().getSongs().size());
         return TimbreAnalysisResp.builder()
                 .timbreId(timbreAnalysis.getTimbreId())
@@ -204,16 +199,6 @@ public class MusicServiceImpl implements MusicService {
                 .normalSong(normalSong)
                 .impossibleSong(impossibleSong)
                 .pitchId(pitchAnalysis.getPitchId()).time(pitchAnalysis.getTime()).build();
-    }
-
-    @Override
-    public void deleteResult(String type, Long resultId) {
-        // 음색 검사 결과 삭제
-        if (type.equals("timbre")) {
-            timbreAnalysisRepository.deleteById(resultId);
-        } else if (type.equals("pitch")) {
-            pitchAnalysisRepository.deleteById(resultId);
-        }
     }
 
     @Override
@@ -284,13 +269,15 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public void deleteTimbreResult(Long resultId) {
-
+    @Transactional
+    public void deleteTimbreResult(Long userId, Long timbreId) {
+        timbreAnalysisRepository.deleteByTimbreIdAndUserId(timbreId, userId);
     }
 
     @Override
-    public void deletePitchResult(Long resultId) {
-
+    @Transactional
+    public void deletePitchResult(Long userId, Long pitchId) {
+        pitchAnalysisRepository.deleteByPitchIdAndUserId(pitchId, userId);
     }
 
     // 문자열 배열을 실제 리스트로 생성 str ="[1, 2, 3, 4]"

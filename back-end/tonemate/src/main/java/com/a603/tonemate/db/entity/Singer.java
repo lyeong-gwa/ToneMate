@@ -1,12 +1,12 @@
 package com.a603.tonemate.db.entity;
 
 import com.a603.tonemate.enumpack.Genre;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.util.List;
 
@@ -29,5 +29,6 @@ public class Singer {
     @OneToMany
     @JoinColumn(name = "singer_id")
     @BatchSize(size = 5)
+    @JsonBackReference // Song을 dto로 변경 후 어노테이션 삭제 예정
     private List<Song> songs;
 }

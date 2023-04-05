@@ -1,5 +1,6 @@
 package com.a603.tonemate.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
@@ -37,7 +38,8 @@ public class Song {
     private String title;
     private String numKy;
     private String numTj;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "singer_id")
+    @JsonManagedReference // Song을 dto로 변경 후 어노테이션 삭제 예정
     private Singer singer;
 }

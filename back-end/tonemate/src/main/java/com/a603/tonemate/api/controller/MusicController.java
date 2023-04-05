@@ -75,7 +75,6 @@ public class MusicController {
     @GetMapping("/result")
     public ResponseEntity<?> resultList(@CookieValue(value = JwtProperties.ACCESS_TOKEN) String token) {
         Long userId = jwtTokenProvider.getId(token);
-        musicService.getResultList(userId);
         return new ResponseEntity<>(musicService.getResultList(userId), HttpStatus.OK);
     }
 
@@ -84,7 +83,8 @@ public class MusicController {
     @GetMapping("/result/timbre/{timbreId}")
 
     public ResponseEntity<?> selectOneTimbreResult(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String token, @PathVariable("timbreId") Long timbreId) {
-        return new ResponseEntity<>(musicService.selectOneTimbreAnalysis(timbreId), HttpStatus.OK);
+        Long userId = jwtTokenProvider.getId(token);
+        return new ResponseEntity<>(musicService.selectOneTimbreAnalysis(userId, timbreId), HttpStatus.OK);
     }
 
     @ApiOperation(value = "음역대 검사 결과 조회", notes = "사용자가 선택한 음역대 검사 결과의 상세 정보를 조회한다.")
@@ -99,8 +99,8 @@ public class MusicController {
     @ApiImplicitParams({@ApiImplicitParam(name = "timbreId", value = "음색 검사 아이디", example = "1")})
     @DeleteMapping("/result/timbre/{timbreId}")
     public ResponseEntity<?> deleteTimbreResult(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String token, @PathVariable("timbreId") Long timbreId) {
-
-        musicService.deleteTimbreResult(timbreId);
+        Long userId = jwtTokenProvider.getId(token);
+        musicService.deleteTimbreResult(userId, timbreId);
 
         return new ResponseEntity<>("음색 검사 결과 삭제", HttpStatus.OK);
     }
@@ -109,8 +109,8 @@ public class MusicController {
     @ApiImplicitParams({@ApiImplicitParam(name = "id", value = "음역대 검사 아이디", example = "1")})
     @DeleteMapping("/result/pitch/{pitchId}")
     public ResponseEntity<?> deletePitchResult(@CookieValue(name = JwtProperties.ACCESS_TOKEN) String token, @PathVariable("pitchId") Long pitchId) {
-
-        musicService.deletePitchResult(pitchId);
+        Long userId = jwtTokenProvider.getId(token);
+        musicService.deletePitchResult(userId, pitchId);
 
         return new ResponseEntity<>("음역대 검사 결과 삭제", HttpStatus.OK);
     }
