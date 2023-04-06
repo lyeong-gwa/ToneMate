@@ -145,7 +145,7 @@ function ResultChart(props) {
     }
 
     data.datasets.push(singerData);
-  }, [props, data.datasets]);
+  });
 
   return (
     <>
