@@ -6,9 +6,7 @@ import TitleContainer from '@/components/content/title-container';
 import MainContainer from '@/components/content/main-container';
 const RecorderRange = dynamic(
   () => import('@/features/inspectation').then((res) => res.RecorderRange),
-  {
-    ssr: false,
-  }
+  { ssr: false }
 );
 
 export default function VocalRange() {
@@ -21,14 +19,14 @@ export default function VocalRange() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        {/* <Layout> */}
-        <TitleContainer>
-          <p className="text-xl text-white lg:text-4xl">음역대 검사</p>
-        </TitleContainer>
-        <MainContainer>
-          <RecorderRange />
-        </MainContainer>
-        {/* </Layout> */}
+        <Layout>
+          <TitleContainer>
+            <p className="text-xl text-white lg:text-4xl">음역대 검사</p>
+          </TitleContainer>
+          <MainContainer>
+            <RecorderRange />
+          </MainContainer>
+        </Layout>
       </main>
     </>
   );

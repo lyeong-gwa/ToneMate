@@ -6,9 +6,7 @@ import TitleContainer from '@/components/content/title-container';
 import MainContainer from '@/components/content/main-container';
 const RecorderColor = dynamic(
   () => import('@/features/inspectation').then((res) => res.RecorderColor),
-  {
-    ssr: false,
-  }
+  { ssr: false }
 );
 
 export default function VocalColor() {
