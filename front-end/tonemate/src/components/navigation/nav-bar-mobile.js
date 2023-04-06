@@ -21,7 +21,16 @@ export default function NavBarMobile() {
           <Bars3Icon className="h-7 w-7 text-white md:h-8 md:w-8" onClick={toggleMenu} />
         </div>
       </div>
-      {menu ? <NavMenuMobile /> : ''}
+      {menu ? (
+        <div
+          className="absolute left-0 top-0 z-10 flex h-screen w-screen bg-slate-400 bg-opacity-60"
+          onClick={toggleMenu}
+        >
+          <NavMenuMobile />
+        </div>
+      ) : (
+        ''
+      )}
     </>
   );
 }

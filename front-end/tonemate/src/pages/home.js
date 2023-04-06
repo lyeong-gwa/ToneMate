@@ -27,7 +27,7 @@ export default function HomePage() {
         <Layout>
           <HalfContainer>
             <div className="flex h-full w-full flex-row">
-              <div className="bg-home flex h-full w-full flex-row items-end justify-end lg:w-140">
+              <div className="bg-home z-0 flex h-full w-full flex-row items-end justify-end lg:w-140">
                 <div className="bg-trasparent my-5 flex grow flex-col items-start justify-center lg:hidden">
                   <div className="mx-3 my-2 flex flex-row rounded-full border border-black px-2">
                     <p className="font-alatsi text-sm text-red-600 ">TONEMATE</p>
