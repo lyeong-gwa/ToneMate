@@ -7,7 +7,7 @@ fi
 
 domains=j8a603.p.ssafy.io
 rsa_key_size=4096
-data_path="./certbot"
+data_path="./data/certbot"
 email="wjdgmll77@naver.com" # Adding a valid address is strongly recommended
 staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
 

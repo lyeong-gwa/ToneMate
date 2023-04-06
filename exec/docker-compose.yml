@@ -45,22 +45,31 @@ services:
     ports:
       - 80:80
       - 8080:8080
+      - 443:443
     volumes:
-      - ./nginx/nginx-dev.conf:/etc/nginx/nginx-dev.conf
-      - ./nginx/nginx-prod.conf:/etc/nginx/nginx-prod.conf
-      - ./nginx/nginx-prod.conf:/etc/nginx/nginx.conf # 기본
+      - ./data/nginx/nginx-dev.conf:/etc/nginx/nginx-dev.conf
+      - ./data/nginx/nginx-prod.conf:/etc/nginx/nginx-prod.conf
+      - ./data/nginx/nginx-prod.conf:/etc/nginx/nginx.conf # 기본
+    # volumes:
+    #   - ./data/nginx/app.conf:/etc/nginx/conf.d/app.conf
+    #   - ./data/certbot/conf:/etc/letsencrypt
+    #   - ./data/certbot/www:/var/www/certbot
     networks:
       - tonemate_dev
       - tonemate_prod
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    restart: unless-stopped
-    volumes:
-      - ./certbot/certbot/conf:/etc/letsencrypt
-      - ./certbot/certbot/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./certbot/certbot/conf:/etc/letsencrypt
+  #     - ./certbot/certbot/www:/var/www/certbot
+  #   entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+
+
 
 
 volumes:
