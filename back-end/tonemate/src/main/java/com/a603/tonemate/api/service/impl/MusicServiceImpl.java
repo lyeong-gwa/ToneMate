@@ -16,7 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -110,7 +113,7 @@ public class MusicServiceImpl implements MusicService {
                     .rmsVar(timbreAnalysis.getRmsVar())
                     .timbreId(timbreAnalysis.getTimbreId())
                     .time(timbreAnalysis.getTime())
-                    .singerDetails(singerSimilarities.stream().map(o -> new SingerDetail(o.getSinger().getName(), o.getSimilarityPercent(), o.getSinger().getSongs().stream().map(this::toSongResp).collect(Collectors.toList()))).collect(Collectors.toList()))
+                    .singerDetails(singerSimilarities.stream().map(o -> new SingerDetail(o.getSinger().getName(), o.getSimilarityPercent(), o.getSinger().getSongs().stream().limit(5).map(this::toSongResp).collect(Collectors.toList()))).collect(Collectors.toList()))
                     .build();
         }
         return null;
@@ -212,7 +215,7 @@ public class MusicServiceImpl implements MusicService {
         System.out.println(highOctave + " " + lowOctave);
         PitchResult lowPitch = pitchUtil.getPitch(lowOctave, false);
         PitchResult highPitch = pitchUtil.getPitch(highOctave, true);
-        System.out.println("low and high : "+lowPitch + ", " + highPitch);
+        System.out.println("low and high : " + lowPitch + ", " + highPitch);
         // 복구전까지 임시처리
 //        int randLow = new Random().nextInt(28);
 //        int randHigh = new Random().nextInt(27) + 32;
