@@ -4,11 +4,6 @@ import TitleContainer from '@/components/content/title-container';
 import MainContainer from '@/components/content/main-container';
 import { useRouter } from 'next/router';
 
-// npm install tw-elements
-//animate-[spinner-grow_2s_ease-in-out]
-
-// npm install tailwindcss-animation-delay
-
 export default function ResultList() {
   const Router = useRouter();
 

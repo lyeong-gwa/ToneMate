@@ -33,7 +33,7 @@ module.exports = {
       height: {
         '3/7': '45%',
         '5/9': '55%',
-        "3/10": "30%",
+        '3/10': '30%',
       },
       animation: {
         fadein1: 'fadein 1s linear',
@@ -55,7 +55,6 @@ module.exports = {
   plugins: [
     require('tailwind-scrollbar-hide'), // scroll
     require('tailwindcss-animation-delay'), // tailwindcss-animation-delay
-    require('@tailwindcss/typography'),
     require('daisyui'),
   ],
 };

@@ -1,9 +1,11 @@
 import Head from 'next/head';
+import { useState, useRef } from 'react';
+import { useEffect } from 'react';
+
 import Layout from '@/components/layout';
 import TitleContainer from '@/components/content/title-container';
 import MainContainer from '@/components/content/main-container';
-import { useState, useRef } from 'react';
-import { useEffect } from 'react';
+import { postPitch } from '@/features/inspectation';
 
 export default function VocalRange() {
   // 상태 관리 : 녹음 상태
@@ -111,11 +113,19 @@ export default function VocalRange() {
     lowAudio.play();
 
     const formData = new FormData();
-    formData.append('highAudio', recordedHighBlob);
-    formData.append('lowAudio', recordedLowBlob);
+    formData.append('highOctave', recordedHighBlob);
+    formData.append('lowOctave', recordedLowBlob);
 
-    console.log(formData.get('highAudio'));
-    console.log(formData.get('lowAudio'));
+    console.log(formData.get('highOctave'));
+    console.log(formData.get('lowOctave'));
+
+    postPitch({ formData })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // 비정상적인 종료를 할 때 : 페이지 이동과 같은
