@@ -59,25 +59,25 @@ export default function VoiceColorresult() {
             <div className="fade-in-custom-10s h-2/6 w-full flex-col justify-between bg-black lg:flex lg:flex-row">
               <div className="flex w-full flex-col lg:w-1/4">
                 <p className="text-md mx-2 text-center font-nanum text-white lg:text-left lg:text-2xl">
-                  {user?.data?.nickname}님의 {result?.time}일
+                  {user?.nickname}님의 {result?.time}
                 </p>
                 <p className="text-md mx-2 mb-4 text-center font-nanum text-white lg:text-left lg:text-2xl">
                   음색 검사 결과입니다.
                 </p>
                 <p className="mx-2 mb-2 text-center font-nanum text-sm text-white lg:text-left lg:text-lg">
-                  유사도 1위 : {result?.singerDetails[0].name}
+                  유사도 1위 : {result?.singerDetails?.[0]?.name}
                 </p>
                 <p className="mx-2 mb-2 text-center font-nanum text-sm text-white lg:text-left lg:text-lg">
-                  유사도 2위 : {result?.singerDetails[1].name}
+                  유사도 2위 : {result?.singerDetails?.[1]?.name}
                 </p>
                 <p className="mx-2 mb-2 text-center font-nanum text-sm text-white lg:text-left lg:text-lg">
-                  유사도 3위 : {result?.singerDetails[2].name}
+                  유사도 3위 : {result?.singerDetails?.[2]?.name}
                 </p>
                 <p className="mx-2 mb-2 text-center font-nanum text-sm text-white lg:text-left lg:text-lg">
-                  유사도 4위 : {result?.singerDetails[3].name}
+                  유사도 4위 : {result?.singerDetails?.[3]?.name}
                 </p>
                 <p className="mx-2 mb-2 text-center font-nanum text-sm text-white lg:text-left lg:text-lg">
-                  유사도 5위 : {result?.singerDetails[4].name}
+                  유사도 5위 : {result?.singerDetails?.[4]?.name}
                 </p>
               </div>
 
@@ -88,7 +88,7 @@ export default function VoiceColorresult() {
                       1st
                     </p>
                     <p className="mx-2 text-center font-nanum text-2xl text-white lg:text-4xl">
-                      {result?.singerDetails[0].name}
+                      {result?.singerDetails?.[0]?.name}
                     </p>
                   </div>
                 </div>
@@ -103,13 +103,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[0].name,
-                        result?.singerDetails[0].songList[0].title
+                        result?.singerDetails?.[0]?.name,
+                        result?.singerDetails?.[0]?.songs?.[0]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[0].songList[0].title}
+                      1. {result?.singerDetails?.[0]?.songs?.[0]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -117,13 +117,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[0].name,
-                        result?.singerDetails[0].songList[1].title
+                        result?.singerDetails?.[0]?.name,
+                        result?.singerDetails?.[0]?.songs?.[1]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[0].songList[1].title}
+                      1. {result?.singerDetails?.[0]?.songs?.[1]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -131,13 +131,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[0].name,
-                        result?.singerDetails[0].songList[2].title
+                        result?.singerDetails?.[0]?.name,
+                        result?.singerDetails?.[0]?.songs?.[2]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[0].songList[2].title}
+                      1. {result?.singerDetails?.[0]?.songs?.[2]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -145,13 +145,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[0].name,
-                        result?.singerDetails[0].songList[3].title
+                        result?.singerDetails?.[0]?.name,
+                        result?.singerDetails?.[0]?.songs?.[3]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[0].songList[3].title}
+                      1. {result?.singerDetails?.[0]?.songs?.[3]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -159,13 +159,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[1].name,
-                        result?.singerDetails[1].songList[4].title
+                        result?.singerDetails?.[1]?.name,
+                        result?.singerDetails?.[1]?.songs?.[4]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[0].songList[4].title}
+                      1. {result?.singerDetails?.[0]?.songs?.[4]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -179,7 +179,7 @@ export default function VoiceColorresult() {
                   <div className="flex h-2/3 w-2/3 flex-row items-center justify-center rounded-full bg-black">
                     <p className="mx-2 text-center font-alatsi text-sm text-white">1st</p>
                     <p className="mx-2 text-center font-nanum text-2xl text-white">
-                      {result?.singerDetails[0].name}
+                      {result?.singerDetails?.[0]?.name}
                     </p>
                   </div>
                 </div>
@@ -190,13 +190,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[0].name,
-                        result?.singerDetails[0].songList[0].title
+                        result?.singerDetails?.[0]?.name,
+                        result?.singerDetails?.[0]?.songs?.[0]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[0].songList[0].title}
+                      1. {result?.singerDetails?.[0]?.songs?.[0]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -204,13 +204,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[0].name,
-                        result?.singerDetails[0].songList[1].title
+                        result?.singerDetails?.[0]?.name,
+                        result?.singerDetails?.[0]?.songs?.[1]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[0].songList[1].title}
+                      1. {result?.singerDetails?.[0]?.songs?.[1]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -218,13 +218,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[0].name,
-                        result?.singerDetails[0].songList[2].title
+                        result?.singerDetails?.[0]?.name,
+                        result?.singerDetails?.[0]?.songs?.[2]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[0].songList[2].title}
+                      1. {result?.singerDetails?.[0]?.songs?.[2]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -232,13 +232,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[0].name,
-                        result?.singerDetails[0].songList[3].title
+                        result?.singerDetails?.[0]?.name,
+                        result?.singerDetails?.[0]?.songs?.[3]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[0].songList[3].title}
+                      1. {result?.singerDetails?.[0]?.songs?.[3]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -246,13 +246,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[0].name,
-                        result?.singerDetails[0].songList[4].title
+                        result?.singerDetails?.[0]?.name,
+                        result?.singerDetails?.[0]?.songs?.[4]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[0].songList[4].title}
+                      1. {result?.singerDetails?.[0]?.songs?.[4]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -265,7 +265,7 @@ export default function VoiceColorresult() {
                   <div className="flex h-2/3 w-2/3 flex-row items-center justify-center rounded-full bg-black">
                     <p className="mx-2 text-center font-alatsi text-sm text-white">2nd</p>
                     <p className="mx-2 text-center font-nanum text-2xl text-white">
-                      {result?.singerDetails[1].name}
+                      {result?.singerDetails?.[1]?.name}
                     </p>
                   </div>
                 </div>
@@ -276,13 +276,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[1].name,
-                        result?.singerDetails[1].songList[0].title
+                        result?.singerDetails?.[1]?.name,
+                        result?.singerDetails?.[1]?.songs?.[0]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[1].songList[0].title}
+                      1. {result?.singerDetails?.[1]?.songs?.[0]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -290,13 +290,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[1].name,
-                        result?.singerDetails[1].songList[1].title
+                        result?.singerDetails?.[1]?.name,
+                        result?.singerDetails?.[1]?.songs?.[1]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[1].songList[1].title}
+                      1. {result?.singerDetails?.[1]?.songs?.[1]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -304,13 +304,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[1].name,
-                        result?.singerDetails[1].songList[2].title
+                        result?.singerDetails?.[1]?.name,
+                        result?.singerDetails?.[1]?.songs?.[2]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[1].songList[2].title}
+                      1. {result?.singerDetails?.[1]?.songs?.[2]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -318,13 +318,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[1].name,
-                        result?.singerDetails[1].songList[3].title
+                        result?.singerDetails?.[1]?.name,
+                        result?.singerDetails?.[1]?.songs?.[3]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[1].songList[3].title}
+                      1. {result?.singerDetails?.[1]?.songs?.[3]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -332,13 +332,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[1].name,
-                        result?.singerDetails[1].songList[4].title
+                        result?.singerDetails?.[1]?.name,
+                        result?.singerDetails?.[1]?.songs?.[4]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[1].songList[4].title}
+                      1. {result?.singerDetails?.[1]?.songs?.[4]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -350,7 +350,7 @@ export default function VoiceColorresult() {
                   <div className="flex h-2/3 w-2/3 flex-row items-center justify-center rounded-full bg-black">
                     <p className="mx-2 text-center font-alatsi text-sm text-white">3rd</p>
                     <p className="mx-2 text-center font-nanum text-2xl text-white">
-                      {result?.singerDetails[2].name}
+                      {result?.singerDetails?.[2]?.name}
                     </p>
                   </div>
                 </div>
@@ -361,13 +361,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[2].name,
-                        result?.singerDetails[2].songList[0].title
+                        result?.singerDetails?.[2]?.name,
+                        result?.singerDetails?.[2]?.songs?.[0]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[2].songList[0].title}
+                      1. {result?.singerDetails?.[2]?.songs?.[0]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -375,13 +375,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[2].name,
-                        result?.singerDetails[2].songList[1].title
+                        result?.singerDetails?.[2]?.name,
+                        result?.singerDetails?.[2]?.songs?.[1]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[2].songList[1].title}
+                      1. {result?.singerDetails?.[2]?.songs?.[1]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -389,13 +389,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[2].name,
-                        result?.singerDetails[2].songList[2].title
+                        result?.singerDetails?.[2]?.name,
+                        result?.singerDetails?.[2]?.songs?.[2]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[2].songList[2].title}
+                      1. {result?.singerDetails?.[2]?.songs?.[2]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -403,13 +403,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[2].name,
-                        result?.singerDetails[2].songList[3].title
+                        result?.singerDetails?.[2]?.name,
+                        result?.singerDetails?.[2]?.songs?.[3]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[2].songList[3].title}
+                      1. {result?.singerDetails?.[2]?.songs?.[3]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -417,13 +417,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[2].name,
-                        result?.singerDetails[2].songList[4].title
+                        result?.singerDetails?.[2]?.name,
+                        result?.singerDetails?.[2]?.songs?.[4]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[2].songList[4].title}
+                      1. {result?.singerDetails?.[2]?.songs?.[4]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -435,7 +435,7 @@ export default function VoiceColorresult() {
                   <div className="flex h-2/3 w-2/3 flex-row items-center justify-center rounded-full bg-black">
                     <p className="mx-2 text-center font-alatsi text-sm text-white">4th</p>
                     <p className="mx-2 text-center font-nanum text-2xl text-white">
-                      {result?.singerDetails[3].name}
+                      {result?.singerDetails?.[3]?.name}
                     </p>
                   </div>
                 </div>
@@ -446,13 +446,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[3].name,
-                        result?.singerDetails[3].songList[0].title
+                        result?.singerDetails?.[3]?.name,
+                        result?.singerDetails?.[3]?.songs?.[0]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[3].songList[0].title}
+                      1. {result?.singerDetails?.[3]?.songs?.[0]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -460,13 +460,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[3].name,
-                        result?.singerDetails[3].songList[1].title
+                        result?.singerDetails?.[3]?.name,
+                        result?.singerDetails?.[3]?.songs?.[1]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[3].songList[1].title}
+                      1. {result?.singerDetails?.[3]?.songs?.[1]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -474,13 +474,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[3].name,
-                        result?.singerDetails[3].songList[2].title
+                        result?.singerDetails?.[3]?.name,
+                        result?.singerDetails?.[3]?.songs?.[2]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[3].songList[2].title}
+                      1. {result?.singerDetails?.[3]?.songs?.[2]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -488,13 +488,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[3].name,
-                        result?.singerDetails[3].songList[3].title
+                        result?.singerDetails?.[3]?.name,
+                        result?.singerDetails?.[3]?.songs?.[3]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[3].songList[3].title}
+                      1. {result?.singerDetails?.[3]?.songs?.[3]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -502,13 +502,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[3].name,
-                        result?.singerDetails[3].songList[4].title
+                        result?.singerDetails?.[3]?.name,
+                        result?.singerDetails?.[3]?.songs?.[4]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[3].songList[4].title}
+                      1. {result?.singerDetails?.[3]?.songs?.[4]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -520,7 +520,7 @@ export default function VoiceColorresult() {
                   <div className="flex h-2/3 w-2/3 flex-row items-center justify-center rounded-full bg-black">
                     <p className="mx-2 text-center font-alatsi text-sm text-white">5th</p>
                     <p className="mx-2 text-center font-nanum text-2xl text-white">
-                      {result?.singerDetails[4].name}
+                      {result?.singerDetails?.[4]?.name}
                     </p>
                   </div>
                 </div>
@@ -531,13 +531,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[4].name,
-                        result?.singerDetails[4].songList[0].title
+                        result?.singerDetails?.[4]?.name,
+                        result?.singerDetails?.[4]?.songs?.[0]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[4].songList[0].title}
+                      1. {result?.singerDetails?.[4]?.songs?.[0]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -545,13 +545,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[4].name,
-                        result?.singerDetails[4].songList[1].title
+                        result?.singerDetails?.[4]?.name,
+                        result?.singerDetails?.[4]?.songs?.[1]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[4].songList[1].title}
+                      1. {result?.singerDetails?.[4]?.songs?.[1]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -559,13 +559,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[4].name,
-                        result?.singerDetails[4].songList[2].title
+                        result?.singerDetails?.[4]?.name,
+                        result?.singerDetails?.[4]?.songs?.[2]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[4].songList[2].title}
+                      1. {result?.singerDetails?.[4]?.songs?.[2]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -573,13 +573,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[4].name,
-                        result?.singerDetails[4].songList[3].title
+                        result?.singerDetails?.[4]?.name,
+                        result?.singerDetails?.[4]?.songs?.[3]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[4].songList[3].title}
+                      1. {result?.singerDetails?.[4]?.songs?.[3]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>
@@ -587,13 +587,13 @@ export default function VoiceColorresult() {
                     className="mb-1 flex w-full flex-row items-center justify-between"
                     onClick={() =>
                       clickVideo(
-                        result?.singerDetails[4].name,
-                        result?.singerDetails[4].songList[4].title
+                        result?.singerDetails?.[4]?.name,
+                        result?.singerDetails?.[4]?.songs?.[4]?.title
                       )
                     }
                   >
                     <p className="ml-4 flex text-white">
-                      1. {result?.singerDetails[4].songList[4].title}
+                      1. {result?.singerDetails?.[4]?.songs?.[4]?.title}
                     </p>
                     <PlayIcon className="mr-4 flex h-6 w-6 text-red-600" />
                   </button>

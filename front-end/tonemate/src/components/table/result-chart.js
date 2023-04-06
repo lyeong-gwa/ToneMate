@@ -1,12 +1,6 @@
-import { Chart } from "react-chartjs-2";
-import { useEffect } from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-} from "chart.js";
+import { Chart } from 'react-chartjs-2';
+import { useEffect } from 'react';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
 
 function ResultChart(props) {
   // ChartJs 설정
@@ -15,18 +9,18 @@ function ResultChart(props) {
   // 차트 데이터
   const data = {
     labels: [
-      "mfccMean",
-      "stftMean",
-      "zcrMean",
-      "spcMean",
-      "sprMean",
-      "rmsMean",
-      "mfccVar",
-      "stftVar",
-      "zcrVar",
-      "spcVar",
-      "sprVar",
-      "rmsVar",
+      'mfccMean',
+      'stftMean',
+      'zcrMean',
+      'spcMean',
+      'sprMean',
+      'rmsMean',
+      'mfccVar',
+      'stftVar',
+      'zcrVar',
+      'spcVar',
+      'sprVar',
+      'rmsVar',
     ],
     datasets: [],
   };
@@ -35,7 +29,7 @@ function ResultChart(props) {
   const options = {
     responsive: true,
     interaction: {
-      mode: "index",
+      mode: 'index',
       intersect: true,
     },
     scales: {
@@ -47,12 +41,12 @@ function ResultChart(props) {
       },
       y: {
         grid: {
-          color: "white",
+          color: 'white',
         },
         min: -3,
         max: 3,
         ticks: {
-          color: "white",
+          color: 'white',
         },
       },
     },
@@ -62,37 +56,37 @@ function ResultChart(props) {
   useEffect(() => {
     // 유저 데이터
     const userData = {
-      type: "line",
-      label: "User",
+      type: 'line',
+      label: 'User',
       data: [],
       fill: false,
-      borderColor: "red",
+      borderColor: 'red',
       borderWidth: 2,
-      backgroundColor: "red",
+      backgroundColor: 'red',
     };
-    userData.data.push(parseFloat(props.result.mfccMean));
-    userData.data.push(parseFloat(props.result.stftMean));
-    userData.data.push(parseFloat(props.result.zcrMean));
-    userData.data.push(parseFloat(props.result.spcMean));
-    userData.data.push(parseFloat(props.result.sprMean));
-    userData.data.push(parseFloat(props.result.rmsMean));
-    userData.data.push(parseFloat(props.result.mfccVar));
-    userData.data.push(parseFloat(props.result.stftVar));
-    userData.data.push(parseFloat(props.result.zcrVar));
-    userData.data.push(parseFloat(props.result.spcVar));
-    userData.data.push(parseFloat(props.result.sprVar));
-    userData.data.push(parseFloat(props.result.rmsVar));
+    userData.data.push(parseFloat(props.result?.mfccMean));
+    userData.data.push(parseFloat(props.result?.stftMean));
+    userData.data.push(parseFloat(props.result?.zcrMean));
+    userData.data.push(parseFloat(props.result?.spcMean));
+    userData.data.push(parseFloat(props.result?.sprMean));
+    userData.data.push(parseFloat(props.result?.rmsMean));
+    userData.data.push(parseFloat(props.result?.mfccVar));
+    userData.data.push(parseFloat(props.result?.stftVar));
+    userData.data.push(parseFloat(props.result?.zcrVar));
+    userData.data.push(parseFloat(props.result?.spcVar));
+    userData.data.push(parseFloat(props.result?.sprVar));
+    userData.data.push(parseFloat(props.result?.rmsVar));
     data.datasets.push(userData);
 
     // 가수 데이터
     const singerData = {
-      type: "line",
-      label: "singer",
+      type: 'line',
+      label: 'singer',
       data: [],
       fill: false,
-      borderColor: "blue",
+      borderColor: 'blue',
       borderWidth: 2,
-      backgroundColor: "blue",
+      backgroundColor: 'blue',
     };
     singerData.data.push(0);
     singerData.data.push(0);
@@ -109,40 +103,40 @@ function ResultChart(props) {
 
     for (let idx = 0; idx < 5; idx++) {
       singerData.data[0] += parseFloat(
-        props.result.singerDetails[props.index].songList[idx].mfccMean
+        props.result?.singerDetails?.[props.index]?.songs?.[idx].mfccMean
       );
       singerData.data[1] += parseFloat(
-        props.result.singerDetails[props.index].songList[idx].stftMean
+        props.result?.singerDetails?.[props.index]?.songs?.[idx].stftMean
       );
       singerData.data[2] += parseFloat(
-        props.result.singerDetails[props.index].songList[idx].zcrMean
+        props.result?.singerDetails?.[props.index]?.songs?.[idx].zcrMean
       );
       singerData.data[3] += parseFloat(
-        props.result.singerDetails[props.index].songList[idx].spcMean
+        props.result?.singerDetails?.[props.index]?.songs?.[idx].spcMean
       );
       singerData.data[4] += parseFloat(
-        props.result.singerDetails[props.index].songList[idx].sprMean
+        props.result?.singerDetails?.[props.index]?.songs?.[idx].sprMean
       );
       singerData.data[5] += parseFloat(
-        props.result.singerDetails[props.index].songList[idx].rmsMean
+        props.result?.singerDetails?.[props.index]?.songs?.[idx].rmsMean
       );
       singerData.data[6] += parseFloat(
-        props.result.singerDetails[props.index].songList[idx].mfccVar
+        props.result?.singerDetails?.[props.index]?.songs?.[idx].mfccVar
       );
       singerData.data[7] += parseFloat(
-        props.result.singerDetails[props.index].songList[idx].stftVar
+        props.result?.singerDetails?.[props.index]?.songs?.[idx].stftVar
       );
       singerData.data[8] += parseFloat(
-        props.result.singerDetails[props.index].songList[idx].zcrVar
+        props.result?.singerDetails?.[props.index]?.songs?.[idx].zcrVar
       );
       singerData.data[9] += parseFloat(
-        props.result.singerDetails[props.index].songList[idx].spcVar
+        props.result?.singerDetails?.[props.index]?.songs?.[idx].spcVar
       );
       singerData.data[10] += parseFloat(
-        props.result.singerDetails[props.index].songList[idx].sprVar
+        props.result?.singerDetails?.[props.index]?.songs?.[idx].sprVar
       );
       singerData.data[11] += parseFloat(
-        props.result.singerDetails[props.index].songList[idx].rmsVar
+        props.result?.singerDetails?.[props.index]?.songs?.[idx].rmsVar
       );
     }
 
@@ -151,12 +145,13 @@ function ResultChart(props) {
     }
 
     data.datasets.push(singerData);
-  });
+  }, [props, data.datasets]);
 
   return (
     <>
-      <div className="flex flex-col w-11/12 justify-center items-center my-3">
+      <div className="my-3 flex w-11/12 flex-col items-center justify-center">
         <p className="text-white">유사도 그래프</p>
+        {(() => console.log(data))()}
         <Chart data={data} options={options} className="w-full" />
       </div>
     </>
