@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TimbreAnalysisRepository extends JpaRepository<TimbreAnalysis, Long> {
-    Optional<TimbreAnalysis> findByTimbreId(Long i);
+    Optional<TimbreAnalysis> findByTimbreIdAndUserId(Long timbreId, Long userId);
 
     List<TimbreAnalysis> findAllByUserId(Long userId);
 
     List<TimbreAnalysis> findAllByUserIdOrderByTimbreIdDesc(Long userId);
+
+    void deleteByTimbreIdAndUserId(Long timbreId, Long userId);
 }

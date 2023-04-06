@@ -87,7 +87,7 @@ public class MusicServiceImpl implements MusicService {
             for (Singer singer : singerList) {
                 for (SingerSimilaritytmp singerName : singerNames) {
                     if (singer.getName().equals(singerName.getName())) {
-                        singerSimilarities.add(new SingerSimilarity(timbreAnalysis.getTimbreId(), singer, singerName.getSimilarityPercent()));
+                        singerSimilarities.add(new SingerSimilarity(timbreAnalysis, singer, singerName.getSimilarityPercent()));
                         break;
                     }
                 }
@@ -113,11 +113,6 @@ public class MusicServiceImpl implements MusicService {
                     .singerDetails(singerSimilarities.stream().map(o -> new SingerDetail(o.getSinger().getName(), o.getSimilarityPercent(), o.getSinger().getSongs().stream().map(this::toSongResp).collect(Collectors.toList()))).collect(Collectors.toList()))
                     .build();
         }
-        return null;
-    }
-
-    @Override
-    public PitchAnalysisResp savePitchAnalysis(PitchAnalysis pitchAnalysis) {
         return null;
     }
 
@@ -155,9 +150,9 @@ public class MusicServiceImpl implements MusicService {
 
     @Transactional
     @Override
-    public TimbreAnalysisResp selectOneTimbreAnalysis(Long timbreId) {
+    public TimbreAnalysisResp selectOneTimbreAnalysis(Long userId, Long timbreId) {
 
-        TimbreAnalysis timbreAnalysis = timbreAnalysisRepository.findByTimbreId(timbreId).orElseThrow();
+        TimbreAnalysis timbreAnalysis = timbreAnalysisRepository.findByTimbreIdAndUserId(timbreId, userId).orElseThrow();
         System.out.println(timbreAnalysis.getSingerSimilarities().get(0).getSinger().getSongs().size());
         return TimbreAnalysisResp.builder()
                 .timbreId(timbreAnalysis.getTimbreId())
@@ -193,9 +188,15 @@ public class MusicServiceImpl implements MusicService {
         List<Long> normalList = convertStringToLongList(pitchAnalysis.getNormalList());
         List<Long> impossibleList = convertStringToLongList(pitchAnalysis.getImpossibleList());
 
-        List<Song> possibleSong = songRepository.findBySongIdIn(possibleList);
-        List<Song> normalSong = songRepository.findBySongIdIn(normalList);
-        List<Song> impossibleSong = songRepository.findBySongIdIn(impossibleList);
+        List<SongPitchResp> possibleSong = songRepository.findBySongIdIn(possibleList).stream()
+                .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                .collect(Collectors.toList());
+        List<SongPitchResp> normalSong = songRepository.findBySongIdIn(normalList).stream()
+                .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                .collect(Collectors.toList());
+        List<SongPitchResp> impossibleSong = songRepository.findBySongIdIn(impossibleList).stream()
+                .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                .collect(Collectors.toList());
 
         return PitchAnalysisResp.builder()
                 .lowOctave(pitchUtil.getOctaveName(pitchAnalysis.getOctaveLow()))
@@ -207,24 +208,14 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public void deleteResult(String type, Long resultId) {
-        // 음색 검사 결과 삭제
-        if (type.equals("timbre")) {
-            timbreAnalysisRepository.deleteById(resultId);
-        } else if (type.equals("pitch")) {
-            pitchAnalysisRepository.deleteById(resultId);
-        }
-    }
-
-    @Override
     public PitchAnalysisResp analysisPitch(Long userId, MultipartFile highOctave, MultipartFile lowOctave) {
         System.out.println(highOctave + " " + lowOctave);
         PitchResult lowPitch = pitchUtil.getPitch(lowOctave, false);
         PitchResult highPitch = pitchUtil.getPitch(highOctave, true);
-        System.out.println(lowPitch + " " + highPitch);
+        System.out.println("low and high : "+lowPitch + ", " + highPitch);
         // 복구전까지 임시처리
-        int randLow = new Random().nextInt(28);
-        int randHigh = new Random().nextInt(27) + 32;
+//        int randLow = new Random().nextInt(28);
+//        int randHigh = new Random().nextInt(27) + 32;
 
         List<Song> possibleNormalSong = songRepository.findByOctaveInRange(lowPitch.getPitch(), highPitch.getPitch(), PageRequest.of(0, 6));
 
@@ -249,14 +240,20 @@ public class MusicServiceImpl implements MusicService {
         possibleNormalSong.subList(possibleNormalSongLen, Math.min(possibleNormalSongLen + 3, possibleNormalSong.size())).forEach(song -> normalSongId.add(song.getSongId()));
         impossibleSong.forEach(song -> impossibleSongId.add(song.getSongId()));
 
-        PitchAnalysis pitchAnalysis = pitchAnalysisRepository.save(PitchAnalysis.builder().octaveLow(randLow)
-                .octaveHigh(randHigh).userId(userId).possibleList(possibleSongId.toString())
+        PitchAnalysis pitchAnalysis = pitchAnalysisRepository.save(PitchAnalysis.builder().octaveLow(lowPitch.getPitch())
+                .octaveHigh(highPitch.getPitch()).userId(userId).possibleList(possibleSongId.toString())
                 .normalList(normalSongId.toString()).impossibleList(impossibleSongId.toString()).build());
 
         return PitchAnalysisResp.builder().lowOctave(pitchUtil.getOctaveName(lowPitch.getPitch())).highOctave(pitchUtil.getOctaveName(highPitch.getPitch()))
-                .possibleSong(possibleSong)
-                .normalSong(normalSong)
-                .impossibleSong(impossibleSong)
+                .possibleSong(possibleSong.stream()
+                        .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                        .collect(Collectors.toList()))
+                .normalSong(normalSong.stream()
+                        .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                        .collect(Collectors.toList()))
+                .impossibleSong(impossibleSong.stream()
+                        .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                        .collect(Collectors.toList()))
                 .pitchId(pitchAnalysis.getPitchId())
                 .time(pitchAnalysis.getTime()).build();
     }
@@ -272,9 +269,15 @@ public class MusicServiceImpl implements MusicService {
         List<Long> normalList = convertStringToLongList(pitchAnalysis.getNormalList());
         List<Long> impossibleList = convertStringToLongList(pitchAnalysis.getImpossibleList());
 
-        List<Song> possibleSongs = songRepository.findSingerByIdAndGenre(possibleList, genreEnum);
-        List<Song> normalSongs = songRepository.findSingerByIdAndGenre(normalList, genreEnum);
-        List<Song> impossibleSongs = songRepository.findSingerByIdAndGenre(impossibleList, genreEnum);
+        List<SongPitchResp> possibleSongs = songRepository.findSingerByIdAndGenre(possibleList, genreEnum).stream()
+                .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                .collect(Collectors.toList());
+        List<SongPitchResp> normalSongs = songRepository.findSingerByIdAndGenre(normalList, genreEnum).stream()
+                .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                .collect(Collectors.toList());
+        List<SongPitchResp> impossibleSongs = songRepository.findSingerByIdAndGenre(impossibleList, genreEnum).stream()
+                .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                .collect(Collectors.toList());
 
         return PitchAnalysisResp.builder()
                 .possibleSong(possibleSongs)
@@ -284,13 +287,15 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
-    public void deleteTimbreResult(Long resultId) {
-
+    @Transactional
+    public void deleteTimbreResult(Long userId, Long timbreId) {
+        timbreAnalysisRepository.deleteByTimbreIdAndUserId(timbreId, userId);
     }
 
     @Override
-    public void deletePitchResult(Long resultId) {
-
+    @Transactional
+    public void deletePitchResult(Long userId, Long pitchId) {
+        pitchAnalysisRepository.deleteByPitchIdAndUserId(pitchId, userId);
     }
 
     // 문자열 배열을 실제 리스트로 생성 str ="[1, 2, 3, 4]"

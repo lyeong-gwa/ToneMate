@@ -14,4 +14,6 @@ public interface PitchAnalysisRepository extends JpaRepository<PitchAnalysis, Lo
     Optional<PitchAnalysis> findByPitchIdAndUserId(Long pitchId, Long userId);
 
     List<PitchAnalysis> findAllByUserIdOrderByPitchIdDesc(Long userId);
+
+    void deleteByPitchIdAndUserId(Long pitchId, Long userId);
 }
