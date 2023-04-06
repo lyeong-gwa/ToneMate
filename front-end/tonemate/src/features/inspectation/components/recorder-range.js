@@ -98,7 +98,7 @@ export const RecorderRange = () => {
     postPitch({ formData })
       .then((res) => {
         console.log(res);
-        router.push(`/inspectation/vocal-color-result/${res.pitchId}`);
+        router.push(`/inspectation/vocal-range-result/${res.pitchId}`);
       })
       .catch((err) => {
         console.log(err);

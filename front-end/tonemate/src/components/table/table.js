@@ -6,7 +6,7 @@ import {
   ChevronRightIcon,
 } from '@heroicons/react/24/solid';
 import { HeartIcon as HeartOutlineIcon } from '@heroicons/react/24/outline';
-import { getSongs } from '@/features/karaoke';
+import { getSongs, addLike, deleteLike } from '@/features/karaoke';
 
 function Table() {
   const [page, setPage] = useState(1);
@@ -17,7 +17,8 @@ function Table() {
     keepPreviousData: true,
   });
 
-  function clickHeart() {
+  function clickHeart(isLike) {
+    // if (isLike) deleteLike;
     console.log('clickHeart');
   }
 
@@ -52,7 +53,7 @@ function Table() {
               {data?.songs?.map((song) => (
                 <div
                   key={song?.tjNum}
-                  className="mb-1 flex h-14 w-full flex-row justify-between rounded-full bg-white opacity-40"
+                  className="mb-1 flex h-14 w-full flex-row justify-between rounded-full bg-white/50"
                 >
                   <div className="mx-2 flex w-4/12 flex-row items-center ">
                     <p className="font-nanum text-sm text-white lg:text-lg">
@@ -66,7 +67,7 @@ function Table() {
                     <p className="font-nanum text-sm text-white lg:text-lg">{song?.tjNum}</p>
                   </div>
                   <div className="mx-2 flex w-1/12 flex-row items-center justify-center ">
-                    <button onClick={clickHeart}>
+                    <button onClick={() => clickHeart(song?.isLike)}>
                       {song?.isLike ? (
                         <HeartSolidIcon className="h-4 w-4 text-white lg:h-5 lg:w-5" />
                       ) : (
