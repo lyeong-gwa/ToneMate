@@ -84,8 +84,8 @@ public class MusicServiceImpl implements MusicService {
             }
             List<Singer> singerList = singerRepository.findByNameIn(singerNames.stream().map(SingerSimilaritytmp::getName).collect(Collectors.toList()));
             List<SingerSimilarity> singerSimilarities = new ArrayList<>();
-            for (Singer singer : singerList) {
-                for (SingerSimilaritytmp singerName : singerNames) {
+            for (SingerSimilaritytmp singerName : singerNames) {
+                for (Singer singer : singerList) {
                     if (singer.getName().equals(singerName.getName())) {
                         singerSimilarities.add(new SingerSimilarity(timbreAnalysis, singer, singerName.getSimilarityPercent()));
                         break;

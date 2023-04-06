@@ -1,5 +1,5 @@
 import { axios } from '@/lib/axios';
 
-export const postPitch = ({ formData }) => {
+export const postTimbre = ({ formData }) => {
   return axios.post('/music/timbre', formData);
 };

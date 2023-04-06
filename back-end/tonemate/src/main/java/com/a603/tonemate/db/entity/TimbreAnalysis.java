@@ -32,18 +32,6 @@ public class TimbreAnalysis extends BaseTime {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "timbreAnalysis")
     private List<SingerSimilarity> singerSimilarities = new ArrayList<>();
 
-//    private Long singer1;
-//    private Long singer2;
-//    private Long singer3;
-//    private Long singer4;
-//    private Long singer5;
-//
-//    private float similarity1;
-//    private float similarity2;
-//    private float similarity3;
-//    private float similarity4;
-//    private float similarity5;
-
     @Builder
     public TimbreAnalysis(Long userId, float mfccMean, float stftMean, float zcrMean, float spcMean, float sprMean, float rmsMean, float mfccVar, float stftVar, float zcrVar, float spcVar, float sprVar, float rmsVar) {
         this.userId = userId;
