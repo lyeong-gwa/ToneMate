@@ -2,8 +2,8 @@ import { useUser } from '@/features/auth';
 import { LoadingFallback } from '@/components/Fallbacks';
 
 export default function UserCard() {
-  const { user } = useUser({ redirectTo: '/', redirectIfFound: false });
-  if (!user || !user.data) {
+  const { user, isUserLoading } = useUser({ redirectTo: '/', redirectIfFound: false });
+  if (isUserLoading || !user) {
     return <LoadingFallback />;
   }
 

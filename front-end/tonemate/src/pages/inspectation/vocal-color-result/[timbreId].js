@@ -29,10 +29,9 @@ export default function VoiceColorresult() {
   };
 
   const { user } = useUser({ redirectTo: '/', redirectIfFound: false });
-
   const resultTimbreQuery = useResultTimbre({ timbreId });
 
-  if (!user || !user.data || resultTimbreQuery.isLoading) {
+  if (isUserLoading || !user || resultTimbreQuery.isLoading) {
     return <LoadingFallback />;
   }
 
