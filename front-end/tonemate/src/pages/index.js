@@ -6,8 +6,8 @@ import { useUser } from '@/features/auth';
 import { LoadingFallback } from '@/components/Fallbacks';
 
 export default function LandingPage() {
-  const { user } = useUser({ redirectTo: '/home', redirectIfFound: true });
-  if (!user || user.data) {
+  const { user, isUserLoading } = useUser({ redirectTo: '/home', redirectIfFound: true });
+  if (isUserLoading || user) {
     return <LoadingFallback />;
   }
 

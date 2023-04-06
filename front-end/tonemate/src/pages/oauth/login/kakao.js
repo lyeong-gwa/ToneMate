@@ -10,7 +10,7 @@ export default function LoginKakao() {
     if (!router.isReady) return;
     const AUTHORIZE_CODE = router.query.code;
 
-    axios.get(`/oauth/login/kakao?code=${AUTHORIZE_CODE}&state=kakao&prompt=none`).then((res) => {
+    axios.get(`/oauth/login/kakao?code=${AUTHORIZE_CODE}&state=kakao&prompt=none`).then(() => {
       router.push('/home');
     });
   }, [router]);

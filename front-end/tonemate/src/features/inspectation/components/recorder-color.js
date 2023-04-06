@@ -87,7 +87,7 @@ export const RecorderColor = () => {
 
     postTimbre({ formData })
       .then((res) => {
-        router.push(`/inspectation/vocal-color-result/${res.data.timbreId}`);
+        router.push(`/inspectation/vocal-color-result/${res.timbreId}`);
       })
       .catch((err) => {
         console.log(err);

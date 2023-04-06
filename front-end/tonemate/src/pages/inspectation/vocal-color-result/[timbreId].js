@@ -27,16 +27,13 @@ export default function VoiceColorresult() {
       queryFn: () => getResultTimbre({ timbreId }),
     });
   };
-
-  const { user } = useUser({ redirectTo: '/', redirectIfFound: false });
-
   const resultTimbreQuery = useResultTimbre({ timbreId });
 
-  if (!user || !user.data || resultTimbreQuery.isLoading) {
+  const { user, isUserLoading } = useUser({ redirectTo: '/', redirectIfFound: false });
+  if (isUserLoading || !user || resultTimbreQuery.isLoading) {
     return <LoadingFallback />;
   }
 
-  console.log(resultTimbreQuery);
   const result = resultTimbreQuery.data;
   console.log(result);
 
