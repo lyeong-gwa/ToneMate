@@ -49,7 +49,7 @@ if __name__ == '__main__':
     TARGET_EPOCH = os.environ['FLASK_TARGET_EPOCH']
     MODEL_VERSION = os.environ['FLASK_MODEL_VERSION']
     TENSER_PATH = f"{ROOT}/tensor/{FEATURES}"
-    CHECKPOINT_PATH = f"{ROOT}/checkpoint]{MODEL_VERSION}"
+    CHECKPOINT_PATH = f"{ROOT}/checkpoint/{MODEL_VERSION}"
     CHECK_POINT_FILE = f"{FEATURES}/checkpoint{TARGET_EPOCH}.h5"
     
     encoder = LabelEncoder()
