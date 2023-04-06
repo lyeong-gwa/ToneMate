@@ -70,12 +70,8 @@ function TableLike() {
                     <p className="font-nanum text-sm text-white lg:text-lg">{song?.tjNum}</p>
                   </div>
                   <div className="mx-2 flex w-1/12 flex-row items-center justify-center ">
-                    <button onClick={() => clickHeart(song?.isLike, song?.tjNum)}>
-                      {song?.isLike ? (
-                        <HeartSolidIcon className="h-4 w-4 text-white lg:h-5 lg:w-5" />
-                      ) : (
-                        <HeartOutlineIcon className="h-4 w-4 text-white lg:h-5 lg:w-5" />
-                      )}
+                    <button>
+                      <HeartSolidIcon className="h-4 w-4 text-white lg:h-5 lg:w-5" />
                     </button>
                   </div>
                 </div>
