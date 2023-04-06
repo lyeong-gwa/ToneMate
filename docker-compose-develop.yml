@@ -32,6 +32,7 @@ services:
     environment:
       - FLASK_FEATURES=${FLASK_FEATURES}
       - FLASK_TARGET_EPOCH=${FLASK_TARGET_EPOCH}
+      - FLASK_MODEL_VERSION=${FLASK_MODEL_VERSION}
     volumes:
       - AI_DATA:/DATA
     command: python app.py
