@@ -65,6 +65,8 @@ public class PitchUtil {
     }
 
     public String getOctaveName(int pitch) {
+        pitch = Math.min(59, pitch);
+        pitch = Math.max(0, pitch);
         return octaveName[pitch];
     }
 
