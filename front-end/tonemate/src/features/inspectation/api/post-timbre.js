@@ -8,6 +8,6 @@ export const usePostTimbre = ({ formData, config }) => {
   return useQuery({
     ...config,
     queryKey: ['postTimbre', formData],
-    queryFn: () => getResults({ formData }),
+    queryFn: () => postTimbre({ formData }),
   });
 };
