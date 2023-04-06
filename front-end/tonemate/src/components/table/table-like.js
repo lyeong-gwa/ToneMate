@@ -6,14 +6,14 @@ import {
   ChevronRightIcon,
 } from '@heroicons/react/24/solid';
 import { HeartIcon as HeartOutlineIcon } from '@heroicons/react/24/outline';
-import { getSongs, addLike, deleteLike } from '@/features/karaoke';
+import { getLikes, addLike, deleteLike } from '@/features/karaoke';
 
-function Table() {
+function TableLike() {
   const [page, setPage] = useState(1);
 
   const { isLoading, isError, error, data, isFetching, isPreviousData } = useQuery({
-    queryKey: ['songs', page],
-    queryFn: () => getSongs({ page }),
+    queryKey: ['likes', page],
+    queryFn: () => getLikes({ page }),
     keepPreviousData: true,
   });
 
@@ -104,4 +104,4 @@ function Table() {
   );
 }
 
-export default Table;
+export default TableLike;
