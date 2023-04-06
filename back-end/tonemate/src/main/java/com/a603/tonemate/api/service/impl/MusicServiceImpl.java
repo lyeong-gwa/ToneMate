@@ -206,10 +206,10 @@ public class MusicServiceImpl implements MusicService {
         System.out.println(highOctave + " " + lowOctave);
         PitchResult lowPitch = pitchUtil.getPitch(lowOctave, false);
         PitchResult highPitch = pitchUtil.getPitch(highOctave, true);
-        System.out.println(lowPitch + " " + highPitch);
+        System.out.println("low and high : "+lowPitch + ", " + highPitch);
         // 복구전까지 임시처리
-        int randLow = new Random().nextInt(28);
-        int randHigh = new Random().nextInt(27) + 32;
+//        int randLow = new Random().nextInt(28);
+//        int randHigh = new Random().nextInt(27) + 32;
 
         List<Song> possibleNormalSong = songRepository.findByOctaveInRange(lowPitch.getPitch(), highPitch.getPitch(), PageRequest.of(0, 6));
 
@@ -234,8 +234,8 @@ public class MusicServiceImpl implements MusicService {
         possibleNormalSong.subList(possibleNormalSongLen, Math.min(possibleNormalSongLen + 3, possibleNormalSong.size())).forEach(song -> normalSongId.add(song.getSongId()));
         impossibleSong.forEach(song -> impossibleSongId.add(song.getSongId()));
 
-        PitchAnalysis pitchAnalysis = pitchAnalysisRepository.save(PitchAnalysis.builder().octaveLow(randLow)
-                .octaveHigh(randHigh).userId(userId).possibleList(possibleSongId.toString())
+        PitchAnalysis pitchAnalysis = pitchAnalysisRepository.save(PitchAnalysis.builder().octaveLow(lowPitch.getPitch())
+                .octaveHigh(highPitch.getPitch()).userId(userId).possibleList(possibleSongId.toString())
                 .normalList(normalSongId.toString()).impossibleList(impossibleSongId.toString()).build());
 
         return PitchAnalysisResp.builder().lowOctave(pitchUtil.getOctaveName(lowPitch.getPitch())).highOctave(pitchUtil.getOctaveName(highPitch.getPitch()))
