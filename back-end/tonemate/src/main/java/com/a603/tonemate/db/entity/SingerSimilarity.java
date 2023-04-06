@@ -8,20 +8,22 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
+@Table(name = "singer_similarity")
 public class SingerSimilarity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long SingerSimilarityId;
-    @Column(name = "timbre_id")
-    private Long timbreId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "timbre_id")
+    private TimbreAnalysis timbreAnalysis;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "singer_id")
     private Singer singer;
     private Float similarityPercent;
 
-    public SingerSimilarity(Long timbreId, Singer singer, Float similarityPercent) {
-        this.timbreId = timbreId;
+    public SingerSimilarity(TimbreAnalysis timbreAnalysis, Singer singer, Float similarityPercent) {
+        this.timbreAnalysis = timbreAnalysis;
         this.singer = singer;
         this.similarityPercent = similarityPercent;
     }
