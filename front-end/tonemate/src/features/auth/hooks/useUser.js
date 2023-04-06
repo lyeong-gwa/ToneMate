@@ -7,7 +7,7 @@ import { getUser } from '@/features/auth';
 export const useUser = ({ redirectTo = '', redirectIfFound = false } = {}) => {
   const router = useRouter();
 
-  const { data: user } = useQuery({
+  const { user } = useQuery({
     queryKey: ['user'],
     queryFn: () => getUser(),
   });
