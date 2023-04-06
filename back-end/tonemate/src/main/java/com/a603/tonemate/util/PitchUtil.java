@@ -8,7 +8,7 @@ import com.a603.tonemate.exception.NoFileException;
 import com.a603.tonemate.exception.UnsupportedPitchFileException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
+import java.lang.Math;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -65,6 +65,8 @@ public class PitchUtil {
     }
 
     public String getOctaveName(int pitch) {
+        pitch = Math.max(0,pitch);
+        pitch = Math.min(59,pitch);
         return octaveName[pitch];
     }
 
