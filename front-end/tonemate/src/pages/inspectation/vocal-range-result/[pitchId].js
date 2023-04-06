@@ -24,13 +24,13 @@ export default function VoiceRangeResult() {
       queryFn: () => getResultPitch({ pitchId }),
     });
   };
-  const resultPitchQuery = useResultPitch({ timbreId });
+  const resultPitchQuery = useResultPitch({ pitchId });
 
   const result = resultPitchQuery.data;
   console.log(result);
 
   const { user, isUserLoading } = useUser({ redirectTo: '/', redirectIfFound: false });
-  if (isUserLoading || !user || resultTimbreQuery.isLoading) {
+  if (isUserLoading || !user || resultPitchQuery.isLoading) {
     return <LoadingFallback />;
   }
 
