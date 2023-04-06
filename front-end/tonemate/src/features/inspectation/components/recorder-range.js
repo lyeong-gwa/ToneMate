@@ -75,7 +75,10 @@ export const RecorderRange = () => {
       let blob = recorderRef.current.getBlob();
       if (isHighRecording) {
         setRecordedHighBlob(blob);
-      } else setRecordedLowBlob(blob);
+      }
+      if (isHighFinish) {
+        setRecordedLowBlob(blob);
+      }
       const audioURL = window.URL.createObjectURL(blob);
       const audio = new Audio(audioURL);
       audio.play();

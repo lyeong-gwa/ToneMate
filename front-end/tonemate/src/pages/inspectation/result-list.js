@@ -1,61 +1,39 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { useQuery } from '@tanstack/react-query';
+
+import { useUser } from '@/features/auth';
 import Layout from '@/components/layout';
 import TitleContainer from '@/components/content/title-container';
 import MainContainer from '@/components/content/main-container';
-import { useRouter } from 'next/router';
+import { LoadingFallback } from '@/components/Fallbacks';
+// import { useResults } from '@/features/inspectation';
+import { axios } from '@/lib/axios';
 
 export default function ResultList() {
-  const Router = useRouter();
+  const router = useRouter();
 
-  const result = {
-    pitch: [
-      {
-        pitchId: 5,
-        time: '2023-04-05 09:50',
-        lowOctave: 'B1',
-        highOctave: 'G3',
-      },
-      {
-        pitchId: 4,
-        time: '2023-04-04 09:50',
-        lowOctave: 'B1',
-        highOctave: 'G3',
-      },
-      {
-        pitchId: 3,
-        time: '2023-04-03 09:50',
-        lowOctave: 'C1',
-        highOctave: 'A3',
-      },
-    ],
-    timbre: [
-      {
-        timbreId: 40,
-        time: '2023-04-05 10:12',
-        singer: ['폴킴', '김조한', '김범수', '이승열', '케이윌'],
-      },
-      {
-        timbreId: 39,
-        time: '2023-04-05 10:06',
-        singer: ['폴킴', '김조한', '김범수', '이승열', '케이윌'],
-      },
-      {
-        timbreId: 38,
-        time: '2023-04-05 10:05',
-        singer: ['폴킴', '김조한', '김범수', '이승열', '케이윌'],
-      },
-      {
-        timbreId: 37,
-        time: '2023-04-05 10:04',
-        singer: ['폴킴', '김조한', '김범수', '이승열', '케이윌'],
-      },
-      {
-        timbreId: 36,
-        time: '2023-04-05 10:03',
-        singer: ['폴킴', '김조한', '김범수', '이승열', '케이윌'],
-      },
-    ],
+  const getResults = () => {
+    return axios.get('/music/result');
   };
+
+  const useResults = ({ config } = {}) => {
+    return useQuery({
+      ...config,
+      queryKey: ['results'],
+      queryFn: () => getResults(),
+    });
+  };
+
+  const resultsQuery = useResults();
+
+  const { user, isUserLoading } = useUser({ redirectTo: '/', redirectIfFound: false });
+  if (isUserLoading || !user || resultsQuery.isLoading) {
+    return <LoadingFallback />;
+  }
+
+  const result = resultsQuery.data;
+  console.log(result);
 
   return (
     <>
@@ -73,18 +51,18 @@ export default function ResultList() {
           <MainContainer>
             <div className="fade-in-custom-10s flex h-12 w-full flex-col items-center justify-center lg:items-start">
               <p className="text-md text-white lg:text-2xl">
-                000님은 총 {result.timbre.length + result.pitch.length}건의 검사 결과를 가지고
-                있습니다.
+                {user.nickname}은 총 {result?.timbre?.length + result?.pitch?.length}건의 검사
+                결과를 가지고 있습니다.
               </p>
             </div>
             <div className="fade-in-custom-15s flex h-2/5 w-full flex-col">
               <div className="flex h-10 w-full flex-col items-center justify-center lg:items-start">
                 <p className="text-sm text-white lg:text-xl">
-                  음색 검사 결과 : {result.timbre.length} 건
+                  음색 검사 결과 : {result?.timbre?.length} 건
                 </p>
               </div>
               <div className="flex w-full grow snap-x flex-row flex-nowrap items-center justify-start overflow-x-auto scrollbar-hide ">
-                {result.timbre.map((item) => (
+                {result?.timbre?.map((item) => (
                   <div
                     key={item.timbreId}
                     className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1 lg:w-1/4"
@@ -92,7 +70,7 @@ export default function ResultList() {
                     <button
                       className="h-full w-full rounded-xl bg-black"
                       onClick={() =>
-                        Router.push('/inspectation/vocal-color-result/' + item.timbreId)
+                        router.push('/inspectation/vocal-color-result/' + item.timbreId)
                       }
                     >
                       <p className="m-2 text-xl text-white lg:text-2xl">음색검사</p>
@@ -113,11 +91,11 @@ export default function ResultList() {
             <div className="fade-in-custom-20s flex h-2/5 w-full flex-col ">
               <div className="flex h-10 w-full flex-col items-center justify-center lg:items-start ">
                 <p className="text-sm text-white lg:text-xl">
-                  음역대 검사 결과 : {result.pitch.length} 건
+                  음역대 검사 결과 : {result?.pitch?.length} 건
                 </p>
               </div>
               <div className="flex w-full grow snap-x flex-row flex-nowrap items-center justify-start overflow-x-auto scrollbar-hide ">
-                {result.pitch.map((item) => (
+                {result?.pitch?.map((item) => (
                   <div
                     key={item.pitchId}
                     className="mx-3 h-5/6 w-4/5 flex-shrink-0 grow-0 basis-auto snap-center rounded-xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 p-1 lg:w-1/4"
@@ -125,7 +103,7 @@ export default function ResultList() {
                     <button
                       className="h-full w-full rounded-xl bg-black"
                       onClick={() =>
-                        Router.push('/inspectation/vocal-range-result/' + item.pitchId)
+                        router.push('/inspectation/vocal-range-result/' + item.pitchId)
                       }
                     >
                       <p className="m-2 text-xl text-white lg:text-2xl">음역대 검사</p>
