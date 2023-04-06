@@ -21,7 +21,7 @@ export default function Search() {
             <p className="text-xl text-white lg:text-4xl">노래 검색</p>
           </TitleContainer>
           <MainContainer>
-            <SearchComponent />
+            {/* <SearchComponent /> */}
             <Table />
           </MainContainer>
         </Layout>
