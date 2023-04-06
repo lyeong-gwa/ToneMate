@@ -50,4 +50,25 @@ public interface MusicService {
                 .rmsVar(song.getRmsVar())
                 .build();
     }
+
+    default SongPitchResp toSongPitchResp(Song song, String lowOctave, String highOctave) {
+        return SongPitchResp.builder()
+                .title(song.getTitle())
+                .singer(song.getSinger().getName())
+                .mfccMean(song.getMfccMean())
+                .stftMean(song.getStftMean())
+                .zcrMean(song.getZcrMean())
+                .spcMean(song.getSpcMean())
+                .sprMean(song.getSprMean())
+                .rmsMean(song.getRmsMean())
+                .mfccVar(song.getMfccVar())
+                .stftVar(song.getStftVar())
+                .zcrVar(song.getZcrVar())
+                .spcVar(song.getSpcVar())
+                .sprVar(song.getSprVar())
+                .rmsVar(song.getRmsVar())
+                .lowOctave(lowOctave)
+                .highOctave(highOctave)
+                .build();
+    }
 }

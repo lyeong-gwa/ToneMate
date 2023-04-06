@@ -173,7 +173,7 @@ public class MusicServiceImpl implements MusicService {
                                 o.getSinger().getName(),
                                 o.getSimilarityPercent(),
                                 o.getSinger().getSongs().stream()
-//                                        .limit(5)
+                                        .limit(5)
                                         .map(this::toSongResp)
                                         .collect(Collectors.toList())))
                         .collect(Collectors.toList()))
@@ -188,9 +188,15 @@ public class MusicServiceImpl implements MusicService {
         List<Long> normalList = convertStringToLongList(pitchAnalysis.getNormalList());
         List<Long> impossibleList = convertStringToLongList(pitchAnalysis.getImpossibleList());
 
-        List<Song> possibleSong = songRepository.findBySongIdIn(possibleList);
-        List<Song> normalSong = songRepository.findBySongIdIn(normalList);
-        List<Song> impossibleSong = songRepository.findBySongIdIn(impossibleList);
+        List<SongPitchResp> possibleSong = songRepository.findBySongIdIn(possibleList).stream()
+                .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                .collect(Collectors.toList());
+        List<SongPitchResp> normalSong = songRepository.findBySongIdIn(normalList).stream()
+                .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                .collect(Collectors.toList());
+        List<SongPitchResp> impossibleSong = songRepository.findBySongIdIn(impossibleList).stream()
+                .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                .collect(Collectors.toList());
 
         return PitchAnalysisResp.builder()
                 .lowOctave(pitchUtil.getOctaveName(pitchAnalysis.getOctaveLow()))
@@ -239,9 +245,15 @@ public class MusicServiceImpl implements MusicService {
                 .normalList(normalSongId.toString()).impossibleList(impossibleSongId.toString()).build());
 
         return PitchAnalysisResp.builder().lowOctave(pitchUtil.getOctaveName(lowPitch.getPitch())).highOctave(pitchUtil.getOctaveName(highPitch.getPitch()))
-                .possibleSong(possibleSong)
-                .normalSong(normalSong)
-                .impossibleSong(impossibleSong)
+                .possibleSong(possibleSong.stream()
+                        .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                        .collect(Collectors.toList()))
+                .normalSong(normalSong.stream()
+                        .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                        .collect(Collectors.toList()))
+                .impossibleSong(impossibleSong.stream()
+                        .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                        .collect(Collectors.toList()))
                 .pitchId(pitchAnalysis.getPitchId())
                 .time(pitchAnalysis.getTime()).build();
     }
@@ -257,9 +269,15 @@ public class MusicServiceImpl implements MusicService {
         List<Long> normalList = convertStringToLongList(pitchAnalysis.getNormalList());
         List<Long> impossibleList = convertStringToLongList(pitchAnalysis.getImpossibleList());
 
-        List<Song> possibleSongs = songRepository.findSingerByIdAndGenre(possibleList, genreEnum);
-        List<Song> normalSongs = songRepository.findSingerByIdAndGenre(normalList, genreEnum);
-        List<Song> impossibleSongs = songRepository.findSingerByIdAndGenre(impossibleList, genreEnum);
+        List<SongPitchResp> possibleSongs = songRepository.findSingerByIdAndGenre(possibleList, genreEnum).stream()
+                .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                .collect(Collectors.toList());
+        List<SongPitchResp> normalSongs = songRepository.findSingerByIdAndGenre(normalList, genreEnum).stream()
+                .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                .collect(Collectors.toList());
+        List<SongPitchResp> impossibleSongs = songRepository.findSingerByIdAndGenre(impossibleList, genreEnum).stream()
+                .map((Song song) -> toSongPitchResp(song, pitchUtil.getOctaveName(song.getOctaveLow()), pitchUtil.getOctaveName(song.getOctaveHigh())))
+                .collect(Collectors.toList());
 
         return PitchAnalysisResp.builder()
                 .possibleSong(possibleSongs)
