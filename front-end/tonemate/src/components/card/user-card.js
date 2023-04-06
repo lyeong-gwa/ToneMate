@@ -14,7 +14,7 @@ export default function UserCard() {
           <img
             className="h-16 w-16 rounded-full"
             src={user?.profileImg}
-            alt={`Profile img of ${user?.nickname}`}
+            alt={`Profile img of ${user?.nickname?.slice(-6)}`}
           />
         </div>
         <div className="mx-2 my-5 flex w-3/5 flex-col items-center justify-between">

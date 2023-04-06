@@ -53,7 +53,7 @@ export default function VoiceRangeResult() {
                 {/*  */}
                 <div className="flex w-full flex-col">
                   <p className="text-md mx-2 text-center font-nanum text-white lg:text-left lg:text-2xl">
-                    {user.nickname}님의 {result.time}일
+                    {user.nickname?.slice(-6)}님의 {result.time}일
                   </p>
                   <p className="text-md mx-2 text-center font-nanum text-white lg:text-left lg:text-2xl">
                     음역대 검사 결과입니다.

@@ -51,8 +51,8 @@ export default function ResultList() {
           <MainContainer>
             <div className="fade-in-custom-10s flex h-12 w-full flex-col items-center justify-center lg:items-start">
               <p className="text-md text-white lg:text-2xl">
-                {user.nickname}은 총 {result?.timbre?.length + result?.pitch?.length}건의 검사
-                결과를 가지고 있습니다.
+                {user.nickname?.slice(-6)}은 총 {result?.timbre?.length + result?.pitch?.length}건의
+                검사 결과를 가지고 있습니다.
               </p>
             </div>
             <div className="fade-in-custom-15s flex h-2/5 w-full flex-col">
