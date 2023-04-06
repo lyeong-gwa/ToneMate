@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  HeartIcon as HeartSolidIcon,
-} from '@heroicons/react/24/solid';
+import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 import { HeartIcon as HeartOutlineIcon } from '@heroicons/react/24/outline';
 import { getSongs } from '@/features/karaoke';
 
@@ -17,9 +13,9 @@ function Table() {
     keepPreviousData: true,
   });
 
-  // function clickHeart() {
-  //   console.log('clickHeart');
-  // }
+  function clickHeart() {
+    console.log('clickHeart');
+  }
 
   // function prevPages() {
   //   console.log('prevPage');
