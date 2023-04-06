@@ -1,8 +1,9 @@
-import Head from "next/head";
-import Layout from "@/components/layout";
-import TitleContainer from "@/components/content/title-container";
-import MainContainer from "@/components/content/main-container";
-import { useState, useRef } from "react";
+import Head from 'next/head';
+import { useState, useRef } from 'react';
+
+import Layout from '@/components/layout';
+import TitleContainer from '@/components/content/title-container';
+import MainContainer from '@/components/content/main-container';
 
 export default function VocalRange() {
   // 상태 관리 : 녹음 상태
@@ -45,7 +46,7 @@ export default function VocalRange() {
           const ID = requestAnimationFrame(draw);
           setdrawID(ID);
           analyser.getByteFrequencyData(dataArray);
-          const canvasCtx = canvasRef.current.getContext("2d");
+          const canvasCtx = canvasRef.current.getContext('2d');
           const WIDTH = canvasRef.current.width;
           const HEIGHT = canvasRef.current.height;
           canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
@@ -53,7 +54,7 @@ export default function VocalRange() {
           let x = 0;
           for (let i = 0; i < bufferLength; i++) {
             const barHeight = dataArray[i];
-            canvasCtx.fillStyle = "white";
+            canvasCtx.fillStyle = 'white';
             canvasCtx.fillRect(x, HEIGHT - barHeight / 2, barWidth, barHeight);
             x += barWidth + 1;
           }
@@ -66,12 +67,12 @@ export default function VocalRange() {
 
         const chunks = [];
 
-        mediaRecorder.addEventListener("dataavailable", (event) => {
+        mediaRecorder.addEventListener('dataavailable', (event) => {
           chunks.push(event.data);
         });
 
-        mediaRecorder.addEventListener("stop", () => {
-          const blob = new Blob(chunks, { type: "audio/wav" });
+        mediaRecorder.addEventListener('stop', () => {
+          const blob = new Blob(chunks, { type: 'audio/wav' });
           if (!isHighRecording) setRecordedHighBlob(blob);
           else setRecordedLowBlob(blob);
           const audioURL = window.URL.createObjectURL(blob);
@@ -85,7 +86,7 @@ export default function VocalRange() {
         draw();
       })
       .catch((error) => {
-        console.error("Error accessing microphone:", error);
+        console.error('Error accessing microphone:', error);
       });
   };
 
@@ -110,11 +111,11 @@ export default function VocalRange() {
     lowAudio.play();
 
     const formData = new FormData();
-    formData.append("highAudio", recordedHighBlob);
-    formData.append("lowAudio", recordedLowBlob);
+    formData.append('highAudio', recordedHighBlob);
+    formData.append('lowAudio', recordedLowBlob);
 
-    console.log(formData.get("highAudio"));
-    console.log(formData.get("lowAudio"));
+    console.log(formData.get('highAudio'));
+    console.log(formData.get('lowAudio'));
   };
 
   return (
@@ -128,74 +129,71 @@ export default function VocalRange() {
       <main>
         <Layout>
           <TitleContainer>
-            <p className="text-xl lg:text-4xl text-white">음역대 검사</p>
+            <p className="text-xl text-white lg:text-4xl">음역대 검사</p>
           </TitleContainer>
           <MainContainer>
             {/* 음역대 검사 주의사항 및 방법 */}
-            <div className="flex flex-col w-full  h-40 lg:h-48 fade-in-custom-10s">
-              <p className="flex font-nanum text-white text-xl lg:text-3xl my-2">
+            <div className="fade-in-custom-10s flex h-40  w-full flex-col lg:h-48">
+              <p className="my-2 flex font-nanum text-xl text-white lg:text-3xl">
                 음역대 검사 절차 및 유의사항
               </p>
-              <p className="flex font-nanum text-white text-sm lg:text-lg my-1 ml-2">
+              <p className="my-1 ml-2 flex font-nanum text-sm text-white lg:text-lg">
                 1. 조용한 환경에서 녹음을 실시합니다.
               </p>
-              <p className="flex font-nanum text-white text-sm lg:text-lg my-1 ml-2">
+              <p className="my-1 ml-2 flex font-nanum text-sm text-white lg:text-lg">
                 2. 최고 및 최저음은 최소 5초 이상 지속해야합니다.
               </p>
-              <p className="flex font-nanum text-white text-sm lg:text-lg my-1 ml-2">
+              <p className="my-1 ml-2 flex font-nanum text-sm text-white lg:text-lg">
                 3. 최고음 측정 후 최저음 측정을 진행합니다.
               </p>
-              <p className="flex font-nanum text-white text-sm lg:text-lg my-1 ml-2">
+              <p className="my-1 ml-2 flex font-nanum text-sm text-white lg:text-lg">
                 4. 두가지 검사를 실시 후 검사 제출 버튼을 클릭합니다.
               </p>
             </div>
             {/* 명령어(high, low) */}
-            <div className="flex flex-col w-full h-44 lg:h-60 justify-center items-center bg-transparent fade-in-custom-15s">
-              <div className="flex w-full h-full p-1 rounded-xl  bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 ">
-                <div className="flex w-full h-full bg-black justify-center items-center rounded-xl">
-                  <canvas
-                    ref={canvasRef}
-                    className="flex w-5/6 h-5/6 "
-                  ></canvas>
+            <div className="fade-in-custom-15s flex h-44 w-full flex-col items-center justify-center bg-transparent lg:h-60">
+              <div className="flex h-full w-full rounded-xl bg-gradient-to-r  from-pink-500 via-red-500 to-yellow-500 p-1 ">
+                <div className="flex h-full w-full items-center justify-center rounded-xl bg-black">
+                  <canvas ref={canvasRef} className="flex h-5/6 w-5/6 "></canvas>
                 </div>
               </div>
             </div>
             {/* 녹음 버튼 및 오디오 비주얼라이제이션 */}
-            <div className="flex flex-row flex-wrap justify-around w-full h-44 lg:h-60 fade-in-custom-20s">
+            <div className="fade-in-custom-20s flex h-44 w-full flex-row flex-wrap justify-around lg:h-60">
               <button
                 onClick={startRecording}
                 disabled={isHighRecording}
-                className="flex flex-row w-5/12 h-1/4 border-2 rounded-lg justify-center items-center"
+                className="flex h-1/4 w-5/12 flex-row items-center justify-center rounded-lg border-2"
               >
-                <p className="text-white text-lg">최고음 측정</p>
+                <p className="text-lg text-white">최고음 측정</p>
               </button>
               <button
                 onClick={stopRecording}
                 disabled={isHighFinish}
-                className="flex flex-row w-5/12 h-1/4 border-2 rounded-lg justify-center items-center"
+                className="flex h-1/4 w-5/12 flex-row items-center justify-center rounded-lg border-2"
               >
-                <p className="text-white text-lg ">최고음 종료</p>
+                <p className="text-lg text-white ">최고음 종료</p>
               </button>
               <button
                 onClick={startRecording}
                 disabled={isLowRecording}
-                className="flex flex-row w-5/12 h-1/4 border-2 rounded-lg justify-center items-center"
+                className="flex h-1/4 w-5/12 flex-row items-center justify-center rounded-lg border-2"
               >
-                <p className="text-white text-lg">최저음 측정</p>
+                <p className="text-lg text-white">최저음 측정</p>
               </button>
               <button
                 onClick={stopRecording}
                 disabled={isLowFinish}
-                className="flex flex-row w-5/12 h-1/4 border-2 rounded-lg justify-center items-center"
+                className="flex h-1/4 w-5/12 flex-row items-center justify-center rounded-lg border-2"
               >
-                <p className="text-white text-lg">최저음 종료</p>
+                <p className="text-lg text-white">최저음 종료</p>
               </button>
               <button
                 onClick={finishTest}
                 disabled={!(isHighFinish || isLowFinish)}
-                className="flex flex-row w-5/12 h-1/4 border-2 rounded-lg justify-center items-center"
+                className="flex h-1/4 w-5/12 flex-row items-center justify-center rounded-lg border-2"
               >
-                <p className="text-white text-lg">검사 제출</p>
+                <p className="text-lg text-white">검사 제출</p>
               </button>
             </div>
           </MainContainer>
