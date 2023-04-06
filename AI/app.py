@@ -12,6 +12,7 @@ def aliveTest():
 @app.route('/timbre', methods=['POST'])
 def similarityPercent():
     file_wav = request.files['file_wav']
+    print(file_wav)
     trans_data = PROCESSING.load_wav_file( file_wav,16000,20,True,True,True,True,True)
     processing_data = PROCESSING.preprocess_features([trans_data],feature_size = trans_data.shape[0])
     pred = model.predict(processing_data)

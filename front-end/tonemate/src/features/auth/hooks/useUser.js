@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 
-import { getUser } from '../api/getUser';
+import { getUser } from '@/features/auth';
 
 export const useUser = ({ redirectTo = '', redirectIfFound = false } = {}) => {
   const router = useRouter();

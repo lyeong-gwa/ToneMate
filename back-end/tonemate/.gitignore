@@ -39,3 +39,6 @@ out/
 
 ### personal information ###`
 #**/src/main/resources/application.yml
+
+### wav 파일 ###
+*.wav

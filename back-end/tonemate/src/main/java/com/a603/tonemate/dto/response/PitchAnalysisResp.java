@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Getter
-@ApiModel(value = "음색 분석 검사 결과", description = "사용자가 보낸 wav 파일에 대한 음색 분석 결과 정보들이 담김")
+@ApiModel(value = "음역대 분석 검사 결과", description = "사용자가 보낸 wav 파일에 대한 음역대 분석 결과 정보들이 담김")
 public class PitchAnalysisResp {
     @ApiModelProperty(value = "음역대 분석 결과 id", example = "1")
     private Long pitchId;
@@ -32,13 +32,13 @@ public class PitchAnalysisResp {
     private LocalDateTime time;
 
     @ApiModelProperty(value = "잘 부를 수 있는 노래")
-    private List<Song> possibleSong;
+    private List<SongPitchResp> possibleSong;
 
     @ApiModelProperty(value = "적당히 부를 수 있는 노래")
-    private List<Song> normalSong;
+    private List<SongPitchResp> normalSong;
 
     @ApiModelProperty(value = "못 부르는 노래")
-    private List<Song> impossibleSong;
+    private List<SongPitchResp> impossibleSong;
 
 
 }

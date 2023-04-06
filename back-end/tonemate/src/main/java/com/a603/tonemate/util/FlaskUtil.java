@@ -33,7 +33,7 @@ public class FlaskUtil {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-
+        System.out.println("플라스크 요청URI: "+FLASK_DOMAIN + "/timbre");
         ResponseEntity<Map<String, Object>> response = restTemplate.exchange(FLASK_DOMAIN + "/timbre", HttpMethod.POST, requestEntity, new ParameterizedTypeReference<Map<String, Object>>() {
         });
 
