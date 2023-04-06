@@ -3,9 +3,9 @@ package com.a603.tonemate.db.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,9 +29,8 @@ public class TimbreAnalysis extends BaseTime {
     private float spcVar;
     private float sprVar;
     private float rmsVar;
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "timbre_id")
-    private List<SingerSimilarity> singerSimilarities;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "timbreAnalysis")
+    private List<SingerSimilarity> singerSimilarities = new ArrayList<>();
 
 //    private Long singer1;
 //    private Long singer2;

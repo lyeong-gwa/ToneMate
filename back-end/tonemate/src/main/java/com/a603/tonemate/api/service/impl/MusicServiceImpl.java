@@ -87,7 +87,7 @@ public class MusicServiceImpl implements MusicService {
             for (Singer singer : singerList) {
                 for (SingerSimilaritytmp singerName : singerNames) {
                     if (singer.getName().equals(singerName.getName())) {
-                        singerSimilarities.add(new SingerSimilarity(timbreAnalysis.getTimbreId(), singer, singerName.getSimilarityPercent()));
+                        singerSimilarities.add(new SingerSimilarity(timbreAnalysis, singer, singerName.getSimilarityPercent()));
                         break;
                     }
                 }
@@ -173,7 +173,7 @@ public class MusicServiceImpl implements MusicService {
                                 o.getSinger().getName(),
                                 o.getSimilarityPercent(),
                                 o.getSinger().getSongs().stream()
-                                        .limit(5)
+//                                        .limit(5)
                                         .map(this::toSongResp)
                                         .collect(Collectors.toList())))
                         .collect(Collectors.toList()))
