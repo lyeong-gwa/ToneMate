@@ -11,7 +11,7 @@ export const Navbar = ({ user }) => {
         </Link>
       </div>
       <div className="flex-none">
-        {user.data ? (
+        {user ? (
           <button className="btn-ghost btn">
             <HiBars3 />
           </button>
