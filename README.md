@@ -130,6 +130,7 @@
 # 웹 페이지 설명
 <details>
 <summary>펼쳐보기</summary>
+
 ## 로그인 - 카카오 소셜 로그인
 
 ![웹페이지 설명](pic/web1.png)
