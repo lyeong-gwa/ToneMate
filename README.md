@@ -64,7 +64,7 @@
     
     - GitLab, Jenkins
 
-<details>
+</details>
 # ERD
 
 ![ERD](pic/Untitled.png)
