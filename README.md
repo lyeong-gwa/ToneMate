@@ -65,10 +65,12 @@
     - GitLab, Jenkins
 
 </details>
+
 # ERD
-
+<details>
+<summary>펼쳐보기</summary>
 ![ERD](pic/Untitled.png)
-
+</details>
 # 모델 구조
 
 <details>
