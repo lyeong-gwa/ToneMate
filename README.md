@@ -57,7 +57,7 @@
 
 ## ERD
 
-![ERD](https://user-images.githubusercontent.com/37644126/230520194-fe1474e4-5a0d-4be7-9c01-21ca178b665a.png)
+![ERD](pic/Untitled 1.png)
 
 ## 모델 구조
 
