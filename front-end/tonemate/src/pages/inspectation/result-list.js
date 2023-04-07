@@ -74,8 +74,9 @@ export default function ResultList() {
                       }
                     >
                       <p className="m-2 text-xl text-white lg:text-2xl">음색검사</p>
-                      <p className="m-2 text-xl text-white lg:text-2xl">{item.time?.slice(5, 9)}</p>
-                      s
+                      <p className="m-2 text-xl text-white lg:text-2xl">
+                        {item.time?.slice(5, 10)}
+                      </p>
                       <div className="m-3 flex flex-row justify-around">
                         {item.singer.map((item) => (
                           <p key={item} className="text-sm text-white lg:text-xl">
@@ -107,7 +108,9 @@ export default function ResultList() {
                       }
                     >
                       <p className="m-2 text-xl text-white lg:text-2xl">음역대 검사</p>
-                      <p className="m-2 text-xl text-white lg:text-2xl">{item.time?.slice(5, 9)}</p>
+                      <p className="m-2 text-xl text-white lg:text-2xl">
+                        {item.time?.slice(5, 10)}
+                      </p>
                       <p className="text-mg m-2 text-white">최고 음역대 : {item.highOctave}</p>
                       <p className="text-mg m-2 text-white">최저 음역대 : {item.lowOctave}</p>
                     </button>

@@ -53,7 +53,7 @@ export default function VoiceRangeResult() {
                 {/*  */}
                 <div className="flex w-full flex-col">
                   <p className="text-md mx-2 text-center font-nanum text-white lg:text-left lg:text-2xl">
-                    {user.nickname?.slice(-6)}님의 {result.time?.slice(5, 9)}
+                    {user.nickname?.slice(-6)}님의 {result.time?.slice(5, 10)}
                   </p>
                   <p className="text-md mx-2 text-center font-nanum text-white lg:text-left lg:text-2xl">
                     음역대 검사 결과입니다.
@@ -78,7 +78,7 @@ export default function VoiceRangeResult() {
                   </div>
                 </div>
                 {/* 유저 검사 결과 : 차트 */}
-                <div className="flex h-2/5 w-full flex-row rounded-xl border border-white"></div>
+                {/* <div className="flex h-2/5 w-full flex-row rounded-xl border border-white"></div> */}
               </div>
 
               {/* 추천곡 */}
