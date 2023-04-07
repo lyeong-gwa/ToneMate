@@ -112,6 +112,7 @@
 # 기능
 <details>
 <summary> <span style="color: #FFFFFF;">펼쳐보기</span> </summary>
+
 ![기능](pic/table1.png)
 ![기능](pic/table2.png)
 </details>
@@ -119,6 +120,7 @@
 # REST API
 <details>
 <summary>펼쳐보기</summary>
+
 ![기능](pic/table3.png)
 ![기능](pic/table4.png)
 ![기능](pic/table5.png)
