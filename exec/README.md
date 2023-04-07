@@ -126,7 +126,7 @@
         ```
         
     2. 프로젝트.env 환경변수 값 수정
-        
+        배포용, 개발용 버전의 env 파일이 필요합니다. AI_DATA 볼륨으로 지정했던 DATA에 다음 형식을 지킨 .env파일을 생성합니다.
         ```
         #스프링
         DB_URL="MYSQL URL"
@@ -151,42 +151,13 @@
         FLASK_TARGET_EPOCH="숫자(몇번째 모델을 쓸지 지정)"
         FLASK_MODEL_VERSION="모델 버전 ex) V1"
         ```
+        위와같은 형식으로 dev.env , prod.env 파일을 생성합니다.
+        각각의 파일은 develop 브랜치와 master 브랜치의 실행 환경변수파일 입니다.
         
 
-### 2. 프로젝트.env 환경변수 값 수정
 
-배포용, 개발용 버전의 env 파일이 필요합니다. AI_DATA 볼륨으로 지정했던 DATA에 다음 형식을 지킨 .env파일을 생성합니다.
 
-```
-#스프링
-DB_URL="MYSQL URL"
-DB_USER="DB 사용자 정보"
-DB_PASSWORD="DB 비밀번호"
-BUCKET_NAME="S3 버킷이름"
-AWS_SECRET_KEY="S3의 AWS 시크릿 키"
-AWS_ACCESS_KEY="S3의 접근 키"
-KAKAO_SECRET="카카오 REST API 키"
-KAKAO_ID="카카오 개발자 식별코드"
-GOOGLE_SECRET="구글 시크릿 키"
-GOOGLE_ID="구글 식별코드"
-JWT_SECRET="암호화된 JWT 시크릿키 코드"
-REDIS_HOST="레디스 호스트"
-REDIS_PASSWORD="레디스 비밀번호"
-KAKAO_REDIRECT_URI="카카오 리다이렉션 주소"
-GOOGLE_REDIRECT_URI="구글 리다이렉션 주소"
-FLASK_DOMAIN=http://flaskDev:5000 # 고정
-
-#플라스크
-FLASK_FEATURES="모델 학습데이터 특징"
-FLASK_TARGET_EPOCH="숫자(몇번째 모델을 쓸지 지정)"
-FLASK_MODEL_VERSION="모델 버전 ex) V1"
-```
-
-위와같은 형식으로 dev.env , prod.env 파일을 생성합니다.
-
-각각의 파일은 develop 브랜치와 master 브랜치의 실행 환경변수파일 입니다.
-
-### 3. 컨테이너 실행( execute)
+## 3. 컨테이너 실행( execute)
 
 전체 서비스를 실행시키는 순서는 다음과 같습니다.
 
