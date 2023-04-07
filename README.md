@@ -25,8 +25,8 @@
 박정희 : 음색, 음역대 분석 REST API, AI 모델 선정 및 학습
 
 # 사용된 기술
-
-- 펼쳐보기
+<details>
+<summary>펼쳐보기</summary>
     
     ### Front End
     
@@ -64,6 +64,7 @@
     
     - GitLab, Jenkins
 
+<details>
 # ERD
 
 ![ERD](pic/Untitled.png)
@@ -108,20 +109,24 @@
 ![v2_시각화](pic/Untitled 6.png)
 
 # 기능
+<details>
+<summary>펼쳐보기</summary>
 ![기능](pic/table1.png)
 ![기능](pic/table2.png)
-
+</details>
 # REST API
+<details>
+<summary>펼쳐보기</summary>
 ![기능](pic/table3.png)
 ![기능](pic/table4.png)
 ![기능](pic/table5.png)
 ![기능](pic/table6.png)
 ![기능](pic/table7.png)
 ![기능](pic/table8.png)
-
+</details>
 # 웹 페이지 설명
-
-
+<details>
+<summary>펼쳐보기</summary>
 ## 로그인 - 카카오 소셜 로그인
 
 ![웹페이지 설명](pic/web1.png)
@@ -188,6 +193,7 @@
 ![웹페이지 설명](pic/web11.png)
 - 로그인 한 유저의 애창곡 리스트 제공
 - JPA의 페이지네이션 기능 사용
+</details>
 
 # 서비스 아키텍처
 
