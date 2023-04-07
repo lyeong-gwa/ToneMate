@@ -57,22 +57,25 @@
 
 ## ERD
 
-![Untitled](Readme%205e9f86ace2ea4fa5ac929ebfde99ed22/Untitled.png)
+![ERD](https://user-images.githubusercontent.com/37644126/230520194-fe1474e4-5a0d-4be7-9c01-21ca178b665a.png)
 
 ## 모델 구조
 
-- v1
-    
-    ![Untitled](Readme%205e9f86ace2ea4fa5ac929ebfde99ed22/Untitled%201.png)
-    
-    ![Untitled](Readme%205e9f86ace2ea4fa5ac929ebfde99ed22/Untitled%202.png)
+<details>
+  <summary>v1</summary>
+
+  ![v1_summary](https://user-images.githubusercontent.com/37644126/230517918-7c34fbef-52bd-4ac6-aa9f-0f46025a7c52.png)
+  ![v1](https://user-images.githubusercontent.com/37644126/230518002-9a5fcdc5-0257-40c5-9b33-b0f6fc265015.png)
+</details>
     
 
-- v2
-    
-    ![Untitled](Readme%205e9f86ace2ea4fa5ac929ebfde99ed22/Untitled%203.png)
-    
-    ![Untitled](Readme%205e9f86ace2ea4fa5ac929ebfde99ed22/Untitled%204.png)
+<details>
+  <summary>v2</summary>
+
+  ![v2_summary](https://user-images.githubusercontent.com/37644126/230517932-c46d14d0-ff2b-433b-ad91-69efc1c41a2c.png)
+  ![v2](https://user-images.githubusercontent.com/37644126/230517940-d4b7d35d-28d6-4b3b-9b84-02ee5da22800.png)
+</details>
+
     
 - 모델 학습 방법:
     - 최적화 알고리즘: Adam
@@ -89,11 +92,11 @@
 
 - v1
 
-![Untitled](Readme%205e9f86ace2ea4fa5ac929ebfde99ed22/Untitled%205.png)
+![v1_시각화](https://user-images.githubusercontent.com/37644126/230517957-ad2b150d-29fe-4f62-b515-55fd8f765d0a.png)
 
 - v2
 
-![Untitled](Readme%205e9f86ace2ea4fa5ac929ebfde99ed22/Untitled%206.png)
+![v2_시각화](https://user-images.githubusercontent.com/37644126/230517955-66a1fab0-38d2-4100-92eb-5f844297d7e0.png)
 
 ## 기능
 
@@ -105,7 +108,7 @@
 
 ## 서비스 아키텍처
 
-![Untitled](Readme%205e9f86ace2ea4fa5ac929ebfde99ed22/Untitled%207.png)
+![아키텍쳐](https://user-images.githubusercontent.com/37644126/230520200-ae3342c5-71ec-44ce-a727-4e54fc07c0f6.png)
 
 ## 데이터셋
 
