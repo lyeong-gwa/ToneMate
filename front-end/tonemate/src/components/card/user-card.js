@@ -22,7 +22,7 @@ export default function UserCard() {
             <p className="text-sm text-white 2xl:text-sm">안녕하세요</p>
           </div>
           <div className="my-1 flex w-full flex-row items-center justify-center">
-            <p className="text-2xl  text-white">{user?.nickname} 님</p>
+            <p className="text-2xl  text-white">{user?.nickname?.slice(-6)} 님</p>
           </div>
         </div>
       </div>

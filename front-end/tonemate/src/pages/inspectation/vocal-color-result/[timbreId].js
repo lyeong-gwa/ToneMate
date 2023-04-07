@@ -59,7 +59,7 @@ export default function VoiceColorresult() {
             <div className="fade-in-custom-10s h-2/6 w-full flex-col justify-between bg-black lg:flex lg:flex-row">
               <div className="flex w-full flex-col lg:w-1/4">
                 <p className="text-md mx-2 text-center font-nanum text-white lg:text-left lg:text-2xl">
-                  {user?.nickname?.slice(-6)}님의 {result?.time}
+                  {user?.nickname?.slice(-6)}님의 {result?.time?.slice(5, 9)}
                 </p>
                 <p className="text-md mx-2 mb-4 text-center font-nanum text-white lg:text-left lg:text-2xl">
                   음색 검사 결과입니다.
