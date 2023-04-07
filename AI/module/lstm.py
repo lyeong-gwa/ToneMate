@@ -3,7 +3,7 @@ from keras.layers import Dense, LSTM, Dropout, BatchNormalization
 from keras.callbacks import ModelCheckpoint
 
 # LSTM 모델 생성
-def create_lstm_model(default=3, sr=16000, feature_size = 20):
+def create_lstm_model_v1(default=3, sr=16000, feature_size = 20):
     model = Sequential()
     model.add(LSTM(256, input_shape=(None, feature_size), return_sequences=True))
     model.add(BatchNormalization())
@@ -14,6 +14,15 @@ def create_lstm_model(default=3, sr=16000, feature_size = 20):
     
     model.add(LSTM(64))
     model.add(Dense(64,activation='relu'))
+    model.add(Dense(default, activation='softmax'))
+    return model
+
+def create_lstm_model_v2(default=3, sr=16000, feature_size = 20):
+    model = Sequential()
+    model.add(LSTM(256, input_shape=(None, feature_size), return_sequences=True))
+    model.add(LSTM(units=128))
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(0.2))      
     model.add(Dense(default, activation='softmax'))
     return model
 

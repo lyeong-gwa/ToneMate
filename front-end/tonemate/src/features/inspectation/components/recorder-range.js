@@ -75,7 +75,10 @@ export const RecorderRange = () => {
       let blob = recorderRef.current.getBlob();
       if (isHighRecording) {
         setRecordedHighBlob(blob);
-      } else setRecordedLowBlob(blob);
+      }
+      if (isHighFinish) {
+        setRecordedLowBlob(blob);
+      }
       const audioURL = window.URL.createObjectURL(blob);
       const audio = new Audio(audioURL);
       audio.play();
@@ -95,7 +98,7 @@ export const RecorderRange = () => {
     postPitch({ formData })
       .then((res) => {
         console.log(res);
-        router.push(`/inspectation/vocal-color-result/${res.pitchId}`);
+        router.push(`/inspectation/vocal-range-result/${res.pitchId}`);
       })
       .catch((err) => {
         console.log(err);

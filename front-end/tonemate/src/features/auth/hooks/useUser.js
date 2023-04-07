@@ -7,18 +7,21 @@ import { getUser } from '@/features/auth';
 export const useUser = ({ redirectTo = '', redirectIfFound = false } = {}) => {
   const router = useRouter();
 
-  const { data: user } = useQuery({
+  const userQuery = useQuery({
     queryKey: ['user'],
     queryFn: () => getUser(),
   });
 
   useEffect(() => {
-    if (!redirectTo || !user) return;
+    if (!redirectTo || userQuery.isLoading) return;
 
-    if ((redirectTo && !redirectIfFound && !user.data) || (redirectIfFound && user.data)) {
+    if (
+      (redirectTo && !redirectIfFound && !userQuery.data) ||
+      (redirectIfFound && userQuery.data)
+    ) {
       router.push(redirectTo);
     }
-  }, [user, redirectIfFound, redirectTo, router]);
+  }, [redirectIfFound, redirectTo, router, userQuery.isLoading, userQuery.data]);
 
-  return { user };
+  return { user: userQuery.data, isUserLoading: userQuery.isLoading };
 };

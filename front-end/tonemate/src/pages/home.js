@@ -10,8 +10,8 @@ import HalfContainer from '@/components/content/half-container';
 export default function HomePage() {
   const router = useRouter();
 
-  const { user } = useUser({ redirectTo: '/', redirectIfFound: false });
-  if (!user || !user.data) {
+  const { user, isUserLoading } = useUser({ redirectTo: '/', redirectIfFound: false });
+  if (isUserLoading || !user) {
     return <LoadingFallback />;
   }
 

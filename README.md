@@ -1,172 +1,221 @@
-# 🔥 SSAFY 8기 A603 특화 프로젝트
+# SSAFY 8기 A603 특화 프로젝트
 
-## 🙆 Team Informaition
-팀명 : A603 <br>
-팀장 : 권영진 <br>
-팀원 : 류정민, 박수민, 박정희, 윤준하, 이상현 <br>
-도메인 : 빅데이터 - 분산 <br>
-프로젝트명 : 🎵 ToneMate <br>
-프로젝트 기한 : 2023.02.27(월) ~ 2023.04.07(금) - 6 Weeks<br>
+# ToneMate
 
----
+# 프로젝트 개요
 
-## 🟢 Ground Rule
-1. 프로젝트 / 취업준비 두 마리 토끼를 잡는 팀
-    - 프로젝트는 9 to 6 에 집중해서 진행
-    - 그 외 시간, 취업 준비에 집중 
-    - 좋은 정보 공유, 코딩테스트 준비 독려 
-1. 코드 리뷰 문화 정착 
-    - git Merge Request 수락 전 본인이 개발한 코드를 발표하고 팀원들에게 리뷰를 받는 시간
-    - 개발에 대한 개개인의 견해 공유를 통해 다같이 성장하는 팀
-1. 일정 및 이슈 발생시 실시간 공유 
-    - 개개인의 취업일정, 개인사정을 노션을 통해 공유해서 일정에 지장이 가지 않도록 함
-    - 원활한 프로젝트를 위해 이슈 발생시 모두가 알 수 있게 공유 ( 카카오 단톡, MM, 노션 등)
-    - 예상치 못한 지각, 결석은 빠르게 알림
+1. ToneMate는 웹 페이지를 통해 사용자의 음색과 음역대를 분석하고, 이에 맞는 최적의 노래를 추천하는 프로젝트입니다. 
+2. 이 프로젝트의 목적은 사용자가 자신과 가장 어울리는 가수와 노래를 추천받을 수 있도록 하는 것입니다.
 
----
+# 프로젝트 구성원
 
-## ⏲️ 특화 프로젝트 일정
+- Front-End : **권영진(팀장)**, 윤준하
+- Back-End / Data : 이상현, 박수민
+- Back-End / AI : 류정민, 박정희
 
-* Team Schedule, Team MileStone, Individual Schedule 은 Notion을 통해서 공유
+# 맡은 역할
 
-월요일 | 화요일 | 수요일 | 목요일 | 금요일 | 토요일 | 일요일
-:---:|:---:|:---:|:---:|:---:|:---:|:---:
-02.27|02.28|03.01|03.02|03.03|03.04|03.05
-.|.|.|.|1차 평가|.|.
-03.06|03.07|03.08|03.09|03.10|03.11|03.12
-.|.|.|.|현직자 멘토링|.|.
-03.13|03.14|03.15|03.16|03.17|03.18|03.19
-.|.|.|.|중간 평가|.|.
-03.20|03.21|03.22|03.23|03.24|03.25|03.26
-.|.|.|.|현직자 멘토링|.|.
-03.27|03.28|03.29|03.30|03.31|04.01|04.02
-.|.|.|.|.|.|.
-04.03|04.04|04.05|04.06|04.07|04.08|04.09
-.|.|.|.|최종 평가|.|.
+- 권영진 : 음색, 음역대 검사, 노래 검색, 애창곡 리스트 레이아웃, 웹앱 반응형 구현, 발표, 프로젝트 매니저
+- 윤준하 : UI 작성, API 핸들러 작성, 서비스 로직 작성
+- 이상현 : 노래방 기능, 애창곡 기능, 데이터 수집, MapReduce를 통한 데이터 처리
+- 박수민 : 노래방 기능, 애창곡 기능, 소셜 로그인, JWT
+- 류정민 : 음색, 음역대 분석 REST API, AI 모델 선정 및 학습
+- 박정희 : 음색, 음역대 분석 REST API, AI 모델 선정 및 학습, CI/CD
 
-
-
----
-
-## 🌴 Project 소개 ( 차주 디테일 수정 예정... )
-
-<br>
-
-- ### 프로젝트 명 : ToneMate
-
-<br>
-
-- ### 프로젝트 개요 
-    - 사용자 특성(음색, 음역대)을 기반으로 부를 수 있는 최적의 노래를 추천해받고 싶어하는 수요가 존재
-    - 사용자 특성에 맞지 않는 노래를 키 높낮이, 템포 변경을 통해 본인에게 맞추려는 수요가 존재
-
-<br>
-
-- ### 메인 기능
-    - User
-        - 로그인 : 자체 로그인 + 소셜 로그인 (카카오, 구글)
-        - 회원가입 : 이메일, 비밀번호, 이름, 닉네임, 성별 등
-        - 마이페이지 : 회원정보 수정 기능 ( 비밀번호, 닉네임, 성별 )
-    - Music
-        - 음색 분석
-            - Client 노래를 특정시간 녹음하여 A.I에게 음색을 분석
-            - A.I : 해당 부분을 진행할 수 있는 기존의 A.I 모델 탐색 중
-        - 음역대 분석
-            - Client 음계 테스트 분석을 통한 최저음, 최고음, 안정적인 음역대 분석
-        - 분석 결과 제공 ( 음색과 음역을 기반으로 분석 결과 및 추천 )
-            - 음색에 맞는 가수 리스트 제공
-            - 추가 : 장르 선택
-
-<br>
-
-- ### 추가 기능
-    - User
-        - 마이페이지
-            - 노래 검사 분석 내용 표시 ( 일대다 매칭 )
-            - 노래 녹음본 목록 표시
-            - 노래 찜 목록
-
-<br>
-
-- ### 심화 기능
-    - Ranking 
-        - 노래 유사도 기반 Ranking : 원곡 가수와 유사도가 높은 순으로 고득점
-        - Perfect Score Ranking : 완곡이 된다는 가정하에 노래 전체의 점수가 높을 수록 고득점
-<br>
-
----
-## 📆 프로젝트 마일스톤 ( 차주 작성 예정 )
----
-
-## ⭐ 팀원 역할 ( 향후 수정 및 상세 기술 예정 ... )
-
-<br>
-
-- 권영진 ( 팀장 )
-    - FrontEnd 
-    - 일정 관리 및 프로젝트 발표
+# 사용된 기술
+<details>
+<summary>펼쳐보기</summary>
     
-<br>
+    ### Front End
+    
+    - React 18.2.0
+    - Next.js 13.2.4
+    - Tanstack Query 4.28.0
+    - Axios 1.3.4
+    - Chart.js 4.2.1
+    
+    ### Back-end
+    
+    - Java openjdk-11
+    - Python 3.10.9
+    - Spring boot 2.7.5
+    - Spring Security 5.7.4
+    - Spring Data JPA 2.7.5
+    - Querydsl 5.0.0
+    - JWT 0.11.5
+    - Spring Data Redis 2.7.5
+    - Flask 2.2.3
+    
+    ### AI
+    
+    - scikit-learn 1.2.2
+    - Keras 2.11.0
+    - librosa 0.10.0
+    - tensorflow 2.11.0
+    
+    ### Data
+    
+    - Hadoop-MapReduce 3.3.1
+    - MRjob 0.7.4
+    
+    ### CI / CD
+    
+    - GitLab, Jenkins
 
-- 류정민 ( 팀원 )
-    - BackEnd
-    - A.I 
+</details>
 
-<br>
+# ERD
+<details>
+<summary>펼쳐보기</summary>
+![ERD](pic/Untitled.png)
+</details>
 
-- 박수민 ( 팀원 )
-    - BackEnd
-    - BigData
+# 모델 구조
 
-<br>
+<details>
+  <summary>v1</summary>
 
-- 박정희 ( 팀원 )
-    - BackEnd
-    - A.I
+  ![v1_summary](pic/Untitled 1.png)
+  ![v1](pic/Untitled 2.png)
+</details>
+    
 
-<br>
+<details>
+  <summary>v2</summary>
 
-- 윤준하 ( 팀원 )
-    - FrontEnd
-    - CI / CD
+  ![v2_summary](pic/Untitled 3.png)
+  ![v2](pic/Untitled 4.png)
+</details>
 
-<br>
+    
+- 모델 학습 방법:
+    - 최적화 알고리즘: Adam
+    - 학습률(learning rate): 0.001
+    - 손실 함수(loss function): categorical_crossentropy
+    - 정확도 측정 지표(metrics): accuracy
+    - 배치 크기(batch size): 32
+    - 에폭(epoch): 60(v1), 40(v2)
+    
 
-- 이상현 ( 팀원)
-    - BackEnd
-    - BigData
+# 결과
+
+모델 시각화
+
+- v1
+
+![v1_시각화](pic/Untitled 5.png)
+
+- v2
+
+![v2_시각화](pic/Untitled 6.png)
+
+# 기능
+<details>
+<summary> <span style="color: #FFFFFF;">펼쳐보기</span> </summary>
+
+![기능](pic/table1.png)
+![기능](pic/table2.png)
+</details>
+
+# REST API
+<details>
+<summary>펼쳐보기</summary>
+
+![기능](pic/table3.png)
+![기능](pic/table4.png)
+![기능](pic/table5.png)
+![기능](pic/table6.png)
+![기능](pic/table7.png)
+![기능](pic/table8.png)
+</details>
+
+# 웹 페이지 설명
+<details>
+<summary>펼쳐보기</summary>
+
+## 로그인 - 카카오 소셜 로그인
+
+![웹페이지 설명](pic/web1.png)
+![웹페이지 설명](pic/web2.png)
+- Spring Security, JWT를 이용하여 구현
+- JWT의 경우 httponly, samesite는 Lax로 설정한 쿠키에 저장
+- Refresh Token과 Access Token을 이용하여 이용자의 UX 고려
+- Access Token은 30분, Refresh Token은 7일로 설정
 
 
----
+## 메인 페이지
 
-## 🌔 기술 스택 ( 차주 팀 프로젝트 주제 디벨롭 후 픽스 예정  )
-
-- ### Front End
-    - Programming Language : JavaScript
-    - UI Libarary : React 
-
-- ### Back End
-    - Programming Language : Java
-    - Framewokr : Spring Boot 
-
-- ### Artificial Intelligence
-    -
-
-- ### Data 
-    - Hadoop
-
-- ### CI / CD
-    - 
-
-- ### 협업 Tool 
-    - Notion : 팀 일정 공유 및 문서 공유
-    - Gitlab : 개발 코드 형상 관리
-    - Jira : 개발 일정 관리
-    - Figma : 와이어 프레임 공동 작업
-    - ERD Cloud : Database 설계
-
----
+![웹페이지 설명](pic/web3.png)
+- 좌측 네비게이션 바 설정
+- Spring Security로 로그아웃 구현
+- 로그아웃 버튼으로 JWT 쿠키를 삭제하여 로그아웃 처리
 
 
+## 음색 검사
+
+![웹페이지 설명](pic/web4.png)
+- 녹음 시작 버튼 클릭 -> 녹음 완료 버튼 클릭 -> 검사 제출
+- Spring 서버를 거쳐 Flask 서버를 통해 AI 분석 후 결과를 저장하고 Front에 알맞은 형태로 응답
 
 
+![웹페이지 설명](pic/web5.png)
+- 녹음이 시작되면 오디오 비주얼라이저가 실행되는 것을 볼 수 있음
+
+
+![웹페이지 설명](pic/web6.png)
+- 결과가 전달되면 결과 페이지가 보임
+- chart.js를 이용하여 그래프를 표현
+- 대표 노래들의 유튜브 검색 링크를 제공하여 유저가 편하게 검색할 수 있도록 함
+
+
+## 음역대 검사
+
+![웹페이지 설명](pic/web7.png)
+- 최고음 측정 -> 최고음 종료 -> 최저음 측정 -> 최저음 종료 -> 검사 제출
+- 녹음이 시작되면 오디오 비주얼라이저가 실행되는 것을 볼 수 있음
+
+![웹페이지 설명](pic/web8.png)
+- Spring boot에서 tarsos 라이브러리를 통해 음역대를 판단함
+- 이에 맞는 노래 목록들을 DB에서 검색하여 응답함
+
+
+## 검사 결과
+
+![웹페이지 설명](pic/web9.png)
+- 지난 검사 결과들을 보여줌
+
+
+## 노래 검색
+
+![웹페이지 설명](pic/web10.png)
+- TJ노래방 번호들을 크롤링하여 DB 구성
+- JPA의 페이지네이션 기능 사용
+- 로그인 한 유저의 애창곡 리스트에 해당 곡의 유무도 같이 응답함
+- 검색 속도 향상을 위해 가수와 제목의 띄어쓰기를 전부 제거한 컬럼을 생성하고, 인덱싱 처리를 함
+
+
+## 애창곡 리스트
+
+![웹페이지 설명](pic/web11.png)
+- 로그인 한 유저의 애창곡 리스트 제공
+- JPA의 페이지네이션 기능 사용
+</details>
+
+# 서비스 아키텍처
+
+![아키텍쳐](pic/Untitled 7.png)
+
+# 데이터셋
+
+- AI hub - 보컬파일
+- 한국 가수 100명의 노래 약 5000곡
+
+# 사용 방법
+[실행 방법](exec/README.md)
+
+# 참고 문헌
+
+- 하둡 완벽 가이드 - 톰 화이트
+- 자바 ORM 표준 JPA 프로그래밍 - 김영한
+- React를 다루는 기술 - 김민준
+- Spring Security, Hadoop MapReduce, Next.js, React, tailwindCSS - 공식 문서

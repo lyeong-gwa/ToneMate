@@ -57,7 +57,7 @@ public class PitchUtil {
                 compPitch = pitch;
             }
             float time = timeArray.get(i) - curTime;
-            if (time > 1) {
+            if (time > 0.3f) {
                 selectedPitch = isHigh ? Math.min(curPitch, compPitch) : Math.max(curPitch, compPitch);
             }
         }
