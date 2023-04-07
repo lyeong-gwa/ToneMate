@@ -16,7 +16,9 @@ export const Navbar = ({ user }) => {
             <HiBars3 />
           </button>
         ) : (
-          <button className="btn-ghost btn">시작하기</button>
+          <Link className="btn-ghost btn text-xl normal-case" href="/login">
+            <button className="btn-ghost btn">시작하기</button>
+          </Link>
         )}
       </div>
     </div>
