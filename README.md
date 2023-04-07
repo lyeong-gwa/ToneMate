@@ -71,6 +71,7 @@
 <summary>펼쳐보기</summary>
 ![ERD](pic/Untitled.png)
 </details>
+
 # 모델 구조
 
 <details>
@@ -112,10 +113,11 @@
 
 # 기능
 <details>
-<summary>펼쳐보기</summary>
+<summary> <span style="color: #FFFFFF;">펼쳐보기</span> </summary>
 ![기능](pic/table1.png)
 ![기능](pic/table2.png)
 </details>
+
 # REST API
 <details>
 <summary>펼쳐보기</summary>
@@ -126,6 +128,7 @@
 ![기능](pic/table7.png)
 ![기능](pic/table8.png)
 </details>
+
 # 웹 페이지 설명
 <details>
 <summary>펼쳐보기</summary>
