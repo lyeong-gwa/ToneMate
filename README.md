@@ -1,6 +1,6 @@
 # SSAFY 8기 A603 특화 프로젝트
 
-# 프로젝트 이름: ToneMate
+# ToneMate
 
 # 프로젝트 개요
 
