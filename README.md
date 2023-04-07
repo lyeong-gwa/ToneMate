@@ -64,16 +64,16 @@
 <details>
   <summary>v1</summary>
 
-  ![v1_summary](https://user-images.githubusercontent.com/37644126/230517918-7c34fbef-52bd-4ac6-aa9f-0f46025a7c52.png)
-  ![v1](https://user-images.githubusercontent.com/37644126/230518002-9a5fcdc5-0257-40c5-9b33-b0f6fc265015.png)
+  ![v1_summary](pic/Untitled 2.png)
+  ![v1](pic/Untitled 3.png)
 </details>
     
 
 <details>
   <summary>v2</summary>
 
-  ![v2_summary](https://user-images.githubusercontent.com/37644126/230517932-c46d14d0-ff2b-433b-ad91-69efc1c41a2c.png)
-  ![v2](https://user-images.githubusercontent.com/37644126/230517940-d4b7d35d-28d6-4b3b-9b84-02ee5da22800.png)
+  ![v2_summary](pic/Untitled 4.png)
+  ![v2](pic/Untitled 5.png)
 </details>
 
     
@@ -92,23 +92,29 @@
 
 - v1
 
-![v1_시각화](https://user-images.githubusercontent.com/37644126/230517957-ad2b150d-29fe-4f62-b515-55fd8f765d0a.png)
+![v1_시각화](pic/Untitled 6.png)
 
 - v2
 
-![v2_시각화](https://user-images.githubusercontent.com/37644126/230517955-66a1fab0-38d2-4100-92eb-5f844297d7e0.png)
+![v2_시각화](pic/Untitled 7.png)
 
 ## 기능
-
+![기능](pic/table1.png)
+![기능](pic/table2.png)
 
 ## REST API
-
+![기능](pic/table3.png)
+![기능](pic/table4.png)
+![기능](pic/table5.png)
+![기능](pic/table6.png)
+![기능](pic/table7.png)
+![기능](pic/table8.png)
 
 ## 웹 페이지 설명
 
 ## 서비스 아키텍처
 
-![아키텍쳐](https://user-images.githubusercontent.com/37644126/230520200-ae3342c5-71ec-44ce-a727-4e54fc07c0f6.png)
+![아키텍쳐](pic/Untitled 8.png)
 
 ## 데이터셋
 
