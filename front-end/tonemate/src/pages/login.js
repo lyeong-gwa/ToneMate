@@ -1,8 +1,11 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { API_URL } from '@/config';
+
+import loginButton from '@/assets/kakao_login_large_narrow.png';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -17,9 +20,9 @@ export default function LoginPage() {
       </Head>
       <main>
         <div className="grid h-screen w-screen place-items-center bg-base-200">
-          <div className="grid h-96 w-96 place-items-center rounded-md bg-white">
+          <div className="grid h-96 w-96 place-items-center rounded-md">
             <Link href={`${API_URL}/oauth2/authorization/kakao`}>
-              <button className="btn">카카오 로그인</button>
+              <Image src={loginButton} alt="Kakao login" />
             </Link>
           </div>
         </div>
