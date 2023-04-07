@@ -9,8 +9,6 @@
 3. 실행 방법
 4. 주의 사항
 5. 기술 스택
-6. 프로젝트 구조
-7. 부가설명
 
 ## 1. 배포 환경
 
@@ -92,94 +90,68 @@
         np.save(f'{TENSER_PATH}/y.npy', y) # 이후 저장된 파일로 한번에 Y불러오기
         ```
         
+    4. 최종 DATA볼륨 형태
+        
+        ```
+        DATA
+        ├── checkpoint //학습모델 형태에 따라 버전 구분
+        │   ├── V1
+        │   │   └── MFCC20_ALL //데이터가 가진 특성들에 따라 작명
+        │   │       └── checkpoint60.h5  //EPOCH 횟수기입
+        │   └── V2
+        │       └── MFCC20_ALL 
+        │           └── checkpoint40.h5 
+        ├── dev.env //개발 branch 8080포트에서 실행되는 서비스에 대한 환경변수
+        ├── prod.env //배포 branch 8080포트에서 실행되는 서비스에 대한 환경변수
+        └── tensor 
+            └── MFCC20_ALL //모델학습에 사용한 데이터
+                ├── X.npy
+                ├── init.sql
+                ├── mean_g_mean_by_col.npy
+                ├── mean_g_std_by_col.npy
+                ├── var_g_mean_by_col.npy
+                ├── var_g_std_by_col.npy
+                └── y.npy
+        ```
+        
 2. **Docker, Docker Compose 설치 및 네트워크, volume 설정**
-    1. 리눅스 패키지 업데이트
-        
-        ```
-        $ sudo apt update
-        ```
-        
-    2. Docker 설치를 위한 패키지 설치
-        
-        ```
-        $ sudo apt install apt-transport-https ca-certificates curl gnupg lsb-release
-        ```
-        
-    3. Docker 공식 GPG키 추가
-        
-        ```
-        $ curl -fsSL <https://download.docker.com/linux/ubuntu/gpg> | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-        ```
-        
-    4. Docker 저장소 추가
-        
-        ```
-        $ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] <https://download.docker.com/linux/ubuntu> $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-        ```
-        
-    5. Docker 설치
-        
-        ```
-        $ sudo apt update
-        $ sudo apt install docker-ce docker-ce-cli containerd.io
-        ```
-        
-    6. Docker 서비스 실행
-        
-        ```
-        $ sudo systemctl start docker
-        $ sudo systemctl enable docker
-        ```
-        
-    7. Docker 버전 확인
-        
-        ```
-        $ docker --version
-        ```
-        
-    8. Docker Compose 설치
-        
-        ```
-        $ sudo curl -L "<https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$>(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        $ sudo chmod +x /usr/local/bin/docker-compose
-        $ docker-compose --version
-        ```
-        
-    9. Docker volume, network 생성 
-        
-        ```
-        $ echo "필요한 데이터 볼륨으로 저장"
-        $ docker volume create AI_DATA --opt type=none --opt device=$(pwd)/DATA --opt o=bind
-        $ echo "배포용 네트워크"
-        $ docker network create tonemate_dev
-        $ echo "배포용 네트워크"
-        $ docker network create tonemate_prod  
+    1. execute/init-letsencrypt.sh 파일 수정 및 실행
         
         ```
         
-    10. 우분투(혹은 일반 사용자)에게 도커 권한 부여 및 재시작
-        
-        ```
-        $ usermod -aG docker [추가할 유저]
-        $ chmod 666 /var/run/docker.sock
-        $ service docker restart
+        .....
+        domains=자신이 준비한 도메인
+        email=자신의 이메일
+        ......
         ```
         
-
-## 3. 실행 방법
-
-### 1. execute/init-letsencrypt.sh 파일 수정 및 실행
-
-init-letsencrypt.sh 파일은 certbot, nginx을 활용한 SSL 설정을 위한 파일을 생성하는 실행 파일입니다. execute/init-letsencrypt.sh 의 도메인, 이메일은 상황에 맞게 수정합니다.
-
-```
-
-.....
-domains=자신이 준비한 도메인
-email=자신의 이메일
-
-......
-```
+    2. 프로젝트.env 환경변수 값 수정
+        
+        ```
+        #스프링
+        DB_URL="MYSQL URL"
+        DB_USER="DB 사용자 정보"
+        DB_PASSWORD="DB 비밀번호"
+        BUCKET_NAME="S3 버킷이름"
+        AWS_SECRET_KEY="S3의 AWS 시크릿 키"
+        AWS_ACCESS_KEY="S3의 접근 키"
+        KAKAO_SECRET="카카오 REST API 키"
+        KAKAO_ID="카카오 개발자 식별코드"
+        GOOGLE_SECRET="구글 시크릿 키"
+        GOOGLE_ID="구글 식별코드"
+        JWT_SECRET="암호화된 JWT 시크릿키 코드"
+        REDIS_HOST="레디스 호스트"
+        REDIS_PASSWORD="레디스 비밀번호"
+        KAKAO_REDIRECT_URI="카카오 리다이렉션 주소"
+        GOOGLE_REDIRECT_URI="구글 리다이렉션 주소"
+        FLASK_DOMAIN=http://flaskDev:5000 # 고정
+        
+        #플라스크
+        FLASK_FEATURES="모델 학습데이터 특징"
+        FLASK_TARGET_EPOCH="숫자(몇번째 모델을 쓸지 지정)"
+        FLASK_MODEL_VERSION="모델 버전 ex) V1"
+        ```
+        
 
 ### 2. 프로젝트.env 환경변수 값 수정
 
@@ -261,10 +233,10 @@ FLASK_MODEL_VERSION="모델 버전 ex) V1"
     $ docker-compose up -d
     ```
     
-    ![image.png](./image.png)
+  ![image.png](./image.png)
     
 
-## 3. 주의 사항
+## 4. 주의 사항
 
 1. docker, docker-compose는 아키텍처, 운영체제 등에 따라 설치 코드가 다를 수 있으니 적절한 버전을 선택하세요.
 
@@ -284,4 +256,40 @@ $ chown -R 사용자계정 프로젝트root폴더
 이후 mysql 컨테이너에서 sql문을 실행합니다.
 /exec/init.sql은 개발과정에 사용된 백업 데이터베이스 파일입니다.
 
-## 4. 기술 스택 & 개발환경
+## 5. 기술 스택
+
+### Front End
+
+- React 18.2.0
+- Next.js 13.2.4
+- Tanstack Query 4.28.0
+- Axios 1.3.4
+- Chart.js 4.2.1
+
+### Back-end
+
+- Java openjdk-11
+- Python 3.10.9
+- Spring boot 2.7.5
+- Spring Security 5.7.4
+- Spring Data JPA 2.7.5
+- Querydsl 5.0.0
+- JWT 0.11.5
+- Spring Data Redis 2.7.5
+- Flask 2.2.3
+
+### AI
+
+- scikit-learn 1.2.2
+- Keras 2.11.0
+- librosa 0.10.0
+- tensorflow 2.11.0
+
+### Data
+
+- Hadoop-MapReduce 3.3.1
+- MRjob 0.7.4
+
+### CI / CD
+
+- GitLab, Jenkins
