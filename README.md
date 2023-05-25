@@ -65,9 +65,11 @@
 </details>
 
 # ERD
+
 <details>
-<summary>펼쳐보기</summary>
-![ERD](pic/img.png)
+  <summary>펼쳐보기</summary>
+
+  ![erd](pic/img0.png)
 </details>
 
 # 모델 구조
